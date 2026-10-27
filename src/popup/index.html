@@ -9,10 +9,18 @@
   <body class="popup">
     <main>
       <h1>tridiJump</h1>
-      <p>3D-model search, together in one place.</p>
-      <p>The extension foundation is ready. Search is coming later.</p>
+      <p class="muted">Find your next 3D model.</p>
+      <form id="search-form" action="../results/index.html" method="get" target="_blank" rel="noopener">
+        <label for="query">Search models</label>
+        <div class="search-row">
+          <input id="query" name="q" type="search" required maxlength="200" placeholder="What would you like to print?" />
+          <button type="submit">Search</button>
+        </div>
+        <label class="check" for="expanded"><input id="expanded" name="expanded" type="checkbox" value="1" aria-describedby="expanded-help" />Expanded Search</label>
+        <p id="expanded-help" class="hint">Synonym expansion is not available yet.</p>
+      </form>
+      <p class="muted">0 repositories enabled · none available yet</p>
       <nav aria-label="Extension pages">
-        <a href="../results/index.html" target="_blank" rel="noopener">Open results</a>
         <a href="../settings/index.html" target="_blank" rel="noopener">Open settings</a>
       </nav>
     </main>

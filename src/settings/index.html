@@ -8,11 +8,36 @@
   </head>
   <body>
     <main>
-      <h1>tridiJump settings</h1>
-      <p>There are no configurable settings in this foundation release.</p>
-      <nav aria-label="Extension pages">
-        <a href="../results/index.html">Results</a>
-      </nav>
+      <header class="page-header">
+        <div><h1>tridiJump settings</h1><p class="muted">Make yourself at home.</p></div>
+        <nav aria-label="Extension pages"><a href="../results/index.html">Results</a></nav>
+      </header>
+      <section class="panel" aria-labelledby="repositories-heading">
+        <h2 id="repositories-heading">Repositories</h2>
+        <p>0 repositories enabled. No repositories are available yet.</p>
+      </section>
+      <form id="settings-form">
+        <fieldset>
+          <legend>Search preferences</legend>
+          <label class="check" for="expanded-default"><input id="expanded-default" type="checkbox" />Expanded Search by default</label>
+          <p class="hint">Sets the initial toggle for new searches. Synonym expansion is not available yet.</p>
+          <label class="check" for="history-enabled"><input id="history-enabled" type="checkbox" />Save search history on this device</label>
+          <p class="hint">Off by default. Keeps up to 20 recent queries locally. Turning this off also clears saved history.</p>
+        </fieldset>
+        <fieldset>
+          <legend>Appearance</legend>
+          <label for="theme">Theme</label>
+          <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+          <p class="hint">System follows your device’s color preference.</p>
+        </fieldset>
+        <button type="submit">Save settings</button>
+        <p id="settings-status" role="status" aria-live="polite"></p>
+      </form>
+      <section class="panel" aria-labelledby="history-heading">
+        <div class="page-header"><h2 id="history-heading">Search history</h2><button id="clear-history" type="button" class="secondary">Clear history</button></div>
+        <p id="history-empty">No saved searches.</p>
+        <ol id="history-list"></ol>
+      </section>
     </main>
   </body>
 </html>

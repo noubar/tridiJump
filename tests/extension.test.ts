@@ -31,6 +31,17 @@ describe('extension foundation', () => {
     expect(manifest.options_ui.open_in_tab).toBe(true);
   });
 
+  it('submits popup searches through a local GET form in a separate tab', () => {
+    const html = readFileSync(new URL(manifest.action.default_popup, root), 'utf8');
+    const form = html.match(/<form\b[^>]+>/)![0];
+    expect(form).toContain('action="../results/index.html"');
+    expect(form).toContain('method="get"');
+    expect(form).toContain('target="_blank"');
+    expect(form).toContain('rel="noopener"');
+    expect(html).toContain('name="q"');
+    expect(html).toContain('name="expanded"');
+  });
+
   it('links all pages to real local destinations and TypeScript entries', () => {
     for (const name of ['popup', 'results', 'settings']) {
       const page = new URL(`src/${name}/index.html`, root);

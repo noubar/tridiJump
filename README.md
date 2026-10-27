@@ -3,8 +3,9 @@
 A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
-This is the extension foundation only. Provider searching and synonym expansion
-are not implemented.
+The V1 application shell includes a search popup, results layout, and settings.
+Provider searching and synonym expansion are not implemented. Results show an
+empty state, with no demo models or network requests.
 
 ## Development
 
@@ -20,8 +21,21 @@ Development watches files and rebuilds `dist/`. In Chromium, open
 select `dist/`. Reload the extension after rebuilding and refresh open pages.
 The extension uses packaged assets without a development server.
 
-Open the toolbar popup and follow its results and settings links. Settings is
-also available through the extension's **Options** menu.
+Enter a query in the toolbar popup and press Enter or Search to open results in
+a normal browser tab. The query and Expanded Search toggle travel as encoded
+URL parameters. You can edit and resubmit the search on the results page.
+Settings is available from the popup, results page, and extension's **Options**
+menu.
+
+Settings include the Expanded Search default, optional local search history
+(off by default, up to 20 recent queries), and System/Light/Dark themes. Use
+**Save settings** to apply changes. System follows device color preferences;
+saved theme changes also apply to other open extension pages. History can be
+cleared, and disabling it clears existing history. Preferences and history use
+extension-origin `localStorage` on this device; nothing is synced or sent away.
+
+There are currently zero available repositories. Repository selection, result
+sorting, and model filters remain empty or disabled until providers exist.
 
 ```sh
 npm test             # Run Vitest checks
@@ -34,7 +48,8 @@ npm run build       # Type check and production build
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
 - `src/shared/`: shared styles and code
-- `src/search/`, `src/providers/`, `src/synonyms/`: reserved for later implementation
+- `src/search/`: query parsing and shared native form setup
+- `src/providers/`, `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
 - `tests/`: extension foundation checks

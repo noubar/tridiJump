@@ -8,12 +8,48 @@
   </head>
   <body>
     <main>
-      <h1>tridiJump results</h1>
-      <p>Your unified 3D-model results will appear here.</p>
-      <p>Provider searching is not implemented yet.</p>
-      <nav aria-label="Extension pages">
-        <a href="../settings/index.html">Settings</a>
-      </nav>
+      <header class="page-header">
+        <div><h1>tridiJump</h1><p class="muted">3D models in one place</p></div>
+        <nav aria-label="Extension pages"><a href="../settings/index.html">Settings</a></nav>
+      </header>
+      <form id="search-form" action="./index.html" method="get" role="search">
+        <label for="query">Search models</label>
+        <div class="search-row">
+          <input id="query" name="q" type="search" required maxlength="200" placeholder="Search for a 3D model" />
+          <button type="submit">Search</button>
+        </div>
+        <label class="check" for="expanded"><input id="expanded" name="expanded" type="checkbox" value="1" aria-describedby="expanded-help" />Expanded Search</label>
+        <p id="expanded-help" class="hint">Synonym expansion is not available yet.</p>
+      </form>
+      <div class="results-layout">
+        <aside class="panel" aria-label="Refine results">
+          <section aria-labelledby="repositories-heading">
+            <h2 id="repositories-heading">Repositories</h2>
+            <p class="muted">0 enabled</p>
+            <p>No repositories are available yet.</p>
+          </section>
+          <details open>
+            <summary>Filters</summary>
+            <p class="muted">Filters will be available when repositories are connected.</p>
+          </details>
+        </aside>
+        <section aria-labelledby="results-heading">
+          <div class="results-toolbar">
+            <h2 id="results-heading">Results</h2>
+            <div><label for="sort">Sort by</label><select id="sort" disabled aria-describedby="sort-help"><option>Relevance</option></select></div>
+          </div>
+          <p id="sort-help" class="hint">Sorting will be available when there are results.</p>
+          <p id="search-summary" class="query-summary"></p>
+          <div id="results-grid" class="results-grid" aria-label="Model results">
+            <div class="empty-state"><h3>No models to display yet</h3><p>This release has no connected repositories. Searches do not contact any external service.</p></div>
+          </div>
+        </section>
+      </div>
+      <section class="panel" aria-labelledby="provider-status-heading">
+        <h2 id="provider-status-heading">Provider status</h2>
+        <p role="status">No repositories connected. No requests sent.</p>
+      </section>
+      <p id="storage-status" role="status"></p>
     </main>
   </body>
 </html>
