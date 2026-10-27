@@ -48,7 +48,7 @@ npm run build       # Type check and production build
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
 - `src/shared/`: normalized model result type, preferences, theme, and styles
-- `src/search/`: query parsing, native form setup, and provider search-state types
+- `src/search/`: query parsing, native form setup, search states, and orchestration
 - `src/providers/`: minimal provider contract; no repository implementations yet
 - `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
@@ -84,6 +84,33 @@ success, and an error message on failure. `ProviderSearchStatus` exposes just
 the status names. These types do not run searches or manage timeouts; those are
 caller responsibilities. No registry, base class, provider-specific payloads,
 or repository implementation is introduced.
+
+## Search orchestration
+
+`SearchOrchestrator` (`src/search/orchestrator.ts`) accepts a synchronous
+`onUpdate(snapshot)` callback. Supply the enabled `Provider[]` to
+`start(query, providers, { timeoutMs?, signal? })`. Each snapshot contains the
+query, all provider states, and the accumulated results. The first snapshot
+clears the previous search; subsequent snapshots arrive as each provider settles,
+with results appended in completion order. Render from each snapshot without
+waiting for the other providers. The observer should not throw or mutate snapshots.
+
+Every provider starts independently and has a separate abort signal and timer
+(10 seconds by default). Successful empty responses become `no-results`;
+rejections become `failed`; expired timers become `timed-out` and abort only
+that provider. There is no aggregate promise gating progressive updates.
+
+Starting another search aborts the previous run. Both run identity and settled
+task guards suppress late responses, including from providers that ignore abort.
+`cancel()` or an external abort retains completed results and returns unfinished
+providers to `idle`. Timers and external abort listeners are removed on completion
+or cancellation. An already-aborted signal prevents provider execution.
+
+Queries use the existing trimming/length rules. Duplicate provider IDs execute
+only once per run (first occurrence wins). Explicitly starting again is a fresh
+search, allowing refreshes without a persistent query cache. Blank queries do
+not execute providers. Disabled providers are omitted by the caller. No providers
+are registered or connected to the UI yet; mocks exist only in automated tests.
 
 ## License
 
