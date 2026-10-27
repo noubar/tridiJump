@@ -47,10 +47,13 @@ describe('core domain contracts', () => {
 
   it('distinguishes all requested states and requires data only where relevant', () => {
     expectTypeOf<ProviderSearchStatus>().toEqualTypeOf<
-      'idle' | 'searching' | 'success' | 'no-results' | 'failed' | 'timed-out' | 'disabled'
+      'idle' | 'searching' | 'success' | 'no-results' | 'failed' | 'timed-out' | 'disabled' | 'setup-required'
     >();
     expectTypeOf<{ providerId: string; status: 'idle' }>().toExtend<ProviderSearchState>();
     expectTypeOf<{ providerId: string; status: 'disabled' }>().toExtend<ProviderSearchState>();
+    expectTypeOf<Extract<ProviderSearchState, { status: 'setup-required' }>>().toEqualTypeOf<
+      { providerId: string } & { status: 'setup-required' }
+    >();
     expectTypeOf<{ providerId: string; status: 'searching' }>().not.toExtend<ProviderSearchState>();
     expectTypeOf<{ providerId: string; status: 'success'; query: string }>().not.toExtend<ProviderSearchState>();
     expectTypeOf<{ providerId: string; status: 'failed'; query: string }>().not.toExtend<ProviderSearchState>();

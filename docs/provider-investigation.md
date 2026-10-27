@@ -8,6 +8,12 @@ Subsequent implementation status and verification limits are documented in
 [Cults3D integration](provider-cults3d.md); the research findings below remain
 the record of the investigation before implementation.
 
+The subsequent [V1 retrieval and credential policy](provider-policy.md) supersedes
+historical credential-free-only assumptions below. It explicitly supports free,
+normal-user API keys with local Settings/storage and Setup required handling.
+Use its retrieval priority for future implementation decisions; this document
+does not establish current API pricing or complete those configuration features.
+
 ## Scope and evidence
 
 Reviewed the current README, manifest, provider/result contracts, orchestrator,

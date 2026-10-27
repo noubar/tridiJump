@@ -99,8 +99,13 @@ recommendations are in [Provider investigation](docs/provider-investigation.md).
 It introduces no live providers or interface changes.
 
 The [V1 provider architecture review](docs/provider-architecture-review.md)
-records the stable contract, boundary checks, and adapter/orchestrator regression
-coverage. API access and live verification remain separate release conditions.
+records the stable search signature, boundary checks, and adapter/orchestrator regression
+coverage. The search signature is stable; the complete configuration contract
+still needs the policy-required field declarations, local extension-storage
+Settings, and configuration preflight in the staged implementation task. The
+state type already supports Setup required; dispatch and configuration routing
+remain staged. Prompt 08 does not implement those features or enable Cults. API eligibility and live
+verification remain distinct from architecture validation.
 
 `ModelResult` (`src/shared/model-result.ts`) requires only `title`, `url`, and
 `providerId`. Optional fields cover a provider-local string ID, thumbnail URL,
@@ -119,7 +124,9 @@ honor an optional signal, including one already aborted. The caller may attach
 query provenance when needed.
 
 `ProviderSearchState` (`src/search/provider-state.ts`) distinguishes `idle`,
-`searching`, `success`, `no-results`, `failed`, `timed-out`, and `disabled`.
+`searching`, `success`, `no-results`, `failed`, `timed-out`, `disabled`, and
+`setup-required`. Setup required represents missing configuration without an
+error or an attempted query; configuration handling is not wired yet.
 It includes the provider ID, the query for an attempted search, results on
 success, and an error message on failure. `ProviderSearchStatus` exposes just
 the status names. These types do not run searches or manage timeouts; those are

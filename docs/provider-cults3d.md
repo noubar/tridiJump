@@ -7,6 +7,13 @@ did not explicitly confirm API pricing. The adapter and tests below are retained
 for that verification; production neither collects credentials nor requests API
 host permissions. No HTML scraping has been substituted.
 
+The updated V1 policy explicitly supports free user API keys and requires local
+extension storage and provider-specific Settings when that feature is implemented.
+The current lack of credential UI/storage is unfinished staged work, not a
+tab-memory-only product decision. Prompt 08 adds no Cults implementation or
+credential framework; see the [architecture review](provider-architecture-review.md)
+for the required configuration declaration, Setup required state, and follow-up tests.
+
 Implemented 2026-10-27. Cults3D is ranked first in the
 [provider investigation](provider-investigation.md). This implementation follows
 recommendation A (official API) for the disabled adapter, and recommendation E
@@ -36,7 +43,9 @@ production UI does not collect credentials pending free-access verification.
 
 The current manifest grants no API hosts. A future enabled Cults adapter would
 need only `https://cults3d.com/*` for cross-origin requests from the results page.
-No cookies, scripting, background worker, storage, or broad tabs permission is needed.
+Local credential configuration will also require the extension storage permission
+when implemented. No cookies, scripting, background worker, or broad tabs
+permission is implied by that requirement.
 
 ## Normalization and errors
 
@@ -103,15 +112,18 @@ Development checks on 2026-10-27:
 3. Before connecting the adapter, verify that API access/key issuance is free
    using first-party evidence and an authorized account. Do not assume that free
    marketplace registration proves free API access.
-4. After that gate is satisfied, verify the adapter with an authorized read-only
-   key and current schema. Then reconnect it to results and test cards, prices,
-   filters, cancellation, and clearing any temporary credentials. Never add
-   scraping to hide GraphQL validation or access failures.
+4. In the staged implementation, add the required local-storage Settings and
+   Setup required behavior, then connect the adapter. Test with official-document
+   fixtures/mocks if an authorized key is unavailable. With authorized access,
+   verify current schema, cards, prices, filters, cancellation, and local Save/Clear.
+   Never add scraping to hide GraphQL validation or access failures.
 5. Verify the manual fallback in a normal browser. If a challenge or access
    denial appears, stop; no bypass is part of this integration.
 
-Do not publish a claim of verified live compatibility until steps 3–5 have been
-completed with authorized access. Do not paste real keys into chat, fixtures,
+Do not claim verified live compatibility until authenticated checks are completed.
+Development without a key may proceed against docs/fixtures once the eligibility
+requirements are verified; clearly mark live authenticated testing pending.
+Do not paste real keys into chat, fixtures,
 test assertions, screenshots, or version control.
 
 ## What could break
