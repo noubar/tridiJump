@@ -1,5 +1,17 @@
 # V1 provider architecture review
 
+**Credential follow-up (2026-10-27):** the subsequently authorized task now adds
+optional `credentialFields`, shared extension-local load/save/remove/configured
+helpers, Settings configuration, and generic `SetupRequired` handling. Cults
+loads only its own credentials before network dispatch. Missing configuration
+publishes `setup-required` and a Settings route; other providers proceed. The
+asynchronous read is followed by an abort check, and the orchestrator's existing
+stale/timeout guards remain in force. No generic authentication platform was added.
+This is the only concrete addition needed to the bounded V1 provider contract;
+the search signature can remain stable. Live compatibility is still unverified.
+The review below records the earlier state and staged requirements, now completed
+by this follow-up. Current behavior is in [Cults integration notes](provider-cults3d.md).
+
 Reviewed 2026-10-27 after the Cults3D adapter implementation. No additional
 provider was added. Cults remains disabled in production under the existing
 [access policy](provider-policy.md); this review does not enable it or establish

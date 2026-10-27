@@ -3,6 +3,7 @@ import type { Provider } from '../providers/provider';
 import type { ModelResult } from '../shared/model-result';
 import type { ProviderSearchState } from './provider-state';
 import { normalizeQuery } from './query';
+import { SetupRequired } from '../providers/credentials';
 
 export interface SearchSnapshot {
   query: string;
@@ -137,6 +138,10 @@ export class SearchOrchestrator {
         ? { providerId: provider.id, query: run.query, status: 'success', results: tagged }
         : { providerId: provider.id, query: run.query, status: 'no-results' });
     }, (error: unknown) => {
+      if (error instanceof SetupRequired) {
+        finish({ providerId: provider.id, status: 'setup-required' });
+        return;
+      }
       finish({
         providerId: provider.id, query: run.query, status: 'failed',
         error: error instanceof Error ? error.message : String(error),

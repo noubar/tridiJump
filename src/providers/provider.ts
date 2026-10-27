@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import type { ModelResult } from '../shared/model-result';
+import type { CredentialField } from './credentials';
 
 export interface Provider {
   /** Stable identifier matching providerId on every returned result. */
   id: string;
+  /** Required configuration fields only; never credential values. Omit for anonymous providers. */
+  credentialFields?: readonly CredentialField[];
   /**
    * Return normalized results, or [] for a successful search with no matches.
    * Keep all repository transport, parsing, and field mapping inside the provider.

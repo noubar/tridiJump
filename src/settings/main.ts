@@ -3,8 +3,11 @@ import '../shared/styles.css';
 import { clearHistory, readHistory, readPreferences, savePreferences, PREFERENCES_KEY, HISTORY_KEY } from '../shared/preferences';
 import type { Theme } from '../shared/preferences';
 import { applyTheme, initializeTheme } from '../shared/theme';
+import { cultsCredentialFields } from '../providers/cults3d';
+import { initializeCredentialSettings } from './provider-credentials';
 
 initializeTheme();
+void initializeCredentialSettings(document.querySelector('#provider-cults3d')!, 'cults3d', cultsCredentialFields);
 const form = document.querySelector<HTMLFormElement>('#settings-form')!;
 const expanded = document.querySelector<HTMLInputElement>('#expanded-default')!;
 const historyEnabled = document.querySelector<HTMLInputElement>('#history-enabled')!;

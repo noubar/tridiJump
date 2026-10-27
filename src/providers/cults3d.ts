@@ -2,8 +2,18 @@
 import type { Provider } from './provider';
 import type { ModelResult } from '../shared/model-result';
 import { normalizeQuery } from '../search/query';
+import { loadCredentials, SetupRequired } from './credentials';
+import type { CredentialField } from './credentials';
 
 export interface CultsCredentials { nickname: string; apiKey: string }
+export const cultsCredentialFields: readonly CredentialField[] = [
+  { name: 'nickname', label: 'Cults3D nickname', secret: false },
+  { name: 'apiKey', label: 'Cults3D API key (not your password)', secret: true },
+];
+async function storedCredentials(): Promise<CultsCredentials | undefined> {
+  const values = await loadCredentials('cults3d', cultsCredentialFields);
+  return values ? { nickname: values.nickname!, apiKey: values.apiKey! } : undefined;
+}
 const ENDPOINT = 'https://cults3d.com/graphql';
 const SEARCH = `query SearchModels($query: String!) {
   creationsSearchBatch(query: $query, limit: 20) {
@@ -105,16 +115,26 @@ function retryTime(headers: Headers): number {
 }
 
 /** Credentials are supplied by the caller; never bundled, logged, or persisted here. */
-export function createCultsProvider(getCredentials: () => CultsCredentials | undefined): Provider {
+export function createCultsProvider(
+  getCredentials: () => CultsCredentials | undefined | Promise<CultsCredentials | undefined> = storedCredentials,
+): Provider {
   let blockedUntil = 0;
   return {
     id: 'cults3d',
+    credentialFields: cultsCredentialFields,
     async search(rawQuery, signal) {
       checkAbort(signal);
       const query = normalizeQuery(rawQuery);
       if (!query) return [];
-      const credentials = getCredentials();
-      if (!credentials) throw new Error('Cults3D requires API credentials. You can search Cults3D directly instead.');
+      let credentials: CultsCredentials | undefined;
+      try { credentials = await getCredentials(); }
+      catch {
+        checkAbort(signal);
+        throw new Error('Cults3D configuration could not be loaded. Check extension local storage.');
+      }
+      // Extension storage cannot be aborted; never launch a request after a stale read.
+      checkAbort(signal);
+      if (!credentials?.nickname.trim() || !credentials.apiKey.trim()) throw new SetupRequired();
       const auth = authorization(credentials);
       if (Date.now() < blockedUntil) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
       let response: Response;

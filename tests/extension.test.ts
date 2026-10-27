@@ -13,9 +13,9 @@ describe('extension foundation', () => {
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('requests no API host permissions while only direct search is enabled', () => {
-    expect(manifest.permissions ?? []).toEqual([]);
-    expect(manifest.host_permissions ?? []).toEqual([]);
+  it('requests only local credential storage and the implemented API host', () => {
+    expect(manifest.permissions ?? []).toEqual(['storage']);
+    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*']);
     expect(manifest.optional_permissions ?? []).toEqual([]);
     expect(manifest.optional_host_permissions ?? []).toEqual([]);
     expect(manifest.background).toBeUndefined();

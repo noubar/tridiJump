@@ -1,24 +1,53 @@
 # Cults3D integration
 
-**Current production status:** direct-search fallback only. Under the
-[provider access policy](provider-policy.md), free API access must be confirmed
-before enabling aggregation or asking users for keys. The public documentation
-did not explicitly confirm API pricing. The adapter and tests below are retained
-for that verification; production neither collects credentials nor requests API
-host permissions. No HTML scraping has been substituted.
+**Current production status:** the results page uses the official adapter with
+user-configured credentials, or shows **Setup required** with a Settings link
+and native-search fallback. No other provider is implemented.
 
-The updated V1 policy explicitly supports free user API keys and requires local
-extension storage and provider-specific Settings when that feature is implemented.
-The current lack of credential UI/storage is unfinished staged work, not a
-tab-memory-only product decision. Prompt 08 adds no Cults implementation or
-credential framework; see the [architecture review](provider-architecture-review.md)
-for the required configuration declaration, Setup required state, and follow-up tests.
+Official documentation was rechecked on 2026-10-27. The guide still documents
+nickname/API-key Basic auth and dynamic quotas; officially linked examples
+still demonstrate the implemented search and metadata fields. Direct retrieval
+of Cults documentation returned 403; indexed first-party text was available.
+No challenge was executed or bypassed. No incompatible change was established,
+but authenticated schema compatibility remains unverified.
+
+**API pricing remains unconfirmed by explicit first-party text.** This is not
+evidence of paid access. The requested user-key path is implemented without
+requiring a paid subscription; users must use only eligible free access under
+the [permanent policy](provider-policy.md). There was no account/key to verify
+issuance or billing. **Live authenticated testing remains pending.**
 
 Implemented 2026-10-27. Cults3D is ranked first in the
 [provider investigation](provider-investigation.md). This implementation follows
-recommendation A (official API) for the disabled adapter, and recommendation E
-(user-opened search) for the current production path. The `Provider` interface and
-search orchestrator are unchanged. No other live provider is implemented.
+recommendation A (official API) with E (user-opened search) as fallback. The
+`search(query, signal?): Promise<ModelResult[]>` signature is unchanged. The
+credential follow-up adds only optional field declarations and generic setup handling.
+
+## Local configuration boundary
+
+`Provider.credentialFields` declares names, labels and secret flags, never values.
+Shared helpers in `src/providers/credentials.ts` load/save/clear/check status using
+provider-keyed extension `storage.local` only (Chromium `chrome.storage.local`).
+They accept only declared, nonblank string fields. No sync storage, page
+`localStorage`, history, registry data, logs, exports or remote store is used.
+Storage errors become fixed messages without the original error contents.
+
+Settings supplies nickname/key fields, Save, Remove, and configured status. Saved
+values are never prefilled; inputs clear on submission. Failed replacement leaves
+the previous saved key intact. Local removal does not revoke the key at Cults.
+This application storage is not encrypted by tridiJump or an OS credential vault.
+
+The adapter reads only its own credentials before network dispatch and checks
+abort again after that asynchronous read. It caches no credentials between
+searches. Missing fields signal `SetupRequired`, a generic condition mapped by
+core to non-error `setup-required`, with no request and no effect on other sources.
+Invalid supplied keys can still fail. The condition contains no credential values.
+
+The earlier review suggested preflight before invoking `search`. This follow-up
+resolves credentials inside the provider before network dispatch instead, avoiding
+duplicate reads and a mutable credential cache while protecting direct callers.
+The core recognizes only the generic setup condition, with no repository-specific
+authentication branch or payload. Settings routing uses provider identity.
 
 ## Mechanism
 
@@ -35,17 +64,15 @@ private data, fetch model files, scrape HTML, or execute remote code.
 The official documentation describes nickname/API-key HTTP Basic authorization.
 Read-only keys are documented in the site's August 2025 API updates. The adapter
 accepts authorized credentials supplied by its caller; no password or operator
-secret is bundled or persisted. When enabled, it sends credentials only to the
-fixed HTTPS API origin, rejects redirects, and omits browser cookies. The current
-production UI does not collect credentials pending free-access verification.
+secret is bundled. Credentials are persisted only in extension local storage.
+Requests send credentials only to the fixed HTTPS API origin, reject redirects,
+omit browser cookies and disable request caching.
 [Official API guide](https://cults3d.com/en/pages/graphql),
 [official feature log](https://cults3d.com/en/pages/logbook-updates-new-features-cults)
 
-The current manifest grants no API hosts. A future enabled Cults adapter would
-need only `https://cults3d.com/*` for cross-origin requests from the results page.
-Local credential configuration will also require the extension storage permission
-when implemented. No cookies, scripting, background worker, or broad tabs
-permission is implied by that requirement.
+The manifest grants only `https://cults3d.com/*` and `storage`. No cookies,
+scripting, background worker, other provider host, or broad tabs permission is
+requested. A host grant does not override access policy, authentication or quotas.
 
 ## Normalization and errors
 
@@ -87,8 +114,11 @@ field shapes. It contains no captured creator assets, secrets, or actual model
 records. A fixture README describes provenance. No authenticated production
 response was available to capture. The tests cover normalization, empty results,
 invalid required/optional fields, server and network errors, rate limits, and
-cancellation. The real production results-page entry is tested to make no API
-requests, collect no keys, and safely encode the direct-search fallback.
+cancellation. The real production entry is tested both without credentials
+(no request, Setup required and Settings route) and with fake local credentials
+(mock HTTP, normalized cards). Additional tests cover local save/replace/remove,
+provider separation, malformed storage, no secret prefill, sanitized storage
+errors, and cancellation/new search/timeout during a delayed storage read.
 
 Development checks on 2026-10-27:
 
@@ -107,22 +137,21 @@ Development checks on 2026-10-27:
 ## Manual development checklist
 
 1. Run `npm run dev`, load `dist/` unpacked in Chromium, and open the popup.
-2. Submit `benchy`. Confirm there are no demo cards or API requests, the direct-
-   search-only notice is visible, and the Cults link contains the encoded query.
-3. Before connecting the adapter, verify that API access/key issuance is free
-   using first-party evidence and an authorized account. Do not assume that free
-   marketplace registration proves free API access.
-4. In the staged implementation, add the required local-storage Settings and
-   Setup required behavior, then connect the adapter. Test with official-document
-   fixtures/mocks if an authorized key is unavailable. With authorized access,
-   verify current schema, cards, prices, filters, cancellation, and local Save/Clear.
-   Never add scraping to hide GraphQL validation or access failures.
+2. Submit `benchy` without credentials. Expect no demo cards or API requests,
+   Setup required, a Settings route, and the encoded Cults fallback link.
+3. With your own eligible free access, follow the official guide's key-creation
+   link while signed in. Prefer a read-only key. Save nickname/key in Settings,
+   then reload Settings: expect configured status and blank input fields.
+4. Search again. Verify live schema, cards, prices, filters and cancellation.
+   Remove local credentials, then search again: expect Setup required without
+   fetching. Mock-based implementation is complete; this live check remains pending.
+   Never add scraping to hide validation or access failures.
 5. Verify the manual fallback in a normal browser. If a challenge or access
    denial appears, stop; no bypass is part of this integration.
 
 Do not claim verified live compatibility until authenticated checks are completed.
-Development without a key may proceed against docs/fixtures once the eligibility
-requirements are verified; clearly mark live authenticated testing pending.
+Development without a key proceeds against docs/fixtures; live authenticated
+testing and explicit pricing confirmation remain pending.
 Do not paste real keys into chat, fixtures,
 test assertions, screenshots, or version control.
 

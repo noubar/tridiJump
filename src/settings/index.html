@@ -14,7 +14,13 @@
       </header>
       <section class="panel" aria-labelledby="repositories-heading">
         <h2 id="repositories-heading">Repositories</h2>
-        <p>Cults3D direct search is available. API results stay disabled until free access is confirmed; no API keys are requested or saved.</p>
+        <section id="provider-cults3d" aria-labelledby="cults-heading">
+          <h3 id="cults-heading">Cults3D</h3>
+          <p>Use your own nickname and a read-only API key. Never enter your account password.
+            <a href="https://cults3d.com/en/pages/graphql" target="_blank" rel="noopener noreferrer">Cults3D API and key setup</a></p>
+          <p class="hint">Use only free API access. The public guide does not state API pricing; tridiJump requires no paid API subscription. Native search works without a key.</p>
+          <p class="hint">Credentials stay in extension local storage on this browser profile and are sent only to Cults3D. They are not synchronized. This storage is not encrypted by tridiJump or an operating-system credential vault. Removing credentials here does not revoke the key at Cults3D.</p>
+        </section>
       </section>
       <form id="settings-form">
         <fieldset>

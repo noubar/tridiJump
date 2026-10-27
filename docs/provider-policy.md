@@ -74,7 +74,7 @@ classification). Use the smallest reusable mechanism needed for this; no vault
 framework, remote credential service, generic OAuth system, or plugin architecture.
 
 Keep `search(query, signal?): Promise<ModelResult[]>` unchanged. Resolve required
-configuration before dispatch. If credentials are missing:
+configuration before network dispatch. If credentials are missing:
 
 - Do not execute the network search and do not classify absence as failure.
 - Expose the provider state **Setup required** (`setup-required` in code).
@@ -105,16 +105,16 @@ requirements are met. Implement against official docs and appropriate synthetic
 fixtures/mocks when necessary, and mark **live authenticated testing pending**.
 Never claim that mocked tests verify the production schema or authenticated access.
 
-The existing investigation has not explicitly confirmed Cults API cost. Its
-previously written adapter/tests remain in the repository; the current production
-path uses only direct search, collects no credentials, and requests no API hosts.
-This is the current implementation status, not a prohibition on free user keys.
-First-party sources to recheck in the provider implementation stage:
+The public documentation recheck still does not explicitly establish Cults API
+pricing. The credential follow-up implements local Settings, configuration state,
+and documented API transport using synthetic fixtures, without requiring a paid
+subscription or live development credentials. Users must use only eligible free
+access. Pricing and live authenticated compatibility remain documented uncertainties,
+not claims of verified free access. First-party sources:
 [API overview](https://cults3d.com/en/api),
 [API guide](https://cults3d.com/en/pages/graphql).
 
-**Prompt 08 remains an architecture review.** The permanent policy update adds
-`setup-required` to the state type without enabling a provider. Credential
-Settings/storage, configuration preflight and routing remain staged implementation
-work, documented in the architecture review. This update does not connect Cults
-or implement another provider. Preserve existing work and the retrieval order above.
+Prompt 08 originally remained an architecture review and added only the state
+type. The subsequent explicit credential implementation task authorizes the
+small local mechanism and Cults configuration described in the integration notes.
+No other provider has been implemented. Preserve the retrieval order above.

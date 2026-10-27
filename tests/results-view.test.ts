@@ -6,6 +6,10 @@ import type { ModelResult } from '../src/shared/model-result';
 import type { Provider } from '../src/providers/provider';
 import { createModelCard, safeModelUrl } from '../src/results/card';
 import { createResultsView } from '../src/results/view';
+import { mockExtensionStorage } from './helpers/extension-storage';
+import { cultsCredentialFields } from '../src/providers/cults3d';
+import { saveCredentials } from '../src/providers/credentials';
+import fixture from './fixtures/cults3d/search.json';
 
 const model = (title: string, providerId = 'a', metadata: Partial<ModelResult> = {}): ModelResult => ({
   title, providerId, url: `https://example.test/${encodeURIComponent(title)}`, ...metadata,
@@ -37,9 +41,10 @@ afterEach(() => {
 });
 
 describe('progressive results UI', () => {
-  it('keeps production on encoded direct search without API requests or credential collection', async () => {
+  it('shows setup-required in production without credentials and preserves encoded direct search', async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
+    vi.stubGlobal('chrome', { storage: { local: { get: vi.fn().mockResolvedValue({}) } } });
     window.history.replaceState(null, '', '/src/results/index.html?q=gear&expanded=1');
     await import('../src/results/main');
     expect(query<HTMLInputElement>('#query').value).toBe('gear');
@@ -47,8 +52,9 @@ describe('progressive results UI', () => {
     await vi.advanceTimersByTimeAsync(0);
     expect(fetchMock).not.toHaveBeenCalled();
     expect(titles()).toHaveLength(0);
-    expect(query('#provider-status').textContent).toContain('Cults3D: direct search only');
-    expect(query('#empty-state').textContent).toContain('No repository searches are enabled');
+    expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
+    expect(query<HTMLAnchorElement>('#provider-status a').getAttribute('href')).toBe('../settings/index.html#provider-cults3d');
+    expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
     expect(new URL(query<HTMLAnchorElement>('#direct-search').href).searchParams.get('q')).toBe('gear');
     expect(document.querySelector('#api-key')).toBeNull();
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';
@@ -84,6 +90,23 @@ describe('progressive results UI', () => {
     expect(query('#result-count').textContent).toContain('2 of 2 models');
     expect(query('#result-count').textContent).toContain('0 sources searching');
     view.cancel();
+  });
+
+  it('runs the production entry with saved local credentials and renders normalized API cards', async () => {
+    vi.resetModules();
+    mockExtensionStorage();
+    await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-PRODUCTION-PATH' });
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
+    vi.stubGlobal('fetch', fetchMock);
+    window.history.replaceState(null, '', '/src/results/index.html?q=planter');
+    await import('../src/results/main');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(titles()).toEqual(['Synthetic free planter', 'Synthetic paid box']);
+    expect(query('#provider-status').textContent).toContain('Cults3D: success');
+    expect(document.body.innerHTML).not.toContain('FAKE-PRODUCTION-PATH');
+    expect(new URL(query<HTMLAnchorElement>('#direct-search').href).searchParams.get('q')).toBe('planter');
+    window.dispatchEvent(new Event('pagehide'));
   });
 
   it('filters repositories while another provider is still loading and retains the selection on arrival', async () => {

@@ -2,6 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createCultsProvider, cultsSearchUrl, normalizeCultsResults } from '../src/providers/cults3d';
+import { SetupRequired } from '../src/providers/credentials';
 
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/cults3d/search.json', import.meta.url), 'utf8'));
 const credentials = { nickname: 'test-user', apiKey: 'test-only-key' };
@@ -76,7 +77,7 @@ describe('Cults3D official API transport', () => {
 
   it('does not send requests without credentials, for invalid credentials, or for blank queries', async () => {
     const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock);
-    await expect(createCultsProvider(() => undefined).search('q')).rejects.toThrow('requires API credentials');
+    await expect(createCultsProvider(() => undefined).search('q')).rejects.toBeInstanceOf(SetupRequired);
     await expect(createCultsProvider(() => ({ nickname: 'bad:user', apiKey: 'key' })).search('q')).rejects.toThrow('valid');
     await expect(makeProvider().search('  ')).resolves.toEqual([]);
     expect(fetchMock).not.toHaveBeenCalled();
@@ -128,5 +129,20 @@ describe('Cults3D official API transport', () => {
     const pending = makeProvider().search('q', during.signal);
     during.abort();
     await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+  });
+
+  it('sanitizes credential-loader failures and preserves abort when loading rejects after cancellation', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const provider = createCultsProvider(async () => { throw new Error('FAKE-PRIVATE-LOADER-TEXT'); });
+    await expect(provider.search('gear')).rejects.toThrow('configuration could not be loaded');
+    let rejectRead!: (error: Error) => void;
+    const delayed = createCultsProvider(() => new Promise((_resolve, reject) => { rejectRead = reject; }));
+    const controller = new AbortController();
+    const pending = delayed.search('gear', controller.signal);
+    controller.abort();
+    rejectRead(new Error('FAKE-PRIVATE-LOADER-TEXT'));
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

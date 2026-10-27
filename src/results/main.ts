@@ -4,7 +4,7 @@ import { readSearch } from '../search/query';
 import { initializeSearchForm } from '../search/form';
 import { readPreferences, rememberSearch } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
-import { cultsSearchUrl } from '../providers/cults3d';
+import { createCultsProvider, cultsSearchUrl } from '../providers/cults3d';
 import { createResultsView } from './view';
 
 initializeTheme();
@@ -15,9 +15,9 @@ const input = form.elements.namedItem('q') as HTMLInputElement;
 const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
 const directSearch = document.querySelector<HTMLAnchorElement>('#direct-search')!;
-// The adapter is tested, but production API access awaits confirmation of free access.
-const view = createResultsView(document.querySelector('main')!, []);
-document.querySelector('#provider-status')!.textContent = 'Cults3D: direct search only. API access cost is not yet verified.';
+const view = createResultsView(document.querySelector('main')!, [
+  { name: 'Cults3D', provider: createCultsProvider() },
+]);
 
 function runSearch() {
   directSearch.href = cultsSearchUrl(input.value);

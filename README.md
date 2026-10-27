@@ -4,9 +4,10 @@ A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
 The V1 application includes a search popup, progressive results grid, and settings.
-Cults3D has a tested official GraphQL adapter, currently disabled in production
-until free API access is confirmed. Direct search is available without entering
-credentials into tridiJump.
+Cults3D uses its official GraphQL adapter when local user credentials are
+configured. Otherwise it shows Setup required and offers direct native search.
+Use only free API access; current public docs do not explicitly state API pricing.
+Live authenticated compatibility remains pending.
 Synonym expansion is not implemented.
 
 ## Development
@@ -34,16 +35,22 @@ Settings include the Expanded Search default, optional local search history
 **Save settings** to apply changes. System follows device color preferences;
 saved theme changes also apply to other open extension pages. History can be
 cleared, and disabling it clears existing history. Preferences and history use
-extension-origin `localStorage` on this device; they are not synced. The current
-production page does not make API requests or collect credentials.
+extension-origin `localStorage` on this device; they are not synced.
 
-Use **Search directly on Cults3D** on the results page. In-page model results are
-disabled pending confirmation of free API access. See the
+Cults3D Settings accepts your nickname and API key (prefer a read-only key), with
+Save, Remove, and configured status. Credentials use extension `storage.local`
+only, never sync or preferences/history storage. Saved secrets are never prefilled.
+They are sent only to Cults3D using its documented authentication, never to
+tridiJump or GitHub. This local storage is not encrypted by tridiJump or an OS
+credential vault. Do not enter your account password or paste keys into chat.
+After saving/removing credentials, submit a search again to read the new configuration.
+
+Use **Search directly on Cults3D** on the results page without a key. See the
 [provider access policy](docs/provider-policy.md): user-supplied keys are welcome
 for verified free APIs; paid APIs are excluded. Scraping is considered only when
 permitted, with no authentication or anti-bot bypass.
 
-The disabled adapter fetches a bounded first page of up to 20 models. EUR prices are converted
+The adapter fetches a bounded first page of up to 20 models. EUR prices are converted
 from reported cents; unavailable metadata stays unknown. No model files are
 downloaded. Demo code remains isolated in `src/results/demo/` for reference and
 is not imported or included in the production build. Automated tests use
@@ -89,8 +96,9 @@ npm run build       # Type check and production build
 Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
-APIs, or remote executable code. No API host permissions or other privileges
-are requested while production uses direct search only.
+APIs, or remote executable code. The manifest requests only extension storage
+and `https://cults3d.com/*` for the implemented API. No other provider hosts,
+tabs, scripting, cookies, or background permissions are requested.
 
 ## Domain and provider contract
 
@@ -100,12 +108,11 @@ It introduces no live providers or interface changes.
 
 The [V1 provider architecture review](docs/provider-architecture-review.md)
 records the stable search signature, boundary checks, and adapter/orchestrator regression
-coverage. The search signature is stable; the complete configuration contract
-still needs the policy-required field declarations, local extension-storage
-Settings, and configuration preflight in the staged implementation task. The
-state type already supports Setup required; dispatch and configuration routing
-remain staged. Prompt 08 does not implement those features or enable Cults. API eligibility and live
-verification remain distinct from architecture validation.
+coverage. Its credential follow-up is now implemented with optional field
+declarations, shared local storage, Settings, and non-error setup handling.
+The search signature remains unchanged. API eligibility and live verification
+remain distinct from architecture validation; see the integration notes for
+current evidence and limitations.
 
 `ModelResult` (`src/shared/model-result.ts`) requires only `title`, `url`, and
 `providerId`. Optional fields cover a provider-local string ID, thumbnail URL,
@@ -117,7 +124,11 @@ scale. Omit unavailable metadata; do not substitute zero, an empty string, or
 
 `Provider` (`src/providers/provider.ts`) has just a stable `id` and
 `search(query: string, signal?: AbortSignal): Promise<ModelResult[]>`. Each
-provider owns its transport, API/HTML details, and normalization. Returned
+provider owns its transport, API/HTML details, and normalization. Optional
+`credentialFields` describes configuration fields without values. A provider
+loads its own credentials before any network request and signals `SetupRequired`
+when missing; the orchestrator maps that condition to `setup-required`.
+Returned
 `providerId` values must match its ID. Successful searches without matches return
 `[]`; failures reject, and cancellation rejects with an `AbortError`. Providers
 honor an optional signal, including one already aborted. The caller may attach
@@ -126,7 +137,7 @@ query provenance when needed.
 `ProviderSearchState` (`src/search/provider-state.ts`) distinguishes `idle`,
 `searching`, `success`, `no-results`, `failed`, `timed-out`, `disabled`, and
 `setup-required`. Setup required represents missing configuration without an
-error or an attempted query; configuration handling is not wired yet.
+error or an attempted network query; the UI links to provider Settings.
 It includes the provider ID, the query for an attempted search, results on
 success, and an error message on failure. `ProviderSearchStatus` exposes just
 the status names. These types do not run searches or manage timeouts; those are
@@ -158,9 +169,9 @@ Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled providers are omitted by the caller. The results
-page currently supplies no active API providers. The Cults3D adapter is retained
-behind the free-access verification gate; the other five investigated providers
-are not implemented.
+page supplies Cults3D; without local credentials it makes no API request. Storage
+loading is covered by cancellation and provider timeout. A superseded or timed-out
+read cannot launch a request. The other five investigated providers are not implemented.
 
 ## License
 
