@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "tridiJump",
+  "version": "0.1.0",
+  "description": "A lightweight foundation for unified 3D-model search.",
+  "action": {
+    "default_title": "Open tridiJump",
+    "default_popup": "src/popup/index.html"
+  },
+  "options_ui": {
+    "page": "src/settings/index.html",
+    "open_in_tab": true
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
