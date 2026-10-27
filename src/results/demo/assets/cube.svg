@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Original tridiJump demo illustration. SPDX-License-Identifier: GPL-3.0-or-later -->
+  <rect width="400" height="300" fill="#e9edf3"/>
+  <ellipse cx="200" cy="250" rx="110" ry="17" fill="#cbd2dd"/>
+  <path d="M100 100 200 48 300 100 200 155Z" fill="#a4c2d7"/>
+  <path d="M100 100 200 155 200 245 100 190Z" fill="#638eae"/>
+  <path d="M200 155 300 100 300 190 200 245Z" fill="#3e6c91"/>
+  <path d="m119 112 81 44 81-44M119 133l81 44 81-44M119 154l81 44 81-44M119 175l81 44 81-44" fill="none" stroke="#dce8f2" stroke-opacity=".35" stroke-width="2"/>
+</svg>

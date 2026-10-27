@@ -82,6 +82,21 @@ summary { cursor: pointer; font-weight: 600; padding-block: 0.5rem; }
 .query-summary, #history-list { overflow-wrap: anywhere; }
 #history-list li { padding-block: 0.25rem; }
 #settings-form { max-width: 48rem; }
+.demo-notice { border-left: 3px solid var(--muted); padding: 0.75rem 1rem; background: var(--surface); }
+.filter-group { border: 0; padding: 0; background: none; }
+.filter-group legend { padding: 0; margin-bottom: 0.75rem; }
+aside select { width: 100%; }
+.model-card { min-width: 0; border: 1px solid var(--border); border-radius: 0.6rem; background: var(--surface); overflow: hidden; }
+.model-card-content { display: block; height: 100%; color: inherit; text-decoration: none; padding-bottom: 1rem; }
+a.model-card-content:hover h3 { text-decoration: underline; }
+.model-card-content:focus-visible { outline-offset: -4px; }
+.model-preview { position: relative; aspect-ratio: 4 / 3; background: light-dark(#e9edf3, #2d3745); display: grid; place-items: center; color: var(--muted); }
+.model-preview img { display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.model-card h3 { margin: 1rem 1rem 0.35rem; overflow-wrap: anywhere; }
+.model-source { color: var(--muted); font-size: 0.85rem; margin: 0 1rem 0.75rem; overflow-wrap: anywhere; }
+.price-badge { display: inline-block; margin-inline: 1rem; padding: 0.15rem 0.5rem; border-radius: 0.25rem; background: light-dark(#e6efea, #2c4539); color: light-dark(#285c3a, #c1e6cd); font-size: 0.8rem; font-weight: 600; }
+.model-card .hint { margin-inline: 1rem; }
+#provider-status { padding-left: 1.25rem; overflow-wrap: anywhere; }
 [role="status"]:empty { display: none; }
 
 nav {

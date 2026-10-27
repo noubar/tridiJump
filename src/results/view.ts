@@ -1,0 +1,114 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import type { Provider } from '../providers/provider';
+import { SearchOrchestrator } from '../search/orchestrator';
+import type { SearchSnapshot } from '../search/orchestrator';
+import type { ModelResult } from '../shared/model-result';
+import { createModelCard } from './card';
+import { canSort, filterResults, SORTS, sortResults } from './result-options';
+import type { PriceFilter, SortOrder } from './result-options';
+
+export interface ResultSource { name: string; provider: Provider }
+
+function option(label: string, value: string): HTMLOptionElement {
+  const element = document.createElement('option');
+  element.textContent = label;
+  element.value = value;
+  return element;
+}
+
+/** Owns only results controls and rendering; provider behavior stays behind its contract. */
+export function createResultsView(root: HTMLElement, sources: readonly ResultSource[]) {
+  const grid = root.querySelector<HTMLElement>('#results-grid')!;
+  const empty = root.querySelector<HTMLElement>('#empty-state')!;
+  const count = root.querySelector<HTMLElement>('#result-count')!;
+  const sort = root.querySelector<HTMLSelectElement>('#sort')!;
+  const format = root.querySelector<HTMLSelectElement>('#format')!;
+  const price = root.querySelector<HTMLSelectElement>('#price')!;
+  const repositories = root.querySelector<HTMLElement>('#repository-options')!;
+  const statuses = root.querySelector<HTMLElement>('#provider-status')!;
+  const names = new Map(sources.map((source) => [source.provider.id, source.name]));
+  const selected = new Set(names.keys());
+  const statusItems = new Map<string, HTMLLIElement>();
+  const cards = new Map<ModelResult, HTMLElement>();
+  let snapshot: SearchSnapshot = { query: '', states: [], results: [] };
+  let formats: string[] = [];
+
+  for (const source of sources) {
+    const label = document.createElement('label');
+    label.className = 'check';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = true;
+    checkbox.value = source.provider.id;
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) selected.add(source.provider.id);
+      else selected.delete(source.provider.id);
+      render();
+    });
+    label.append(checkbox, document.createTextNode(source.name));
+    repositories.append(label);
+    const item = document.createElement('li');
+    item.textContent = `${source.name}: idle`;
+    statuses.append(item);
+    statusItems.set(source.provider.id, item);
+  }
+  for (const [value, label] of SORTS) sort.add(option(label, value));
+
+  function render() {
+    const available = [...new Set(snapshot.results.flatMap((result) => result.formats ?? []))].sort();
+    if (available.join('\0') !== formats.join('\0')) {
+      formats = available;
+      const previous = format.value;
+      format.replaceChildren(option('All formats', ''), ...formats.map((value) => option(value.toUpperCase(), value)));
+      format.value = formats.includes(previous) ? previous : '';
+    }
+    format.disabled = formats.length === 0;
+    root.querySelector('#format-help')!.textContent = formats.length
+      ? 'Models without format information are excluded when a format is selected.'
+      : 'No file-format information is available yet.';
+
+    const filtered = filterResults(snapshot.results, { providerIds: selected, price: price.value as PriceFilter, format: format.value });
+    for (const option of sort.options) option.disabled = !canSort(filtered, option.value as SortOrder);
+    if (!canSort(filtered, sort.value as SortOrder)) sort.value = 'best';
+    const visible = sortResults(filtered, sort.value as SortOrder);
+    const desired = visible.map((result) => {
+      let card = cards.get(result);
+      if (!card) {
+        card = createModelCard(result, names.get(result.providerId) ?? result.providerId);
+        cards.set(result, card);
+      }
+      return card;
+    });
+    const keep = new Set(desired);
+    for (const child of [...grid.children]) if (!keep.has(child as HTMLElement)) child.remove();
+    // Keep existing nodes (and focus/images); default ordering only appends new cards.
+    desired.forEach((card, index) => {
+      if (grid.children[index] !== card) grid.insertBefore(card, grid.children[index] ?? null);
+    });
+    const pending = snapshot.states.filter((state) => state.status === 'searching').length;
+    count.textContent = `${visible.length} of ${snapshot.results.length} models · ${pending} sources searching`;
+    empty.hidden = visible.length > 0;
+    empty.textContent = !snapshot.query ? 'Enter a query to explore the demo models.'
+      : snapshot.results.length ? 'No models match these filters.'
+      : pending ? 'Searching demo sources…' : 'No models found.';
+    for (const state of snapshot.states) {
+      const item = statusItems.get(state.providerId);
+      if (item) item.textContent = `${names.get(state.providerId) ?? state.providerId}: ${state.status}`
+        + (state.status === 'success' ? ` (${state.results.length} models)` : '')
+        + (state.status === 'failed' ? ` — ${state.error}` : '');
+    }
+  }
+
+  price.addEventListener('change', render);
+  format.addEventListener('change', render);
+  sort.addEventListener('change', render);
+  const runner = new SearchOrchestrator((update) => { snapshot = update; render(); });
+  render();
+  return {
+    search(query: string) {
+      cards.clear();
+      runner.start(query, sources.map((source) => source.provider));
+    },
+    cancel() { runner.cancel(); },
+  };
+}
