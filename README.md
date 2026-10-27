@@ -47,9 +47,10 @@ npm run build       # Type check and production build
 ## Structure
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
-- `src/shared/`: shared styles and code
-- `src/search/`: query parsing and shared native form setup
-- `src/providers/`, `src/synonyms/`: reserved for later implementation
+- `src/shared/`: normalized model result type, preferences, theme, and styles
+- `src/search/`: query parsing, native form setup, and provider search-state types
+- `src/providers/`: minimal provider contract; no repository implementations yet
+- `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
 - `tests/`: extension foundation checks
@@ -57,6 +58,32 @@ npm run build       # Type check and production build
 Uses TypeScript, plain HTML/CSS, Vite, and Vitest. No runtime dependencies,
 framework, backend, accounts, analytics, telemetry, cloud storage, AI APIs, or
 remote executable code. The foundation requests no extension or host permissions.
+
+## Domain and provider contract
+
+`ModelResult` (`src/shared/model-result.ts`) requires only `title`, `url`, and
+`providerId`. Optional fields cover a provider-local string ID, thumbnail URL,
+creator, price (amount in major units plus ISO currency code), explicit `isFree`,
+file formats, ISO creation date, popularity, downloads, and a rating on a 0–5
+scale. Omit unavailable metadata; do not substitute zero, an empty string, or
+`false` for unknown values. Popularity remains provider-specific. An optional
+`query` records the exact term that found a model, including an expanded term.
+
+`Provider` (`src/providers/provider.ts`) has just a stable `id` and
+`search(query: string, signal?: AbortSignal): Promise<ModelResult[]>`. Each
+provider owns its transport, API/HTML details, and normalization. Returned
+`providerId` values must match its ID. Successful searches without matches return
+`[]`; failures reject, and cancellation rejects with an `AbortError`. Providers
+honor an optional signal, including one already aborted. The caller may attach
+query provenance when needed.
+
+`ProviderSearchState` (`src/search/provider-state.ts`) distinguishes `idle`,
+`searching`, `success`, `no-results`, `failed`, `timed-out`, and `disabled`.
+It includes the provider ID, the query for an attempted search, results on
+success, and an error message on failure. `ProviderSearchStatus` exposes just
+the status names. These types do not run searches or manage timeouts; those are
+caller responsibilities. No registry, base class, provider-specific payloads,
+or repository implementation is introduced.
 
 ## License
 
