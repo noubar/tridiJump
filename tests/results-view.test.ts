@@ -33,9 +33,30 @@ afterEach(() => {
   document.body.replaceChildren();
   vi.clearAllTimers();
   vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
 describe('progressive results UI', () => {
+  it('wires the real page entry to demo providers and resubmits searches without navigation', async () => {
+    window.history.replaceState(null, '', '/src/results/index.html?q=gear&expanded=1');
+    await import('../src/results/main');
+    expect(query<HTMLInputElement>('#query').value).toBe('gear');
+    expect(query<HTMLInputElement>('#expanded').checked).toBe(true);
+    await vi.advanceTimersByTimeAsync(300);
+    expect(titles()).toHaveLength(3);
+    expect(query('#provider-status').textContent).toContain('Demo Model Shelf: searching');
+    query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';
+    query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
+    expect(new URLSearchParams(window.location.search).get('q')).toBe('bolt & <tag>');
+    expect(query('#search-summary').textContent).toContain('bolt & <tag>');
+    expect(query('#search-summary').querySelector('tag')).toBeNull();
+    expect(titles()).toEqual([]);
+    await vi.advanceTimersByTimeAsync(1_100);
+    expect(titles()).toHaveLength(6);
+    expect(query('#provider-status').textContent).toContain('Demo Offline: failed');
+    window.dispatchEvent(new Event('pagehide'));
+  });
+
   it('inserts a fast provider immediately, preserves its card node/focus, and appends a slower provider', async () => {
     const view = createResultsView(query('main'), [
       { name: 'A', provider: provider('a', 300, [model('First')]) },
@@ -177,5 +198,15 @@ describe('safe, minimal model cards', () => {
     expect(card.querySelector('img,.price-badge')).toBeNull();
     expect(card.textContent).toContain('No preview');
     expect(card.textContent).not.toContain('FREE');
+  });
+
+  it('allows packaged thumbnails from this extension but rejects other extension origins', () => {
+    vi.stubGlobal('window', { location: { protocol: 'chrome-extension:', host: 'tridijump', href: 'chrome-extension://tridijump/src/results/index.html' } });
+    const own = createModelCard(model('Local', 'a', { thumbnail: 'chrome-extension://tridijump/assets/model.svg' }), 'A');
+    expect(own.querySelector('img')?.getAttribute('src')).toBe('chrome-extension://tridijump/assets/model.svg');
+    const other = createModelCard(model('Other', 'a', { thumbnail: 'chrome-extension://another-extension/model.svg' }), 'A');
+    expect(other.querySelector('img')).toBeNull();
+    const inline = createModelCard(model('Inline', 'a', { thumbnail: 'data:image/svg+xml,<svg onload="alert(1)"/>' }), 'A');
+    expect(inline.querySelector('img')).toBeNull();
   });
 });

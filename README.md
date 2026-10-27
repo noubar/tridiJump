@@ -3,9 +3,9 @@
 A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
-The V1 application shell includes a search popup, results layout, and settings.
-Provider searching and synonym expansion are not implemented. Results show an
-empty state, with no demo models or network requests.
+The V1 application includes a search popup, progressive results grid, and settings.
+Results currently use clearly labeled mock sources and synthetic model fixtures.
+Live repository searching and synonym expansion are not implemented.
 
 ## Development
 
@@ -34,8 +34,26 @@ saved theme changes also apply to other open extension pages. History can be
 cleared, and disabling it clears existing history. Preferences and history use
 extension-origin `localStorage` on this device; nothing is synced or sent away.
 
-There are currently zero available repositories. Repository selection, result
-sorting, and model filters remain empty or disabled until providers exist.
+There are currently zero live repositories. Results use three demo sources:
+two return sample models after 300 ms and 1,100 ms; one simulates failure after
+700 ms. Every query returns the same fixtures. Model links go to example.com
+placeholders, and thumbnails are original bundled SVG illustrations. Searching
+does not contact external services. The entire demo set lives in
+`src/results/demo/` and is connected through one import in `src/results/main.ts`.
+
+The grid mixes sources on one page and appends results as each source completes.
+Cards show only a thumbnail (or placeholder), title, source, and known price/free
+status. Open a card to visit its original HTTP(S) URL in a new tab.
+
+Repository checkboxes filter the view without restarting searches. Free/Paid and
+file-format filters exclude unknown metadata only when selected. The format
+control stays disabled until format information exists. Best match preserves
+arrival and native source ordering. Other sorts require at least two known
+values and put unknown values last. Price sorts require a single reported
+currency (no conversion); popularity is enabled only within one repository
+because source scores are not comparable. Unavailable sorts are disabled; the
+view returns to Best match if new data or filters make a selected sort unavailable.
+Other choices are Latest, Most downloaded, and Highest rated.
 
 ```sh
 npm test             # Run Vitest checks
@@ -47,6 +65,7 @@ npm run build       # Type check and production build
 ## Structure
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
+- `src/results/`: safe card rendering, filter/sort helpers, progressive view, and isolated demo data
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
 - `src/providers/`: minimal provider contract; no repository implementations yet
@@ -55,11 +74,16 @@ npm run build       # Type check and production build
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
 - `tests/`: extension foundation checks
 
-Uses TypeScript, plain HTML/CSS, Vite, and Vitest. No runtime dependencies,
+Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-only
+dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, accounts, analytics, telemetry, cloud storage, AI APIs, or
 remote executable code. The foundation requests no extension or host permissions.
 
 ## Domain and provider contract
+
+Current live-integration research, access limitations, source links, and
+recommendations are in [Provider investigation](docs/provider-investigation.md).
+It introduces no live providers or interface changes.
 
 `ModelResult` (`src/shared/model-result.ts`) requires only `title`, `url`, and
 `providerId`. Optional fields cover a provider-local string ID, thumbnail URL,
@@ -109,8 +133,8 @@ or cancellation. An already-aborted signal prevents provider execution.
 Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
-not execute providers. Disabled providers are omitted by the caller. No providers
-are registered or connected to the UI yet; mocks exist only in automated tests.
+not execute providers. Disabled providers are omitted by the caller. The results
+page connects this runner to isolated demo sources; no live providers are registered.
 
 ## License
 

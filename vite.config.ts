@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: './',
   build: {
+    // Keep bundled thumbnails as files; the renderer rejects untrusted data URLs.
     assetsInlineLimit: 0,
     target: 'es2022',
     rolldownOptions: {
