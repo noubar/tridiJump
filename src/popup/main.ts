@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import '../shared/styles.css';
-import { initializeSearchForm } from '../search/query';
+import { initializeSearchForm } from '../search/form';
 import { readPreferences } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
 

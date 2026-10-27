@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import '../shared/styles.css';
-import { initializeSearchForm, readSearch } from '../search/query';
+import { readSearch } from '../search/query';
+import { initializeSearchForm } from '../search/form';
 import { readPreferences, rememberSearch } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
 import { cultsSearchUrl } from '../providers/cults3d';

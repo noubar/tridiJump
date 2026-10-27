@@ -106,6 +106,16 @@ describe('Cults3D official API transport', () => {
     await expect(provider.search('q')).resolves.toHaveLength(2);
   });
 
+  it('honors a zero-second Retry-After without substituting a one-minute cooldown', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockResolvedValueOnce(json({}, 429, { 'Retry-After': '0' })).mockResolvedValueOnce(json(fixture));
+    vi.stubGlobal('fetch', fetchMock);
+    const provider = makeProvider();
+    await expect(provider.search('q')).rejects.toThrow('rate limit');
+    await expect(provider.search('q')).resolves.toHaveLength(2);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
   it('rejects pre-cancelled requests before fetching and propagates in-flight cancellation', async () => {
     const fetchMock = vi.fn((_url: string, options: RequestInit) => new Promise((_resolve, reject) => {
       options.signal!.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true });

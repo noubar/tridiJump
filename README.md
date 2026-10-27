@@ -98,6 +98,10 @@ Current live-integration research, access limitations, source links, and
 recommendations are in [Provider investigation](docs/provider-investigation.md).
 It introduces no live providers or interface changes.
 
+The [V1 provider architecture review](docs/provider-architecture-review.md)
+records the stable contract, boundary checks, and adapter/orchestrator regression
+coverage. API access and live verification remain separate release conditions.
+
 `ModelResult` (`src/shared/model-result.ts`) requires only `title`, `url`, and
 `providerId`. Optional fields cover a provider-local string ID, thumbnail URL,
 creator, price (amount in major units plus ISO currency code), explicit `isFree`,

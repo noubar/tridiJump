@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { describe, expect, it, vi } from 'vitest';
-import { initializeSearchForm, MAX_QUERY_LENGTH, normalizeQuery, readSearch } from '../src/search/query';
+import { MAX_QUERY_LENGTH, normalizeQuery, readSearch } from '../src/search/query';
+import { initializeSearchForm } from '../src/search/form';
 
 describe('search handoff', () => {
   it('preserves special characters and Unicode in encoded query parameters', () => {

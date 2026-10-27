@@ -101,7 +101,7 @@ function retryTime(headers: Headers): number {
     ? (/^\d+$/.test(retry) ? now + Number(retry) * 1000 : Date.parse(retry))
     : reset;
   // A local one-minute cooldown if the server supplies no usable reset time.
-  return Number.isFinite(candidate) && candidate > now ? candidate : now + 60_000;
+  return Number.isFinite(candidate) && candidate >= now ? candidate : now + 60_000;
 }
 
 /** Credentials are supplied by the caller; never bundled, logged, or persisted here. */
