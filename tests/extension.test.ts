@@ -13,7 +13,7 @@ describe('extension foundation', () => {
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('requests no permissions or background execution', () => {
+  it('requests no API host permissions while only direct search is enabled', () => {
     expect(manifest.permissions ?? []).toEqual([]);
     expect(manifest.host_permissions ?? []).toEqual([]);
     expect(manifest.optional_permissions ?? []).toEqual([]);
@@ -52,8 +52,8 @@ describe('extension foundation', () => {
       expect(links.length).toBeGreaterThan(0);
       for (const [, href] of links) {
         const destination = new URL(href!, page);
-        expect(destination.protocol).toBe('file:');
-        expect(existsSync(destination)).toBe(true);
+        if (destination.protocol === 'file:') expect(existsSync(destination)).toBe(true);
+        else expect(destination.origin).toBe('https://cults3d.com');
       }
     }
   });

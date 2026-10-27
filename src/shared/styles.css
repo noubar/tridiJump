@@ -47,7 +47,7 @@ p { margin-block: 0.5rem 1rem; }
 
 label { display: block; font-weight: 600; margin-bottom: 0.4rem; }
 input, button, select { font: inherit; }
-input[type="search"], select {
+input[type="search"], input[type="text"], input[type="password"], select {
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 0.4rem;
@@ -82,7 +82,8 @@ summary { cursor: pointer; font-weight: 600; padding-block: 0.5rem; }
 .query-summary, #history-list { overflow-wrap: anywhere; }
 #history-list li { padding-block: 0.25rem; }
 #settings-form { max-width: 48rem; }
-.demo-notice { border-left: 3px solid var(--muted); padding: 0.75rem 1rem; background: var(--surface); }
+.source-notice { border-left: 3px solid var(--muted); padding: 0.75rem 1rem; background: var(--surface); }
+#provider-access input { width: min(100%, 28rem); margin-bottom: 1rem; }
 .filter-group { border: 0; padding: 0; background: none; }
 .filter-group legend { padding: 0; margin-bottom: 0.75rem; }
 aside select { width: 100%; }

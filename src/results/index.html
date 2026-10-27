@@ -12,7 +12,7 @@
         <div><h1>tridiJump</h1><p class="muted">3D models in one place</p></div>
         <nav aria-label="Extension pages"><a href="../settings/index.html">Settings</a></nav>
       </header>
-      <p class="demo-notice"><strong>Demo preview.</strong> Sample models only; all queries show the same fixtures. Model links open example.com placeholders. No repositories are contacted.</p>
+      <p class="source-notice">Open your search directly on Cults3D below. In-page API results are disabled until free API access is confirmed. No API key is needed for this link.</p>
       <form id="search-form" action="./index.html" method="get" role="search">
         <label for="query">Search models</label>
         <div class="search-row">
@@ -22,6 +22,7 @@
         <label class="check" for="expanded"><input id="expanded" name="expanded" type="checkbox" value="1" aria-describedby="expanded-help" />Expanded Search</label>
         <p id="expanded-help" class="hint">Synonym expansion is not available yet.</p>
       </form>
+      <p><a id="direct-search" href="https://cults3d.com/en/search" target="_blank" rel="noopener noreferrer" hidden>Search directly on Cults3D</a></p>
       <div class="results-layout">
         <aside class="panel" aria-label="Refine results">
           <fieldset class="filter-group">
@@ -46,7 +47,7 @@
           <p id="sort-help" class="hint">Best match keeps arrival and source ordering. Unknown values sort last. Price sorting needs reported prices in one currency; popularity needs one repository. Unavailable sorts are disabled; if a sort becomes unavailable, Best match is used.</p>
           <p id="search-summary" class="query-summary"></p>
           <p id="result-count" role="status" aria-live="polite"></p>
-          <p id="empty-state" class="empty-state">Enter a query to explore the demo models.</p>
+          <p id="empty-state" class="empty-state">Enter a query to search for models.</p>
           <div id="results-grid" class="results-grid" aria-label="Model results"></div>
         </section>
       </div>

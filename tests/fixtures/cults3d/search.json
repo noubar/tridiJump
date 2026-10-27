@@ -1,0 +1,26 @@
+{
+  "data": {
+    "creationsSearchBatch": {
+      "results": [
+        {
+          "name": "Synthetic free planter",
+          "url": "https://cults3d.com/en/3d-model/art/tridijump-test-planter",
+          "illustrationImageUrl": "https://images.example.test/planter.png",
+          "creator": { "nick": "test-maker" },
+          "price": { "cents": 0 },
+          "downloadsCount": 0,
+          "likesCount": 12
+        },
+        {
+          "name": "Synthetic paid box",
+          "url": "https://cults3d.com/en/3d-model/tool/tridijump-test-box",
+          "illustrationImageUrl": null,
+          "creator": null,
+          "price": { "cents": 325 },
+          "downloadsCount": null,
+          "likesCount": null
+        }
+      ]
+    }
+  }
+}

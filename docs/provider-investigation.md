@@ -4,6 +4,10 @@ Research date: **2026-10-27**. This is a research document, not an implementatio
 or authorization to ship an integration. No live providers, dependencies,
 permissions, credentials, or provider-interface changes were added.
 
+Subsequent implementation status and verification limits are documented in
+[Cults3D integration](provider-cults3d.md); the research findings below remain
+the record of the investigation before implementation.
+
 ## Scope and evidence
 
 Reviewed the current README, manifest, provider/result contracts, orchestrator,

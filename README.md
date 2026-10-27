@@ -4,8 +4,10 @@ A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
 The V1 application includes a search popup, progressive results grid, and settings.
-Results currently use clearly labeled mock sources and synthetic model fixtures.
-Live repository searching and synonym expansion are not implemented.
+Cults3D has a tested official GraphQL adapter, currently disabled in production
+until free API access is confirmed. Direct search is available without entering
+credentials into tridiJump.
+Synonym expansion is not implemented.
 
 ## Development
 
@@ -32,14 +34,24 @@ Settings include the Expanded Search default, optional local search history
 **Save settings** to apply changes. System follows device color preferences;
 saved theme changes also apply to other open extension pages. History can be
 cleared, and disabling it clears existing history. Preferences and history use
-extension-origin `localStorage` on this device; nothing is synced or sent away.
+extension-origin `localStorage` on this device; they are not synced. The current
+production page does not make API requests or collect credentials.
 
-There are currently zero live repositories. Results use three demo sources:
-two return sample models after 300 ms and 1,100 ms; one simulates failure after
-700 ms. Every query returns the same fixtures. Model links go to example.com
-placeholders, and thumbnails are original bundled SVG illustrations. Searching
-does not contact external services. The entire demo set lives in
-`src/results/demo/` and is connected through one import in `src/results/main.ts`.
+Use **Search directly on Cults3D** on the results page. In-page model results are
+disabled pending confirmation of free API access. See the
+[provider access policy](docs/provider-policy.md): user-supplied keys are welcome
+for verified free APIs; paid APIs are excluded. Scraping is considered only when
+permitted, with no authentication or anti-bot bypass.
+
+The disabled adapter fetches a bounded first page of up to 20 models. EUR prices are converted
+from reported cents; unavailable metadata stays unknown. No model files are
+downloaded. Demo code remains isolated in `src/results/demo/` for reference and
+is not imported or included in the production build. Automated tests use
+synthetic fixtures, never pretend-live sample cards.
+
+See [Cults3D integration notes](docs/provider-cults3d.md) for the mechanism,
+verification limits, credential requirements, and manual development checklist.
+Authenticated live search has not yet been verified with an authorized API key.
 
 The grid mixes sources on one page and appends results as each source completes.
 Cards show only a thumbnail (or placeholder), title, source, and known price/free
@@ -65,10 +77,10 @@ npm run build       # Type check and production build
 ## Structure
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
-- `src/results/`: safe card rendering, filter/sort helpers, progressive view, and isolated demo data
+- `src/results/`: safe card rendering, filter/sort helpers, and progressive view
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
-- `src/providers/`: minimal provider contract; no repository implementations yet
+- `src/providers/`: minimal provider contract and isolated Cults3D implementation
 - `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
@@ -76,8 +88,9 @@ npm run build       # Type check and production build
 
 Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
-framework, backend, accounts, analytics, telemetry, cloud storage, AI APIs, or
-remote executable code. The foundation requests no extension or host permissions.
+framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
+APIs, or remote executable code. No API host permissions or other privileges
+are requested while production uses direct search only.
 
 ## Domain and provider contract
 
@@ -134,7 +147,9 @@ Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled providers are omitted by the caller. The results
-page connects this runner to isolated demo sources; no live providers are registered.
+page currently supplies no active API providers. The Cults3D adapter is retained
+behind the free-access verification gate; the other five investigated providers
+are not implemented.
 
 ## License
 

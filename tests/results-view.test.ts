@@ -37,23 +37,30 @@ afterEach(() => {
 });
 
 describe('progressive results UI', () => {
-  it('wires the real page entry to demo providers and resubmits searches without navigation', async () => {
+  it('keeps production on encoded direct search without API requests or credential collection', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
     window.history.replaceState(null, '', '/src/results/index.html?q=gear&expanded=1');
     await import('../src/results/main');
     expect(query<HTMLInputElement>('#query').value).toBe('gear');
     expect(query<HTMLInputElement>('#expanded').checked).toBe(true);
-    await vi.advanceTimersByTimeAsync(300);
-    expect(titles()).toHaveLength(3);
-    expect(query('#provider-status').textContent).toContain('Demo Model Shelf: searching');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(titles()).toHaveLength(0);
+    expect(query('#provider-status').textContent).toContain('Cults3D: direct search only');
+    expect(query('#empty-state').textContent).toContain('No repository searches are enabled');
+    expect(new URL(query<HTMLAnchorElement>('#direct-search').href).searchParams.get('q')).toBe('gear');
+    expect(document.querySelector('#api-key')).toBeNull();
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';
     query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
     expect(new URLSearchParams(window.location.search).get('q')).toBe('bolt & <tag>');
     expect(query('#search-summary').textContent).toContain('bolt & <tag>');
     expect(query('#search-summary').querySelector('tag')).toBeNull();
     expect(titles()).toEqual([]);
-    await vi.advanceTimersByTimeAsync(1_100);
-    expect(titles()).toHaveLength(6);
-    expect(query('#provider-status').textContent).toContain('Demo Offline: failed');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(new URL(query<HTMLAnchorElement>('#direct-search').href).searchParams.get('q')).toBe('bolt & <tag>');
+    expect(titles()).toEqual([]);
+    expect(fetchMock).not.toHaveBeenCalled();
     window.dispatchEvent(new Event('pagehide'));
   });
 

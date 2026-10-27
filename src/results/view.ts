@@ -88,9 +88,12 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     const pending = snapshot.states.filter((state) => state.status === 'searching').length;
     count.textContent = `${visible.length} of ${snapshot.results.length} models · ${pending} sources searching`;
     empty.hidden = visible.length > 0;
-    empty.textContent = !snapshot.query ? 'Enter a query to explore the demo models.'
+    const failed = snapshot.states.some((state) => state.status === 'failed' || state.status === 'timed-out');
+    empty.textContent = !snapshot.query ? 'Enter a query to search for models.'
+      : sources.length === 0 ? 'No repository searches are enabled. Open the source directly using the link above.'
       : snapshot.results.length ? 'No models match these filters.'
-      : pending ? 'Searching demo sources…' : 'No models found.';
+      : pending ? 'Searching sources…'
+      : failed ? 'Search could not complete. Check provider status or open the source directly.' : 'No models found.';
     for (const state of snapshot.states) {
       const item = statusItems.get(state.providerId);
       if (item) item.textContent = `${names.get(state.providerId) ?? state.providerId}: ${state.status}`

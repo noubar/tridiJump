@@ -3,7 +3,7 @@ import '../shared/styles.css';
 import { initializeSearchForm, readSearch } from '../search/query';
 import { readPreferences, rememberSearch } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
-import { demoSources } from './demo/providers';
+import { cultsSearchUrl } from '../providers/cults3d';
 import { createResultsView } from './view';
 
 initializeTheme();
@@ -13,9 +13,14 @@ initializeSearchForm(form, search.expanded);
 const input = form.elements.namedItem('q') as HTMLInputElement;
 const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
-const view = createResultsView(document.querySelector('main')!, demoSources);
+const directSearch = document.querySelector<HTMLAnchorElement>('#direct-search')!;
+// The adapter is tested, but production API access awaits confirmation of free access.
+const view = createResultsView(document.querySelector('main')!, []);
+document.querySelector('#provider-status')!.textContent = 'Cults3D: direct search only. API access cost is not yet verified.';
 
 function runSearch() {
+  directSearch.href = cultsSearchUrl(input.value);
+  directSearch.hidden = !input.value;
   document.querySelector('#search-summary')!.textContent = input.value
     ? `Search: “${input.value}” · Expanded Search ${expanded.checked ? 'on' : 'off'}`
     : 'Enter a query to start a search.';
