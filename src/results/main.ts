@@ -15,7 +15,7 @@ const input = form.elements.namedItem('q') as HTMLInputElement;
 const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
 const sources = providerAvailability.flatMap((source) => 'createProvider' in source
-  ? [{ name: source.name, provider: source.createProvider() }] : []);
+  ? [{ name: source.name, provider: source.createProvider(), searchUrl: source.searchUrl }] : []);
 const view = createResultsView(document.querySelector('main')!, sources);
 
 let generation = 0;

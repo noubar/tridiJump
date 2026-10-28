@@ -99,6 +99,12 @@ a.model-card-content:hover h3 { text-decoration: underline; }
 .price-badge { display: inline-block; margin-inline: 1rem; padding: 0.15rem 0.5rem; border-radius: 0.25rem; background: light-dark(#e6efea, #2c4539); color: light-dark(#285c3a, #c1e6cd); font-size: 0.8rem; font-weight: 600; }
 .model-card .hint { margin-inline: 1rem; }
 #provider-status { padding-left: 1.25rem; overflow-wrap: anywhere; }
+#provider-status li { margin-block: 0.4rem; padding: 0.5rem 0.75rem; border-left: 3px solid transparent; }
+/* Configuration is an ordinary action, distinct from search errors and inactivity. */
+#provider-status [data-status="setup-required"] { border-left-color: light-dark(#1756ad, #9bc1ff); background: var(--surface); }
+#provider-status [data-status="failed"] { border-left-color: light-dark(#a12e35, #ffadb3); }
+#provider-status [data-status="timed-out"] { border-left: 3px dashed light-dark(#86600b, #e8c76a); }
+#provider-status [data-status="disabled"] { color: var(--muted); }
 [role="status"]:empty { display: none; }
 
 nav {

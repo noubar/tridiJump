@@ -2,12 +2,13 @@
 import type { Provider } from '../providers/provider';
 import { SearchOrchestrator } from '../search/orchestrator';
 import type { SearchSnapshot } from '../search/orchestrator';
+import type { ProviderSearchState } from '../search/provider-state';
 import type { ModelResult } from '../shared/model-result';
-import { createModelCard } from './card';
+import { createModelCard, safeModelUrl } from './card';
 import { canSort, filterResults, SORTS, sortResults } from './result-options';
 import type { PriceFilter, SortOrder } from './result-options';
 
-export interface ResultSource { name: string; provider: Provider }
+export interface ResultSource { name: string; provider: Provider; searchUrl?: (query: string) => string }
 
 function option(label: string, value: string): HTMLOptionElement {
   const element = document.createElement('option');
@@ -29,6 +30,8 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const names = new Map(sources.map((source) => [source.provider.id, source.name]));
   const selected = new Set(names.keys());
   const statusItems = new Map<string, HTMLLIElement>();
+  const renderedStates = new Map<string, ProviderSearchState>();
+  const nativeSearches = new Map(sources.map((source) => [source.provider.id, source.searchUrl]));
   const cards = new Map<ModelResult, HTMLElement>();
   let snapshot: SearchSnapshot = { query: '', states: [], results: [] };
   let formats: string[] = [];
@@ -48,6 +51,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     label.append(checkbox, document.createTextNode(source.name));
     repositories.append(label);
     const item = document.createElement('li');
+    item.dataset.status = 'idle';
     item.textContent = `${source.name}: idle`;
     statuses.append(item);
     statusItems.set(source.provider.id, item);
@@ -98,7 +102,10 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       : failed ? 'Search could not complete. Check provider status or open the source directly.' : 'No models found.';
     for (const state of snapshot.states) {
       const item = statusItems.get(state.providerId);
-      if (item) {
+      // Preserve action links and keyboard focus when only another provider updates.
+      if (item && renderedStates.get(state.providerId) !== state) {
+        renderedStates.set(state.providerId, state);
+        item.dataset.status = state.status;
         item.textContent = `${names.get(state.providerId) ?? state.providerId}: ${state.status === 'setup-required' ? 'Setup required' : state.status}`
         + (state.status === 'success' ? ` (${state.results.length} models)` : '')
         + (state.status === 'failed' ? ` — ${state.error}` : '');
@@ -107,6 +114,16 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
           link.href = `../settings/index.html#provider-${encodeURIComponent(state.providerId)}`;
           link.textContent = 'Configure';
           item.append(' · ', link);
+          const searchUrl = nativeSearches.get(state.providerId)?.(snapshot.query);
+          const safeUrl = searchUrl ? safeModelUrl(searchUrl) : undefined;
+          if (safeUrl) {
+            const direct = document.createElement('a');
+            direct.href = safeUrl;
+            direct.target = '_blank';
+            direct.rel = 'noopener noreferrer';
+            direct.textContent = 'Search directly';
+            item.append(' · ', direct);
+          }
         }
       }
     }

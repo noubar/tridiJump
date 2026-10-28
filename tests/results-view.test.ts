@@ -11,6 +11,7 @@ import { cultsCredentialFields } from '../src/providers/cults3d';
 import { saveCredentials } from '../src/providers/credentials';
 import { createCultsProvider } from '../src/providers/cults3d';
 import fixture from './fixtures/cults3d/search.json';
+import { SetupRequired } from '../src/providers/credentials';
 
 const model = (title: string, providerId = 'a', metadata: Partial<ModelResult> = {}): ModelResult => ({
   title, providerId, url: `https://example.test/${encodeURIComponent(title)}`, ...metadata,
@@ -42,6 +43,50 @@ afterEach(() => {
 });
 
 describe('progressive results UI', () => {
+  it('distinguishes setup, failure, timeout and disabled states and preserves setup action focus', async () => {
+    const disabled = vi.fn();
+    const view = createResultsView(query('main'), [
+      { name: 'Needs setup', provider: { id: 'setup', search: async () => { throw new SetupRequired(); } },
+        searchUrl: (value) => `https://example.test/search?q=${encodeURIComponent(value)}` },
+      { name: 'Failed source', provider: provider('failed', 5, [], true) },
+      { name: 'Slow source', provider: { id: 'slow', search: () => new Promise(() => {}) } },
+      { name: 'Disabled source', provider: { id: 'disabled', search: disabled } },
+    ]);
+    view.search('cap & bolt', new Set(['disabled']));
+    await vi.advanceTimersByTimeAsync(0);
+    const setup = query('#provider-status [data-status="setup-required"]');
+    expect(setup.textContent).toContain('Setup required');
+    expect(setup.getAttribute('role')).not.toBe('alert');
+    const [configure, direct] = setup.querySelectorAll('a');
+    expect(configure?.textContent).toBe('Configure');
+    expect(configure?.getAttribute('href')).toBe('../settings/index.html#provider-setup');
+    expect(direct?.textContent).toBe('Search directly');
+    expect(new URL(direct!.href).searchParams.get('q')).toBe('cap & bolt');
+    expect(direct?.rel).toBe('noopener noreferrer');
+    expect(direct?.target).toBe('_blank');
+    configure!.focus();
+    await vi.advanceTimersByTimeAsync(10_000);
+    expect(query('#provider-status [data-status="failed"]').textContent).toContain('Failed source: failed');
+    expect(query('#provider-status [data-status="timed-out"]').textContent).toContain('Slow source: timed-out');
+    expect(query('#provider-status [data-status="disabled"]').textContent).toContain('Disabled source: disabled');
+    expect(document.activeElement).toBe(configure);
+    expect(setup.querySelector('a')).toBe(configure);
+    expect(disabled).not.toHaveBeenCalled();
+    view.cancel();
+  });
+
+  it('omits an unsafe native fallback while retaining Configure', async () => {
+    const view = createResultsView(query('main'), [{ name: 'Setup',
+      provider: { id: 'setup', search: async () => { throw new SetupRequired(); } },
+      searchUrl: () => 'javascript:alert(1)' }]);
+    view.search('cap');
+    await vi.advanceTimersByTimeAsync(0);
+    const links = query('#provider-status').querySelectorAll('a');
+    expect(links).toHaveLength(1);
+    expect(links[0]?.textContent).toBe('Configure');
+    view.cancel();
+  });
+
   it('routes an available unconfigured authenticated adapter to Settings without a failed state', async () => {
     mockExtensionStorage();
     const fetchMock = vi.fn();
@@ -74,6 +119,8 @@ describe('progressive results UI', () => {
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
     expect(query('#provider-status').textContent).toContain('Thingiverse: Setup required');
+    const setupLinks = query('#provider-status').querySelectorAll<HTMLAnchorElement>('[data-status="setup-required"] a');
+    expect([...setupLinks].filter((link) => link.textContent === 'Search directly')).toHaveLength(3);
     expect(query('#provider-status').textContent).not.toContain('failed');
     expect(query('#fallback-status').textContent).toContain('Thangs: direct search only');
     expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
@@ -115,6 +162,7 @@ describe('progressive results UI', () => {
     expect(fetchMock).toHaveBeenCalledOnce();
     expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
     expect(query('#provider-status').textContent).toContain('Cults3D: success');
+    expect(document.querySelector('#provider-status [data-status="success"] a')).toBeNull();
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
     expect(query('#provider-status').textContent).toContain('Thingiverse: Setup required');
     expect(titles()).toHaveLength(2);
