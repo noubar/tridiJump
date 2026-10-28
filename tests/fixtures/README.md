@@ -3,9 +3,11 @@
 `printables/search.json` is original synthetic data for the minimal
 `data.searchPrints2.items/totalCount` shape recorded in the original first-party
 investigation. IDs and names are fictitious, not captured live results. It covers
-only previously observed ID/name/slug/likes/downloads fields. It deliberately
-does not guess thumbnail, creator, pricing, rating-scale or enum definitions.
-Current Chromium compatibility is pending; these mocks do not prove it.
+ID/name/slug/likes/downloads fields plus an original fictitious `image.filePath`
+for the cover-image candidate. No creator assets or live image paths were captured.
+The user verified basic Chromium search/model links on 2026-10-28; cover-field
+schema and media URL mapping remain pending manual verification. Mocks do not
+prove image availability, and no creator/pricing/rating-scale/enum mappings are added.
 
 All records in `myminifactory/search.json` and `thingiverse/search.json` are
 original synthetic test data, not captured responses. Names, IDs and images are

@@ -14,17 +14,16 @@ integrations live. This Settings update is verified with fixtures and mocked
 extension storage; authenticated live testing was not repeated by the agent.
 Synonym expansion is not implemented.
 
-An anonymous [Printables GraphQL candidate](docs/provider-printables.md) now feeds
-the same grid, with bounded pagination and native fallback. Its minimal schema is
-based on the earlier recorded first-party response; **live Chromium verification
-is pending**. Codex HTTP refusals do not prove extension access is impossible.
-No Printables credentials are needed. Thumbnails, creator, ratings, creation date,
-formats and prices remain unknown until their response fields/semantics are verified.
-The user's Chromium test found a page-fetch CORS failure (preflight HTTP 200,
-missing Access-Control-Allow-Origin). Printables now uses a single-purpose local
-MV3 service worker via validated runtime messages; its live result retrieval
-still needs verification. Cancellation discards late replies immediately, while
-an already-started worker network request may finish.
+Anonymous [Printables search](docs/provider-printables.md) now feeds the same grid.
+The user **live verified basic Chromium search, real cards and a tested model link
+on 2026-10-28**, using the packaged MV3 worker. No Printables credentials are needed.
+Only `image { filePath }` is now added as a cover-image candidate; its fixed media
+URL mapping and actual image loading remain **pending manual verification**.
+Creator, ratings, creation date, formats, prices, native orderings and full live
+pagination/exhaustion are not claimed verified. Pagination code and native fallback
+are preserved. Cancellation discards late replies immediately, while an
+already-started worker request may finish. See the report for the earlier CORS
+finding, new thumbnail checklist and query-only rollback if the image field fails.
 
 ## Development
 

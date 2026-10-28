@@ -25,8 +25,8 @@ export function registerPrintablesHandler(runtime: PrintablesRuntime): void {
     try {
       if (Date.now() < blockedUntil) throw new PrintablesFailure('rate-limited');
       const { query, limit, offset } = message;
-      // Same GraphQL selection/arguments as before the transport move.
-      const operation = `query { searchPrints2(query: ${JSON.stringify(query)}, limit: ${limit}, offset: ${offset}) { totalCount items { id name slug likesCount downloadCount } } }`;
+      // Only image.filePath is added to the live-working minimal selection.
+      const operation = `query { searchPrints2(query: ${JSON.stringify(query)}, limit: ${limit}, offset: ${offset}) { totalCount items { id name slug likesCount downloadCount image { filePath } } } }`;
       let response: Response;
       try {
         response = await fetch(ENDPOINT, {

@@ -1,9 +1,72 @@
 # Printables GraphQL candidate integration
 
-Updated 2026-10-28. **Implementation: connected anonymous candidate. Live Chromium
-verification: PENDING.** This supersedes the earlier direct-search-only disposition.
+Updated 2026-10-28. **Basic anonymous search/model links: LIVE VERIFIED by the
+user in Chromium. Cover thumbnail: CANDIDATE / PENDING manual verification.**
+This supersedes the earlier pending-search and direct-search-only dispositions.
 An HTTP refusal from Codex does not prove that a locally installed extension
 will be refused. Conversely, fixtures do not prove that it will succeed.
+
+## Live basic-search checkpoint — 2026-10-28
+
+The user rebuilt/reloaded the unpacked extension and reported successful real
+Printables cards, real titles, and a tested card opening its corresponding model
+page. This is user-run manual evidence, not an agent-run browser test or a fixture.
+
+| Capability / field | Current evidence status |
+| --- | --- |
+| MV3 worker reaches Printables; anonymous `searchPrints2` | **LIVE VERIFIED**, 2026-10-28 |
+| `id` / `name` / `slug` normalization into real cards | **LIVE VERIFIED**, 2026-10-28 |
+| Constructed model URL | **LIVE VERIFIED** for the tested card destination, 2026-10-28 |
+| `image.filePath` and fixed media URL; real cover display | **CANDIDATE / PENDING**; this task's only query increment |
+| Creator, rating, publication date, price, formats | **NOT LIVE VERIFIED**; no new mappings in this task |
+| Native ordering/filter enums | **NOT LIVE VERIFIED**; no new arguments |
+| Full pagination, >20 distinct models and exhaustion | **NOT LIVE VERIFIED** by this checkpoint; existing code/tests preserved |
+| Exact likes/download values and their native-page comparison | Still not separately verified; existing valid-integer mappings preserved |
+
+### Cover-image increment and manual acceptance
+
+Only `image { filePath }` is added to the live-working item selection. Endpoint,
+message transport, arguments, batch size, offset, totalCount, IDs/titles/slugs,
+likes/downloads, failure isolation and native fallback are preserved. There is
+one GraphQL search request per requested page and no model-detail enrichment.
+
+A candidate thumbnail is built with `new URL(filePath, 'https://media.printables.com/')`
+only for a nonempty relative string path. It must resolve to that exact HTTPS
+origin without credentials, query or fragment. Validation rejects leading slash,
+absolute/scheme/protocol-relative paths, backslashes, controls/whitespace,
+dot traversal, malformed escapes and nested percent encodings. Checks include
+decoded path segments, so encoded traversal cannot silently become another path.
+Missing/null/malformed/unsafe images leave `thumbnail` absent without removing
+the model or changing its raw pagination count.
+
+The existing renderer uses a lazy `<img>` with no-referrer and a parent model
+link; load errors restore No preview. It does not fetch image bytes through the
+worker. The manifest has `script-src 'self'; object-src 'self'` but no `img-src`
+or `default-src` restriction. Normal remote image display therefore needs no
+new host grant or CSP change, consistent with the current
+[Chrome extension CSP configuration](https://developer.chrome.com/docs/extensions/reference/manifest/content-security-policy).
+The manifest, media permissions and shared renderer
+are unchanged; the media URL mapping itself remains a live-verification candidate.
+
+Manual thumbnail test:
+
+1. Run `npm run build`.
+2. Reload the unpacked `dist/` extension.
+3. Open a fresh Results page.
+4. Search `test` or `cap`, using All prices.
+5. Verify Printables cards display their corresponding real cover images.
+6. Click several images/cards and check the correct original model destinations.
+7. Check that no unrelated/broken images are displayed and missing previews fall
+   back cleanly. Record the thumbnail result separately from the basic checkpoint.
+
+If the image query addition produces a live GraphQL failure, **STOP** and remove
+only `image { filePath }` from the bundled operation in
+`src/providers/printables-background.ts`, then rebuild/reload. That restores the
+last live-working minimal query. Do not add alternate scraping, detail requests,
+challenge handling or automatic richer-query fallback attempts. The optional
+normalizer can remain: absent image data simply preserves No preview. No live
+image-query failure has been reported in this task; no speculative rollback or
+claim of successful live cover retrieval is made.
 
 ## Chromium CORS finding and targeted transport change
 
@@ -16,9 +79,9 @@ it does **not** prove an actual GraphQL-operation HTTP 403, schema error or need
 for authentication. The GraphQL query has not been changed in response to CORS.
 
 This finding motivated moving only Printables HTTP transport to a packaged MV3
-module service worker. Whether that worker receives valid search data remains
-**PENDING**. No subsequent live worker request or successful real card retrieval
-is claimed by the automated tests.
+module service worker. The subsequent user-run basic search checkpoint above
+establishes that it receives usable search data. Automated tests alone did not
+establish that result; cover-image loading remains pending.
 
 ## Evidence and implementation boundary
 
@@ -32,19 +95,86 @@ historical protocol evidence, not a current frontend trace or public API promise
 Current indexed first-party model pages, for example
 [Cap Holder](https://www.printables.com/model/587926-cap-holder), confirm the
 `https://www.printables.com/model/<id>-<slug>` path form. That supports URL
-construction; it does not verify a current search-to-detail match in Chromium.
+construction; the user's subsequent tested card verifies a live search-to-detail
+match independently of that indexed page.
 No third-party adapter, GraphQL query implementation, image-path convention or
 ordering enum was copied or adopted from search hits.
 
-The candidate deliberately uses only that recorded minimal search structure.
-No unobserved thumbnail/creator fields, image CDN templates, GraphQL enum names,
-filter arguments or authentication mechanisms are guessed. Current full-schema
+The implementation retains the recorded minimal search structure, now with only
+the user-authorized `image.filePath` cover candidate. No creator fields, GraphQL
+enum names, filter arguments or authentication mechanisms are added. Full-schema
 verification remains pending. This is an undocumented/unsupported frontend
 interface and may change without notice; it is not an official developer API.
 The packaged registry's classification A means no user credentials, not official
-API support or successful live verification.
+API support; live status is recorded per capability above.
 
 ## Actual extension request
+
+### Additional user-supplied Python protocol evidence
+
+On 2026-10-28 the user supplied a Python implementation reportedly able to search
+Printables. It was read as protocol evidence only: it was not executed, ported,
+installed as a dependency or copied into the repository. Its scraping,
+cloudscraper, browser-like User-Agent, file-list/download and per-model enrichment
+paths are outside this integration and have not been adopted.
+
+Its search operation is named `SearchModels`, with variables declared as
+`query: String!`, `limit: Int` and `ordering: SearchChoicesEnum`. It calls
+`searchPrints2` with `printType: print` and aliases the response as `result`.
+Neither operation naming nor aliases establish a requirement of the endpoint.
+The alias would produce `data.result.items`; our unchanged query/parser uses
+`data.searchPrints2.items`. Do not change one without verifying the other.
+
+At the time the Python evidence was supplied, no current worker search fields
+had been live verified. The later user-run checkpoint now verifies basic search,
+ID/name/slug cards and a tested URL. Historical first-party responses, supplied
+code, synthetic tests and the user-run checkpoint remain distinct evidence sources.
+The Python example does not itself establish any richer combined query.
+
+| Candidate | Evidence in supplied implementation | Current tridiJump status / verification needed |
+| --- | --- | --- |
+| `id`, `name`, `slug` | Selected in `Model` fragment; used for title and model URL | Now user-live-verified in the minimal worker query and a tested model match |
+| `likesCount`, `downloadCount` | Selected as statistics | Already in minimal query; valid integer normalization tested, current live values pending |
+| `user.publicUsername` | Selected via `AvatarUser`; used as author | Candidate creator mapping only; verify nullable user/name shapes in live search response |
+| `user.handle` | Selected via `AvatarUser` | Candidate only; no fallback/name semantics assumed |
+| `image.filePath` | Selected in `Model`; prefixed with `https://media.printables.com/` by script | This task adds only this candidate selection and safe fixed-origin mapping; live cover match is pending |
+| `ratingAvg` | Selected and included in statistics | Historical first-party numeric-string observation also exists; current type, scale and missing-value semantics still need verification |
+| `datePublished` | Selected as publication date | Publication candidate only; never relabel as `createdAt` |
+| `printType: print` | Search argument | Unverified in our current worker; do not infer free-only coverage or price semantics |
+| `best_match`, `popular`, `latest`, `rating`, `makes_count` | Script's ordering choices and `SearchChoicesEnum` variable | All are candidates, not live verified enum values or UI sort mappings; makes are not downloads, publication is not creation, popularity is source-local |
+| `offset`, `totalCount` | Neither requested by this script | Preserve existing implementation and historical evidence; the script does not verify pagination or the richer combined query |
+| Price, formats, license | No relevant search selection in supplied operation | Remain unknown; no enrichment requests will be added |
+
+The supplied implementation adds no current live evidence for the proposed
+combination of `printType`, ordering, offset, totalCount and richer fields.
+Fragments and `__typename` are syntax observed in that script, not a reason to
+replace the minimal selection or introduce additional requests.
+
+Incremental verification sequence (the basic checkpoint has now succeeded):
+
+1. Preserve the now-live-working basic query and tested card destinations.
+   Full live pagination/exhaustion remains a separate pending check.
+2. This task adds only `image { filePath }`; verify it with the manual cover
+   checklist above. Retain `totalCount`, offset and current identity/statistic
+   fields. Creator/rating/date fields remain outside this task. Record sanitized
+   path/null shapes and the native cover comparison before declaring thumbnails live.
+3. Test `printType: print` separately from ordering; verify catalog/access
+   semantics rather than declaring all results free. Verify each useful native
+   ordering separately, including behavior across the next page, before mapping
+   any UI control. Never equate `makes_count` to downloads or claim global sorts.
+4. Candidate fields have original synthetic fixtures and normalization tests;
+   promote each to live verified only after its own manual check. Keep later
+   increments separate. Perform each development query increment in
+   trusted bundled worker code; do not expose arbitrary GraphQL/headers/URLs
+   through runtime messaging. Mark each verified item with its test date and
+   evidence; do not promote the other candidates with it.
+
+There will still be one GraphQL search request per requested page, without
+model details, file lists, descriptions, gallery scraping or `getDownloadLink`.
+No automatic richer-query retry/fallback probes or additional API/media host
+permissions are introduced. Stop on a server refusal; no supplied workaround
+will be used. Only the cover selection is enabled as a candidate in this task;
+basic worker search is live verified, while other richer fields/arguments remain omitted.
 
 `src/providers/printables.ts` retains the existing `Provider.search()` and
 `searchPage()` interface, normalization and pagination. It sends only
@@ -62,7 +192,7 @@ are checked. Unknown types, extra URL/origin/hostname/method/header/Authorizatio
 fields, and all other inputs are rejected without a network request. No external
 message listener, arbitrary URL forwarding or remote registry dispatch exists.
 
-The worker owns the fixed endpoint, unchanged GraphQL construction and anonymous
+The worker owns the fixed endpoint, bundled GraphQL construction and anonymous
 fetch. It normalizes the response before returning `{ ok: true, page }`. Errors
 cross the channel only as `{ ok: false, error: { kind, status? } }`: network,
 HTTP, GraphQL, invalid JSON/shape, invalid input or rate limit. No Response object,
@@ -72,7 +202,7 @@ The client maps these categories to bundled messages and validates reply shape.
 A search for `cap` initially sends this anonymous JSON POST:
 
 ```json
-{"query":"query { searchPrints2(query: \"cap\", limit: 20, offset: 0) { totalCount items { id name slug likesCount downloadCount } } }"}
+{"query":"query { searchPrints2(query: \"cap\", limit: 20, offset: 0) { totalCount items { id name slug likesCount downloadCount image { filePath } } } }"}
 ```
 
 The string value is encoded using `JSON.stringify`, so user text cannot become
@@ -104,7 +234,8 @@ Server authentication, access controls and usage restrictions still apply.
 | `query` | Exact normalized query that produced the result, including a supplied variant |
 | `downloads` | Nonnegative integer `downloadCount`, when present |
 | `popularity` | Nonnegative integer `likesCount`, source-local only |
-| Thumbnail, creator | Not mapped: current search field selections/URL forms unverified; cards show the existing No preview placeholder |
+| Thumbnail | Candidate `image.filePath` under fixed `https://media.printables.com/`; invalid/missing data retains No preview; live cover verification pending |
+| Creator | Not mapped; no creator field added |
 | Free/paid, amount/currency | Unknown. Missing price does not imply Free; no all-free capability declared |
 | Rating | Omitted: historical numeric-string `ratingAvg` exists, but its scale has not been verified |
 | Creation date | Omitted: historical `datePublished` is not proof of creation time |
@@ -180,9 +311,10 @@ inaccessibility also is not a server-status measurement. No further protected
 requests were made after the clarification; no bypass was attempted.
 
 During the earlier investigation, browser discovery returned no connected browser.
-The subsequent user-run Chromium test established the page CORS finding recorded
-above. Successful GraphQL-operation data and worker transport remain unverified.
-No successful live search populated Printables cards during this development run.
+The first user-run Chromium test established the page CORS finding recorded
+above. The subsequent user-run rebuilt-worker test on 2026-10-28 verified basic
+search cards and a tested model URL. The agent has not independently repeated
+that live test; thumbnail and full pagination verification remain pending.
 
 [Prusa general terms](https://www.prusa3d.com/page/general-terms-and-conditions-of-use-of-the-prusa-websites_231226/)
 9.1, 9.3 and 9.5 address unauthorized extraction, unreasonable technical burden
@@ -204,13 +336,13 @@ no credential form, enabled/disabled handling, Searching, safe clickable cards,
 progressive insertion and Load more; three real authenticated adapters remain
 independent under mocked HTTP.
 
-**Real-browser acceptance remains PENDING:**
+**Remaining browser checks (basic search/model link already live verified):**
 
 1. Run `npm run build`, then reload the unpacked `dist/` extension in Chromium.
    Confirm its background service worker is registered and refresh Results pages.
 2. Enable Printables in Settings; no Printables credential configuration exists.
 3. Search `cap`, inspect Printables status, with All prices selected. Expect Searching, then actual cards if
-   this anonymous interface is accepted. Missing previews/prices are expected.
+   this anonymous interface is accepted. Cover support is now candidate; missing prices stay unknown.
 4. Open several cards and compare IDs/titles/destinations with native search.
 5. Click Load more and confirm **more than 20 distinct Printables models**.
 6. Start another search while Printables is loading (also during Load more);
@@ -222,7 +354,8 @@ independent under mocked HTTP.
 
 For GraphQL/schema errors, report only the sanitized category and inspect the
 ordinary logged-out frontend Network operation using the guidance below. Mark
-the transport **LIVE VERIFIED** only after this manual acceptance succeeds.
+only the newly tested capabilities live verified. Basic transport/search/model
+links are already verified by the checkpoint; full pagination is not implied.
 
 If the candidate query fails because the current schema differs, the required
 next evidence is a **sanitized ordinary, logged-out browser Network trace**:
@@ -260,9 +393,10 @@ tests), `npm run typecheck` (passed), `npm run build` (passed), and
 `git diff --check` (passed; line-ending notices only). Generated manifest and
 all three entry-page asset references were inspected. The bundled Printables
 endpoint is present, with no fake keys, fixture IDs/titles or test error strings.
-No dependencies were introduced. Real Chromium cards, image/creator fields,
-current native ordering/filter values and live pagination remain pending as
-described above; mocks are not live acceptance evidence.
+No dependencies were introduced. At that candidate-stage check, real Chromium
+cards, optional metadata and live pagination had not been verified. The later
+user checkpoint now verifies basic cards and a tested link; remaining capabilities
+have their separate statuses above. Mocks are not live acceptance evidence.
 
 ### Targeted Chromium transport follow-up
 
@@ -289,5 +423,25 @@ reported only line-ending notices). Generated `dist/manifest.json`,
 The Printables HTTP endpoint appears only in the worker transport bundle;
 precise API grants and `storage` are unchanged. No new dependencies, proxy,
 credential use, content scripts or unrelated styling/features were added.
-Live worker search, clickable real cards and >20 distinct models still require
-the manual checklist above before any **LIVE VERIFIED** designation.
+At that transport-stage check, live worker search, clickable cards and >20
+distinct models were pending. The subsequent user checkpoint now establishes
+basic worker search/cards and a tested model URL as LIVE VERIFIED; >20 distinct
+models and full pagination/exhaustion remain unverified.
+
+### Cover thumbnail follow-up — 2026-10-28
+
+Only the worker's image selection and provider-local optional thumbnail mapping
+changed in runtime behavior. Registry/Results status text, README and live
+enablement notes now distinguish basic LIVE VERIFIED search from candidate
+previews. The existing synthetic fixture includes a fictitious cover path; it
+is not a captured successful image response. Forty additional cases cover
+missing/null/invalid/unsafe image paths, fixed-origin cover construction,
+retained models/raw continuations and the existing image-error placeholder.
+
+`npm test` passed **343 tests across 22 files**. `npm run typecheck`,
+`npm run build` and `git diff --check` passed (line-ending notices only).
+Generated manifest, worker query, local assets and bundled media mapping were
+inspected. Host permissions/CSP, provider contract, worker architecture, shared
+renderer and other adapters are unchanged. Cover-field response compatibility,
+actual image loading and native cover matches remain CANDIDATE / PENDING until
+the manual thumbnail checklist succeeds.

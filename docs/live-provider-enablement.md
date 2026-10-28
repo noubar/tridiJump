@@ -6,11 +6,14 @@ No synonyms or later roadmap features are included.
 
 **Printables follow-up:** the [GraphQL candidate](provider-printables.md) is now
 connected anonymously, based on the historical first-party schema observation.
-Live Chromium verification remains **pending**, not disproven by Codex HTTP 403.
+The user live verified basic worker search, real cards and a tested model link
+on **2026-10-28**. Cover images are now a candidate awaiting manual verification;
+full live pagination/exhaustion and other optional mappings are not claimed verified.
 The original three authenticated integrations and their evidence below are unchanged.
 The user's Chromium test subsequently found page-context CORS failure after a
 200 preflight lacking Access-Control-Allow-Origin. Printables transport now uses
-the packaged MV3 worker; GraphQL data and final browser acceptance remain pending.
+the packaged MV3 worker. The subsequent successful basic search checkpoint is
+distinct from still-pending optional-field and full pagination verification.
 
 ## Outcome and limits
 
@@ -136,12 +139,13 @@ HTML challenges**, not parsed model JSON. No further requests were made to those
 protected search routes. The staging documentation was readable; only its public
 schema was inspected. No calls are made to staging from the extension.
 
-### Printables — anonymous GraphQL candidate, Chromium verification pending
+### Printables — anonymous search live verified; cover images pending
 
 See the [Printables integration report](provider-printables.md) for the candidate
-query, fields, tests, precise API permission and pending browser acceptance test.
-Codex HTTP requests returned 403, but the actual extension execution context is
-untested. No browser-session borrowing, header impersonation or bypass is used.
+query, fields, tests, precise API permission and thumbnail acceptance test.
+Codex HTTP requests returned 403, but the user subsequently verified basic search
+and a tested card destination in Chromium. No browser-session borrowing, header
+impersonation or bypass is used. Full pagination remains a separate pending check.
 The following paragraphs preserve the earlier investigation's evidence, rather
 than the current implementation disposition.
 

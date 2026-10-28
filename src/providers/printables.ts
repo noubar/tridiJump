@@ -7,7 +7,7 @@ import { PrintablesFailure, printablesRuntime } from './printables-messages';
 import type { PrintablesErrorKind } from './printables-messages';
 
 // Undocumented frontend interface. See docs/provider-printables.md for evidence
-// and pending Chromium verification. Never supplied by registry or credential data.
+// and pending thumbnail verification. Never supplied by registry or credential data.
 const record = (value: unknown): Record<string, unknown> | undefined =>
   value !== null && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
 const count = (value: unknown): number | undefined =>
@@ -16,7 +16,23 @@ function checkAbort(signal?: AbortSignal) {
   if (signal?.aborted) throw new DOMException('Search aborted', 'AbortError');
 }
 
-/** Only fields recorded in the original first-party search observation are used. */
+/** Candidate cover mapping; remote data may supply a relative path, never an origin. */
+function thumbnailUrl(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value || value !== value.trim() || value.startsWith('/')) return;
+  try {
+    const decoded = decodeURIComponent(value);
+    // Reject scheme syntax, backslashes, controls, URL suffixes and encoded traversal.
+    // Reject remaining percent escapes too, so nested encodings cannot hide separators.
+    if (/[:\\?#%\u0000-\u0020\u007f-\u009f]/.test(decoded)
+      || decoded.split('/').some((part) => !part || part === '.' || part === '..')) return;
+    const origin = 'https://media.printables.com';
+    const target = new URL(value, `${origin}/`);
+    if (target.origin !== origin || target.username || target.password || target.search || target.hash) return;
+    return target.href;
+  } catch { return; }
+}
+
+/** Minimal model fields plus the isolated cover-image candidate; unknowns stay optional. */
 export function normalizePrintablesPage(payload: unknown, query: string, offset = 0): ResultPage {
   const root = record(payload);
   if (root?.errors !== undefined && (!Array.isArray(root.errors) || root.errors.length)) {
@@ -43,7 +59,9 @@ export function normalizePrintablesPage(payload: unknown, query: string, offset 
     const popularity = count(item!.likesCount);
     if (downloads !== undefined) result.downloads = downloads;
     if (popularity !== undefined) result.popularity = popularity;
-    // No verified thumbnail/creator schema, rating scale, free/paid semantics or
+    const thumbnail = thumbnailUrl(record(item!.image)?.filePath);
+    if (thumbnail) result.thumbnail = thumbnail;
+    // No verified creator schema, rating scale, free/paid semantics or
     // creation timestamp. Publication date must not be relabeled as creation.
     results.push(result);
   }

@@ -8,6 +8,7 @@ import { SearchOrchestrator } from '../src/search/orchestrator';
 import type { SearchSnapshot } from '../src/search/orchestrator';
 import { mockExtensionStorage } from './helpers/extension-storage';
 import { mockPrintablesRuntime } from './helpers/printables-runtime';
+import { createModelCard } from '../src/results/card';
 import fixture from './fixtures/printables/search.json';
 import cults from './fixtures/cults3d/search.json';
 import mmf from './fixtures/myminifactory/search.json';
@@ -31,7 +32,7 @@ afterEach(() => {
   vi.clearAllTimers(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals();
 });
 
-describe('Printables candidate request and normalization (synthetic responses, live Chromium pending)', () => {
+describe('Printables request and normalization (synthetic responses, live thumbnail check pending)', () => {
   it('sends only structured search inputs to the worker, whose fixed anonymous request escapes text and never loads credentials', async () => {
     for (const source of providerAvailability.filter((source) => source.classification === 'B')) {
       await saveCredentials(source.id, source.createProvider().credentialFields!, {
@@ -53,18 +54,60 @@ describe('Printables candidate request and normalization (synthetic responses, l
     const body = JSON.parse(init!.body as string);
     expect(body.query).toContain(`query: ${JSON.stringify(query)}`);
     expect(body.query).toContain('limit: 20, offset: 0');
-    expect(body.query).toContain('totalCount items { id name slug likesCount downloadCount }');
+    expect(body.query).toBe(`query { searchPrints2(query: ${JSON.stringify(query)}, limit: 20, offset: 0) { totalCount items { id name slug likesCount downloadCount image { filePath } } } }`);
     expect(JSON.stringify([url, init])).not.toMatch(/FAKE-OTHER|fake-printables-boundary-user/);
     expect(storage.local.get).not.toHaveBeenCalled();
   });
 
   it('normalizes observed fields without fabricating optional metadata', () => {
     const result = normalizePrintablesPage(fixture, 'cap');
-    expect(result.results[0]).toEqual({ id: '999999981', title: 'Fixture cap', url: 'https://www.printables.com/model/999999981-fixture-cap', providerId: 'printables', query: 'cap', downloads: 42, popularity: 7 });
+    expect(result.results[0]).toEqual({ id: '999999981', title: 'Fixture cap', url: 'https://www.printables.com/model/999999981-fixture-cap', providerId: 'printables', query: 'cap', downloads: 42, popularity: 7, thumbnail: 'https://media.printables.com/media/prints/999999981/images/fixture-cover.webp' });
     expect(result.results[1]).toEqual({ id: '999999982', title: 'Fixture lid', url: 'https://www.printables.com/model/999999982-fixture-lid', providerId: 'printables', query: 'cap' });
     expect(result.nextCursor).toBeUndefined();
-    const unverified = normalizePrintablesPage(batch([{ ...item(1), ratingAvg: '4.9', datePublished: '2026-01-01', price: null, image: { filePath: 'guess' }, user: { name: 'guess' } }]), 'cap').results[0]!;
+    const unverified = normalizePrintablesPage(batch([{ ...item(1), ratingAvg: '4.9', datePublished: '2026-01-01', price: null, image: { filePath: 'https://untrusted.example/guess' }, user: { name: 'guess' } }]), 'cap').results[0]!;
     for (const key of ['price', 'isFree', 'thumbnail', 'creator', 'formats', 'createdAt', 'rating']) expect(unverified).not.toHaveProperty(key);
+  });
+
+  it.each([
+    undefined, null, [], 'not-an-image', {}, { filePath: undefined }, { filePath: null },
+    { filePath: 42 }, { filePath: {} }, { filePath: [] }, { filePath: '' }, { filePath: '   ' },
+    ...[
+      'https://evil.example/cover.webp', 'https://media.printables.com/cover.webp',
+      'http://evil.example/image.jpg', '//evil.example/cover.webp', '/cover.webp',
+      'javascript:alert(1)', 'data:image/png;base64,FAKE', 'file:///cover.webp',
+      '\\evil.example\\cover.webp', 'media\\cover.webp', 'media/../cover.webp', '../cover.webp',
+      './cover.webp', 'media/./cover.webp', 'media/%2e%2e/cover.webp', 'media/%252e%252e/cover.webp',
+      '%2f%2fevil.example/cover.webp', 'https%3a%2f%2fevil.example/cover.webp',
+      'media/cover.webp?url=https://evil.example', 'media/cover.webp#fragment',
+      'media/cover.webp%3fquery', 'media/%5ccover.webp', 'media/%00cover.webp',
+      'media/cover\n.webp', ' media/cover.webp', 'media/cover.webp ', 'media/%ZZ.webp',
+    ].map((filePath) => ({ filePath })),
+  ])('omits invalid/missing image %j without dropping its model or pagination', (image) => {
+    const page = normalizePrintablesPage(batch([{ ...item(1), image }], 2), 'cap');
+    expect(page.results).toHaveLength(1); expect(page.results[0]).not.toHaveProperty('thumbnail');
+    expect(page.results[0]!.url).toBe('https://www.printables.com/model/1-fixture-1');
+    expect(page.nextCursor).toBe('1');
+    const card = createModelCard(page.results[0]!, 'Printables');
+    expect(card.querySelector('img')).toBeNull();
+    expect(card.querySelector<HTMLSpanElement>('.model-preview span')!.hidden).toBe(false);
+    expect(card.textContent).toContain('No preview');
+  });
+
+  it('renders only the normalized cover and restores No preview when loading fails, preserving the model link', async () => {
+    const request = vi.fn(async () => json(fixture)); vi.stubGlobal('fetch', request);
+    const results = await createPrintablesProvider().search('cap');
+    const card = createModelCard(results[0]!, 'Printables');
+    const image = card.querySelector<HTMLImageElement>('img')!;
+    expect(image.src).toBe('https://media.printables.com/media/prints/999999981/images/fixture-cover.webp');
+    expect(image.referrerPolicy).toBe('no-referrer'); expect(image.loading).toBe('lazy');
+    const link = card.querySelector<HTMLAnchorElement>('a')!;
+    expect(link.href).toBe('https://www.printables.com/model/999999981-fixture-cap');
+    expect(card.querySelector<HTMLSpanElement>('.model-preview span')!.hidden).toBe(true);
+    image.dispatchEvent(new Event('error'));
+    expect(card.querySelector('img')).toBeNull();
+    expect(card.querySelector<HTMLSpanElement>('.model-preview span')!.hidden).toBe(false);
+    expect(card.querySelector('a')).toBe(link);
+    expect(request).toHaveBeenCalledOnce(); // No image-byte fetch or per-model enrichment.
   });
 
   it('skips malformed entries, constrains canonical paths and preserves untrusted title text', () => {
@@ -246,7 +289,7 @@ describe('Printables through the existing orchestrator and extension entries', (
     await import('../src/settings/main'); await vi.advanceTimersByTimeAsync(0);
     const toggle = document.querySelector<HTMLInputElement>('#repository-printables')!;
     expect(toggle.checked).toBe(true); expect(toggle.disabled).toBe(false);
-    expect(toggle.closest('li')!.textContent).toContain('Chromium live verification pending');
+    expect(toggle.closest('li')!.textContent).toContain('cover previews pending live verification');
     expect(document.querySelector('[id^="credential-printables"]')).toBeNull();
     expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.printables')).toBe(false);
     toggle.checked = false; toggle.dispatchEvent(new Event('change')); await vi.advanceTimersByTimeAsync(0);
