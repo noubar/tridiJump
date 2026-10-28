@@ -106,7 +106,9 @@ describe('progressive results UI', () => {
     vi.resetModules();
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
-    const { local } = mockExtensionStorage();
+    const { data, local } = mockExtensionStorage();
+    // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
+    data['tridijump.repositories'] = { printables: false };
     const credentialKeys = ['tridijump.credentials.cults3d', 'tridijump.credentials.myminifactory', 'tridijump.credentials.thingiverse'];
     window.history.replaceState(null, '', `/src/results/index.html?q=gear${expandedMode ? '&expanded=1' : ''}`);
     await import('../src/results/main');
@@ -124,7 +126,7 @@ describe('progressive results UI', () => {
     expect(query('#provider-status').textContent).not.toContain('failed');
     expect(query('#fallback-status').textContent).toContain('Thangs: direct search only');
     expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
-    expect(document.querySelectorAll('#native-searches a')).toHaveLength(6);
+    expect(document.querySelectorAll('#native-searches a')).toHaveLength(5);
     expect(new URL(query<HTMLAnchorElement>('[data-provider-id="cults3d"]').href).searchParams.get('q')).toBe('gear');
     expect(document.querySelector('#api-key')).toBeNull();
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';
@@ -147,7 +149,9 @@ describe('progressive results UI', () => {
 
   it('rechecks saved credentials on a new Expanded Search after setup-required without retrying other unconfigured APIs', async () => {
     vi.resetModules();
-    const { local } = mockExtensionStorage();
+    const { data, local } = mockExtensionStorage();
+    // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
+    data['tridijump.repositories'] = { printables: false };
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
     vi.stubGlobal('fetch', fetchMock);
     window.history.replaceState(null, '', '/src/results/index.html?q=cap&expanded=1');
@@ -193,7 +197,9 @@ describe('progressive results UI', () => {
 
   it('feeds the real Cults adapter through production orchestration into clickable cards when configured', async () => {
     vi.resetModules();
-    const { local } = mockExtensionStorage();
+    const { data, local } = mockExtensionStorage();
+    // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
+    data['tridijump.repositories'] = { printables: false };
     await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-PRODUCTION-PATH' });
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
     vi.stubGlobal('fetch', fetchMock);

@@ -13,7 +13,7 @@ import { readHistory, readPreferences, savePreferences, rememberSearch, readRepo
 import { SearchOrchestrator } from '../src/search/orchestrator';
 import type { SearchSnapshot } from '../src/search/orchestrator';
 import { mockExtensionStorage } from './helpers/extension-storage';
-const authenticated = providerAvailability.filter((source) => 'createProvider' in source);
+const authenticated = providerAvailability.filter((source) => source.classification === 'B');
 const fakeValues = { nickname: 'fixture-user', apiKey: 'FAKE-SETTINGS-KEY', appToken: 'FAKE-SETTINGS-TOKEN' };
 const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse };
 const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
@@ -24,7 +24,7 @@ function change(selector: string, value: boolean | string) {
   if (typeof value === 'boolean') input.checked = value; else input.value = value;
   input.dispatchEvent(new Event('change', { bubbles: true }));
 }
-beforeEach(() => { vi.resetModules(); localStorage.clear(); mockExtensionStorage(); });
+beforeEach(() => { vi.resetModules(); localStorage.clear(); mockExtensionStorage().data['tridijump.repositories'] = { printables: false }; });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); document.body.replaceChildren(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe('credential-independent repository enablement', () => {
@@ -59,7 +59,7 @@ describe('credential-independent repository enablement', () => {
   });
   it('retains independent selections when several repository switches change quickly', async () => {
     await Promise.all([setRepositoryEnabled('cults3d', false), setRepositoryEnabled('thingiverse', false)]);
-    expect(await readRepositories()).toEqual({ cults3d: false, thingiverse: false });
+    expect(await readRepositories()).toEqual({ printables: false, cults3d: false, thingiverse: false });
   });
 });
 

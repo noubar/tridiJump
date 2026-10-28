@@ -9,7 +9,7 @@ import cults from './fixtures/cults3d/search.json';
 import thingiverse from './fixtures/thingiverse/search.json';
 import mmf from './fixtures/myminifactory/search.json';
 import { mockExtensionStorage } from './helpers/extension-storage';
-const sources = providerAvailability.filter((source) => 'createProvider' in source);
+const sources = providerAvailability.filter((source) => source.classification === 'B');
 const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
 const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse };
 const secrets: Record<string, string> = { cults3d: 'FAKE-SETUP-CULTS', myminifactory: 'FAKE-SETUP-MMF', thingiverse: 'FAKE-SETUP-THING' };
@@ -45,7 +45,7 @@ async function start(expanded = false) {
 function status(id: string) {
   return [...document.querySelectorAll('#provider-status li')].find((item) => item.textContent?.startsWith(`${sources.find((source) => source.id === id)!.name}:`))!.getAttribute('data-status');
 }
-beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); });
+beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { printables: false }; });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); vi.clearAllTimers(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); document.body.replaceChildren(); });
 
 describe.each(sources)('$name complete credential/setup flow', (source) => {

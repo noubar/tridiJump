@@ -57,7 +57,10 @@ Only the three implemented authenticated providers have credential forms:
 Use your own free access. MyMiniFactory's documented `key` query parameter is the
 existing protocol exception; no other key is put in a URL. Requests omit cookies
 and reject redirects. Native-search URLs contain only the search query, never
-stored credentials. Printables, MakerWorld and Thangs remain native-search-only.
+stored credentials. Printables now has an anonymous GraphQL candidate and no
+credential form; its repository checkbox works normally. Chromium verification
+is pending; see [Printables notes](provider-printables.md). MakerWorld and Thangs
+remain native-search-only.
 
 ## Manual regression checks
 

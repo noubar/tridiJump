@@ -96,7 +96,7 @@ describe('credential Settings', () => {
     expect(await loadCredentials('cults3d', cultsCredentialFields)).toBeUndefined();
   });
 
-  it.each(providerAvailability.filter((source) => 'createProvider' in source))('$name replaces credentials using blank fields and never renders the old or new secret', async (source) => {
+  it.each(providerAvailability.filter((source) => source.classification === 'B'))('$name replaces credentials using blank fields and never renders the old or new secret', async (source) => {
     mockExtensionStorage();
     const provider = source.createProvider();
     const values = Object.fromEntries(provider.credentialFields!.map((field) => [field.name, field.secret ? 'FAKE-OLD-SECRET' : 'test-user']));

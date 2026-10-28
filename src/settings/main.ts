@@ -12,7 +12,7 @@ void initializeTheme();
 for (const source of providerAvailability) {
   if ('createProvider' in source) {
     const provider = source.createProvider();
-    void initializeCredentialSettings(document.querySelector(`#provider-${source.id}`)!, source.id, provider.credentialFields!);
+    if (provider.credentialFields?.length) void initializeCredentialSettings(document.querySelector(`#provider-${source.id}`)!, source.id, provider.credentialFields);
   }
 }
 const form = document.querySelector<HTMLFormElement>('#settings-form')!;
@@ -35,7 +35,8 @@ for (const source of providerAvailability) {
   label.append(input, document.createTextNode(source.name));
   const note = document.createElement('span');
   note.className = 'hint';
-  note.textContent = source.classification === 'D' ? 'Direct search only' : 'Aggregation available; configure credentials below';
+  note.textContent = source.classification === 'D' ? 'Direct search only' : source.classification === 'A'
+    ? source.reason : 'Aggregation available; configure credentials below';
   item.append(label, note);
   document.querySelector('#repository-availability')!.append(item);
   repositoryInputs.set(source.id, input);
@@ -69,9 +70,9 @@ async function loadRepositories() {
     input.checked = repositoryEnabled(source, choices);
     input.disabled = !repositoryEnabled(source, {});
     const enabled = input.checked;
-    const configured = 'createProvider' in source
+    const configured = 'createProvider' in source && source.createProvider().credentialFields?.length
       ? await credentialsConfigured(source.id, source.createProvider().credentialFields!) : undefined;
-    repositoryNotes.get(source.id)!.textContent = `${enabled ? 'Enabled' : 'Disabled'} / ${configured === undefined ? 'Direct search only' : configured ? 'Configured' : 'Setup required'}`;
+    repositoryNotes.get(source.id)!.textContent = `${enabled ? 'Enabled' : 'Disabled'} / ${source.classification === 'A' ? source.reason : configured === undefined ? 'Direct search only' : configured ? 'Configured' : 'Setup required'}`;
   }));
 }
 function reportReadError() { status.textContent = 'Some local settings could not be read. Try reopening Settings.'; }

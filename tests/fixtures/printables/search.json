@@ -1,0 +1,11 @@
+{
+  "data": {
+    "searchPrints2": {
+      "totalCount": 2,
+      "items": [
+        { "id": "999999981", "name": "  Fixture cap  ", "slug": "fixture-cap", "downloadCount": 42, "likesCount": 7 },
+        { "id": "999999982", "name": "Fixture lid", "slug": "fixture-lid" }
+      ]
+    }
+  }
+}

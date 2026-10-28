@@ -4,13 +4,22 @@ Reviewed **2026-10-28**. This is the current implementation and evidence record;
 it supersedes the all-fallback release disposition in the earlier classification.
 No synonyms or later roadmap features are included.
 
+**Printables follow-up:** the [GraphQL candidate](provider-printables.md) is now
+connected anonymously, based on the historical first-party schema observation.
+Live Chromium verification remains **pending**, not disproven by Codex HTTP 403.
+The original three authenticated integrations and their evidence below are unchanged.
+The user's Chromium test subsequently found page-context CORS failure after a
+200 preflight lacking Access-Control-Allow-Origin. Printables transport now uses
+the packaged MV3 worker; GraphQL data and final browser acceptance remain pending.
+
 ## Outcome and limits
 
 The results page now dispatches **Cults3D, MyMiniFactory and Thingiverse** adapters.
 Each loads its own local credentials, constructs a real request to its official
 API, normalizes the response, and feeds the existing orchestrator and grid.
 Missing credentials produce **Setup required**, not a failure. All six native
-search links remain available. Printables, MakerWorld and Thangs are fallback-only.
+search links remain available. MakerWorld and Thangs are fallback-only. Printables
+now has an anonymous candidate adapter; its current behavior/limits are documented separately.
 
 **No authenticated live model search was completed here.** No authorized key or
 connected browser was available. Successful authenticated responses, current key
@@ -127,17 +136,25 @@ HTML challenges**, not parsed model JSON. No further requests were made to those
 protected search routes. The staging documentation was readable; only its public
 schema was inspected. No calls are made to staging from the extension.
 
-### Printables — direct-search-only in this implementation
+### Printables — anonymous GraphQL candidate, Chromium verification pending
+
+See the [Printables integration report](provider-printables.md) for the candidate
+query, fields, tests, precise API permission and pending browser acceptance test.
+Codex HTTP requests returned 403, but the actual extension execution context is
+untested. No browser-session borrowing, header impersonation or bypass is used.
+The following paragraphs preserve the earlier investigation's evidence, rather
+than the current implementation disposition.
 
 1–2. Anonymous `https://api.printables.com/graphql/` / `searchPrints2` is a known
 technical candidate (earlier investigation returned data), but a permitted
-third-party extraction route was not established. No adapter is enabled.
+third-party extraction route was not established in that review.
 3–5. Public search data did not require credentials in that observation; free key
 issuance and acquisition are not applicable to that candidate.
 6–7. Candidate GraphQL POST has no documented third-party auth contract; no user
 session or store token is borrowed.
 8. Earlier observed fields include name, ID/slug, publication date, likes,
-downloads and rating. No current parser/thumbnail contract was implemented.
+downloads and rating. The current minimal parser uses ID/name/slug and valid
+numeric likes/downloads only; thumbnails and other mappings remain unverified.
 9. [Current Prusa GTC](https://www.prusa3d.com/page/general-terms-and-conditions-of-use-of-the-prusa-websites_231226/)
 9.1 restrict unauthorized extraction, including scraping; 9.5 addresses site
 content reuse. The [Printables terms](https://www.prusa3d.com/page/terms-of-service-of-printables-com_231249/)
@@ -189,7 +206,7 @@ Native fallback: `https://thangs.com/search/{encoded-path-query}?scope=thangs&vi
    free for your account. Save it **in Settings, never in chat**. Cults also needs
    your nickname. Fields clear; configured status appears. A saved key's presence
    does not certify remote validity or current pricing. No payment is required by tridiJump.
-4. Search **cap** in the popup or Results. The three connected providers enter
+4. Search **cap** in the popup or Results. The three authenticated providers enter
    `searching`; unconfigured ones settle as Setup required. Configured ones send
    real API requests and append cards independently as their responses arrive.
 5. Click a model card: its native anchor opens the original repository model URL

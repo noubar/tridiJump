@@ -1,5 +1,12 @@
 # Synthetic provider fixtures
 
+`printables/search.json` is original synthetic data for the minimal
+`data.searchPrints2.items/totalCount` shape recorded in the original first-party
+investigation. IDs and names are fictitious, not captured live results. It covers
+only previously observed ID/name/slug/likes/downloads fields. It deliberately
+does not guess thumbnail, creator, pricing, rating-scale or enum definitions.
+Current Chromium compatibility is pending; these mocks do not prove it.
+
 All records in `myminifactory/search.json` and `thingiverse/search.json` are
 original synthetic test data, not captured responses. Names, IDs and images are
 fictitious; do not present them as live results. No credentials or creator assets

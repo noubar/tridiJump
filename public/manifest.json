@@ -3,7 +3,8 @@
   "name": "tridiJump",
   "version": "0.1.0",
   "permissions": ["storage"],
-  "host_permissions": ["https://cults3d.com/*", "https://www.myminifactory.com/*", "https://api.thingiverse.com/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "host_permissions": ["https://cults3d.com/*", "https://www.myminifactory.com/*", "https://api.thingiverse.com/*", "https://api.printables.com/*"],
   "description": "A lightweight foundation for unified 3D-model search.",
   "action": {
     "default_title": "Open tridiJump",

@@ -12,7 +12,7 @@ import { createResultsView } from '../src/results/view';
 import { mockExtensionStorage } from './helpers/extension-storage';
 import { nextOffset, nextPage, pageNumber } from '../src/providers/pagination';
 
-const sources = providerAvailability.filter((source) => 'createProvider' in source);
+const sources = providerAvailability.filter((source) => source.classification === 'B');
 const origins: Record<string, string> = { cults3d: 'https://cults3d.com', thingiverse: 'https://api.thingiverse.com', myminifactory: 'https://www.myminifactory.com' };
 const fake = { nickname: 'pagination-test-user', apiKey: 'FAKE-PAGINATION-KEY', appToken: 'FAKE-PAGINATION-TOKEN' };
 const model = (id: string, number: number, query = 'cap'): ModelResult => ({ id: String(number), providerId: id, title: `${id} ${number}`, url: `https://example.test/${id}/${number}`, query });

@@ -3,14 +3,16 @@ import { normalizeQuery } from '../search/query';
 import { createCultsProvider, cultsSearchUrl } from './cults3d';
 import { createMyMiniFactoryProvider } from './myminifactory';
 import { createThingiverseProvider } from './thingiverse';
+import { createPrintablesProvider } from './printables';
 
 // Current V1 disposition, not a claim that these services have no APIs at all.
 // Packaged composition only, never a remote/declarative authentication registry.
 // Do not merge user credential values into this list.
 // See docs/live-provider-enablement.md for evidence and verification limits.
 export const providerAvailability = [
-  { id: 'printables', name: 'Printables', classification: 'D',
-    reason: 'Aggregation unavailable: no approved public interface; Prusa terms restrict extraction.',
+  { id: 'printables', name: 'Printables', classification: 'A',
+    reason: 'Anonymous GraphQL candidate; Chromium live verification pending. Undocumented interface may change.',
+    createProvider: createPrintablesProvider,
     searchUrl: (query: string) => queryUrl('https://www.printables.com/search/models', 'q', query) },
   { id: 'makerworld', name: 'MakerWorld', classification: 'D',
     reason: 'Aggregation unavailable: no supported public search interface verified.',

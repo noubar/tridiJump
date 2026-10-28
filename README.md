@@ -14,6 +14,18 @@ integrations live. This Settings update is verified with fixtures and mocked
 extension storage; authenticated live testing was not repeated by the agent.
 Synonym expansion is not implemented.
 
+An anonymous [Printables GraphQL candidate](docs/provider-printables.md) now feeds
+the same grid, with bounded pagination and native fallback. Its minimal schema is
+based on the earlier recorded first-party response; **live Chromium verification
+is pending**. Codex HTTP refusals do not prove extension access is impossible.
+No Printables credentials are needed. Thumbnails, creator, ratings, creation date,
+formats and prices remain unknown until their response fields/semantics are verified.
+The user's Chromium test found a page-fetch CORS failure (preflight HTTP 200,
+missing Access-Control-Allow-Origin). Printables now uses a single-purpose local
+MV3 service worker via validated runtime messages; its live result retrieval
+still needs verification. Cancellation discards late replies immediately, while
+an already-started worker network request may finish.
+
 ## Development
 
 Requires Node.js 24 or newer and npm.
@@ -124,7 +136,7 @@ npm run build       # Type check and production build
 - `src/results/`: safe card rendering, filter/sort helpers, and progressive view
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
-- `src/providers/`: small provider contract, local credentials, three isolated API adapters
+- `src/providers/`: small provider contract, local credentials, three official API adapters and an anonymous Printables candidate
 - `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
@@ -134,8 +146,12 @@ Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-on
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage and
-the three precise API origins: Cults3D, www.myminifactory.com and api.thingiverse.com.
-No tabs, scripting, cookies, staging API or background permissions are requested.
+the four precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
+and api.printables.com. The last permits the anonymous GraphQL candidate from
+the packaged Printables worker; it grants no cookies or website scripting access.
+The manifest registers `background.js` as a module service worker. No additional
+permission is needed for that registration; no tabs, scripting, cookies or staging
+API permission is requested. The other three providers keep their existing transport.
 
 ## Domain and provider contract
 
@@ -215,9 +231,10 @@ only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled IDs appear as `disabled` without invoking the
 adapter or reading its credentials. The results
-page supplies three authenticated providers. Credential loading is covered by
+page supplies three authenticated providers and the anonymous Printables candidate.
+Credential loading is covered by
 cancellation and provider timeout; a superseded or timed-out read cannot launch
-a request. Printables, MakerWorld and Thangs use native fallback, with their
+a request. MakerWorld and Thangs use native fallback, with their
 limitations documented separately. They are not counted as successful API searches.
 
 See the [credential security audit](docs/credential-security-audit.md) for the

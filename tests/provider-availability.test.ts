@@ -19,7 +19,8 @@ describe('provider classification and native fallbacks', () => {
       ].sort());
       if (!('createProvider' in source)) continue;
       const provider = source.createProvider();
-      const fields = provider.credentialFields!;
+      const fields = provider.credentialFields;
+      if (!fields?.length) continue;
       const definitions = JSON.stringify(fields);
       const values = Object.fromEntries(fields.map((field) => {
         const value = `FAKE-USER-VALUE-${source.id}-${field.name}`;
@@ -38,7 +39,7 @@ describe('provider classification and native fallbacks', () => {
   it('defines credential fields as inert packaged descriptions without executable/authentication hooks', () => {
     for (const source of providerAvailability) {
       if (!('createProvider' in source)) continue;
-      for (const field of source.createProvider().credentialFields!) {
+      for (const field of (source.createProvider().credentialFields ?? [])) {
         expect(Object.keys(field).sort()).toEqual(['label', 'name', 'secret']);
         expect(typeof field.name).toBe('string');
         expect(typeof field.label).toBe('string');
@@ -47,15 +48,16 @@ describe('provider classification and native fallbacks', () => {
     }
   });
 
-  it('connects the three user-key APIs and retains the three restricted/unavailable fallbacks', () => {
+  it('connects an anonymous candidate and three user-key APIs, retaining two fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
       'cults3d', 'makerworld', 'myminifactory', 'printables', 'thangs', 'thingiverse',
     ]);
     for (const source of providerAvailability) {
-      expect(source.classification).toBe(['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
+      expect(source.classification).toBe(source.id === 'printables' ? 'A' : ['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
       if ('createProvider' in source) {
         expect(source.createProvider().id).toBe(source.id);
-        expect(source.createProvider().credentialFields?.length).toBeGreaterThan(0);
+        if (source.classification === 'B') expect(source.createProvider().credentialFields?.length).toBeGreaterThan(0);
+        else expect(source.createProvider().credentialFields).toBeUndefined();
       }
       expect(source.reason).not.toBe('');
     }

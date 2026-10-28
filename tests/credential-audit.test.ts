@@ -7,7 +7,7 @@ import { clearCredentials, credentialDisplay, saveCredentials } from '../src/pro
 import { readHistory, savePreferences } from '../src/shared/preferences';
 import { createResultsView } from '../src/results/view';
 import { mockExtensionStorage } from './helpers/extension-storage';
-const sources = providerAvailability.filter((source) => 'createProvider' in source);
+const sources = providerAvailability.filter((source) => source.classification === 'B');
 const secrets: Record<string, string> = { cults3d: 'FAKE-AUDIT-CULTS-KEY', myminifactory: 'FAKE-AUDIT-MMF-KEY', thingiverse: 'FAKE-AUDIT-THING-TOKEN' };
 const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
 const encodedCults = btoa(`audit-test-user:${secrets.cults3d}`);

@@ -75,7 +75,7 @@ describe('provider response to price state to filter', () => {
 describe('normalized results through orchestration, live filter controls and paginated cards', () => {
   it('carries real adapter HTTP responses through the store and cards for All, Free and Paid with no per-result requests', async () => {
     mockExtensionStorage();
-    const sources = providerAvailability.filter((source) => 'createProvider' in source);
+    const sources = providerAvailability.filter((source) => source.classification === 'B');
     for (const source of sources) await saveCredentials(source.id, source.createProvider().credentialFields!, {
       nickname: 'pricing-test-user', apiKey: 'FAKE-PRICING-KEY', appToken: 'FAKE-PRICING-TOKEN',
     });

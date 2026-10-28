@@ -13,7 +13,9 @@ afterEach(() => { window.dispatchEvent(new Event('pagehide')); vi.clearAllTimers
 
 describe('actual Settings and Results entries (only extension storage and HTTP mocked)', () => {
   it('saves user configuration, searches cap, appends real-adapter cards progressively and retains native destinations', async () => {
-    const { local, sync } = mockExtensionStorage();
+    const { data, local, sync } = mockExtensionStorage();
+    // This scenario isolates the two configured authenticated sources.
+    data['tridijump.repositories'] = { printables: false };
     const fetchMock = vi.fn((endpoint: string) => {
       const url = new URL(endpoint);
       if (url.origin === 'https://www.myminifactory.com') {
@@ -67,6 +69,6 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
     for (const link of links) { expect(link.target).toBe('_blank'); expect(link.rel).toBe('noopener noreferrer'); }
     expect(document.body.innerHTML).not.toContain('FAKE-PIPELINE');
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(document.querySelectorAll('#native-searches a')).toHaveLength(6);
+    expect(document.querySelectorAll('#native-searches a')).toHaveLength(5);
   });
 });
