@@ -6,7 +6,7 @@
     <title>Settings | tridiJump</title>
     <script type="module" src="./main.ts"></script>
   </head>
-  <body>
+  <body class="settings">
     <main>
       <header class="page-header">
         <div><h1>tridiJump settings</h1><p class="muted">Make yourself at home.</p></div>
@@ -15,8 +15,10 @@
       <section class="panel" aria-labelledby="repositories-heading">
         <h2 id="repositories-heading">Repositories</h2>
         <ul id="repository-availability"></ul>
-        <p class="hint">Use only your own free API access. tridiJump requires no paid API subscription. If key creation asks you to pay for API access, use native search instead.</p>
-        <p class="hint">Credentials stay in extension local storage on this browser profile and go only to their provider. They are not synchronized. This storage is not encrypted by tridiJump or an operating-system credential vault. Removing credentials here does not revoke the provider key. Saved secrets are never filled back into these forms.</p>
+      </section>
+      <section class="panel" aria-labelledby="setup-heading">
+        <h2 id="setup-heading">Provider setup / credentials</h2>
+        <p class="hint">Use your own free API credentials. Stored locally in this browser profile and sent only to their provider; never synchronized or exported. Extension local storage is not an encrypted credential vault. Removing a key here does not revoke it at the provider.</p>
         <section id="provider-cults3d" aria-labelledby="cults-heading">
           <h3 id="cults-heading">Cults3D</h3>
           <p>Sign in and <a href="https://cults3d.com/en/api/keys" target="_blank" rel="noopener noreferrer">create a read-only API key</a>. Enter your nickname and key, never your password.
@@ -36,11 +38,16 @@
       </section>
       <form id="settings-form">
         <fieldset>
-          <legend>Search preferences</legend>
-          <label class="check" for="expanded-default"><input id="expanded-default" type="checkbox" />Expanded Search by default</label>
-          <p class="hint">Sets the initial toggle for new searches. Synonym expansion is not available yet.</p>
-          <label class="check" for="history-enabled"><input id="history-enabled" type="checkbox" />Save search history on this device</label>
-          <p class="hint">Off by default. Keeps up to 20 recent queries locally. Turning this off also clears saved history.</p>
+          <legend>Search</legend>
+          <label class="check" for="expanded-default"><input id="expanded-default" type="checkbox" />Expanded Search</label>
+          <p class="hint">Search related English and German terms too. Sets the default for new searches; related-term expansion is not available in this build.</p>
+          <label class="check" for="history-enabled"><input id="history-enabled" type="checkbox" />Save recent searches locally</label>
+          <p class="hint">Off by default. Keeps up to 50 recent queries locally. Turning this off retains existing history until you clear it.</p>
+          <section class="panel" aria-labelledby="history-heading">
+            <div class="page-header"><h2 id="history-heading">Search history</h2><button id="clear-history" type="button" class="secondary">Clear search history</button></div>
+            <p id="history-empty">No saved searches.</p>
+            <ol id="history-list"></ol>
+          </section>
         </fieldset>
         <fieldset>
           <legend>Appearance</legend>
@@ -48,14 +55,8 @@
           <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
           <p class="hint">System follows your device’s color preference.</p>
         </fieldset>
-        <button type="submit">Save settings</button>
         <p id="settings-status" role="status" aria-live="polite"></p>
       </form>
-      <section class="panel" aria-labelledby="history-heading">
-        <div class="page-header"><h2 id="history-heading">Search history</h2><button id="clear-history" type="button" class="secondary">Clear history</button></div>
-        <p id="history-empty">No saved searches.</p>
-        <ol id="history-list"></ol>
-      </section>
     </main>
   </body>
 </html>

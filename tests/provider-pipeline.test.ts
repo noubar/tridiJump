@@ -7,7 +7,7 @@ import mmf from './fixtures/myminifactory/search.json';
 import thingiverse from './fixtures/thingiverse/search.json';
 import { mockExtensionStorage } from './helpers/extension-storage';
 
-function page(html: string) { document.body.innerHTML = html.match(/<body>([\s\S]*)<\/body>/)![1]!; }
+function page(html: string) { document.body.innerHTML = html.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!; }
 beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); vi.clearAllTimers(); vi.useRealTimers(); vi.unstubAllGlobals(); document.body.replaceChildren(); });
 
@@ -40,7 +40,7 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
       input.closest('form')!.dispatchEvent(new Event('submit', { cancelable: true }));
       await vi.advanceTimersByTimeAsync(0);
       expect(input.value).toBe('');
-      expect(input.closest('form')!.textContent).toContain('Configured locally');
+      expect(input.closest('section')!.textContent).toContain('Configured locally');
     }
     expect(local.set).toHaveBeenCalledTimes(2);
     expect(sync.set).not.toHaveBeenCalled();
@@ -48,6 +48,7 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
     page(resultsHtml);
     window.history.replaceState(null, '', '/src/results/index.html?q=cap');
     await import('../src/results/main');
+    await vi.advanceTimersByTimeAsync(0);
     expect(document.querySelector('#provider-status')!.textContent).toContain('MyMiniFactory: searching');
     expect(document.querySelectorAll('.model-card')).toHaveLength(0);
     await vi.advanceTimersByTimeAsync(300);

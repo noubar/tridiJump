@@ -9,6 +9,7 @@ import { SearchOrchestrator } from '../src/search/orchestrator';
 import type { SearchSnapshot } from '../src/search/orchestrator';
 import { createMyMiniFactoryProvider } from '../src/providers/myminifactory';
 import { createThingiverseProvider } from '../src/providers/thingiverse';
+import { providerAvailability } from '../src/providers/availability';
 
 const fake = { nickname: 'test-only-user', apiKey: 'FAKE-LOCAL-SECRET' };
 const field = (name: string) => document.querySelector<HTMLInputElement>(`#credential-cults3d-${name}`)!;
@@ -33,7 +34,7 @@ describe('credential Settings', () => {
     const runner = new SearchOrchestrator((update) => { latest = update; });
     runner.start('cap', [provider]);
     await vi.waitFor(() => expect(latest.states[0]?.status).toBe('no-results'));
-    root.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    root.querySelector<HTMLButtonElement>('[data-action="remove"]')!.click();
     await flush();
     expect(status()).toContain('Local credentials removed');
     runner.start('cap again', [provider]);
@@ -59,7 +60,7 @@ describe('credential Settings', () => {
     const provider = createCultsProvider();
     runner.start('before', [provider]);
     await vi.waitFor(() => expect(latest.states[0]?.status).toBe('no-results'));
-    root.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    root.querySelector<HTMLButtonElement>('[data-action="remove"]')!.click();
     await flush();
     expect(status()).toContain('Local credentials removed');
     runner.start('after', [provider]);
@@ -74,7 +75,7 @@ describe('credential Settings', () => {
     mockExtensionStorage();
     const root = document.querySelector('section')!;
     await initializeCredentialSettings(root, 'cults3d', cultsCredentialFields);
-    expect(status()).toBe('Not configured.');
+    expect(status()).toContain('Setup required');
     expect(field('apiKey').type).toBe('password');
     expect(field('apiKey').labels?.[0]?.textContent).toContain('API key');
     field('nickname').value = fake.nickname;
@@ -86,13 +87,36 @@ describe('credential Settings', () => {
     expect(field('apiKey').value).toBe('');
     root.replaceChildren();
     await initializeCredentialSettings(root, 'cults3d', cultsCredentialFields);
-    expect(status()).toBe('Configured locally.');
+    expect(status()).toContain('Configured locally.');
     expect(field('apiKey').value).toBe('');
     expect(root.outerHTML).not.toContain(fake.apiKey);
-    document.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    document.querySelector<HTMLButtonElement>('[data-action="remove"]')!.click();
     await flush();
     expect(status()).toContain('Not configured');
     expect(await loadCredentials('cults3d', cultsCredentialFields)).toBeUndefined();
+  });
+
+  it.each(providerAvailability.filter((source) => 'createProvider' in source))('$name replaces credentials using blank fields and never renders the old or new secret', async (source) => {
+    mockExtensionStorage();
+    const provider = source.createProvider();
+    const values = Object.fromEntries(provider.credentialFields!.map((field) => [field.name, field.secret ? 'FAKE-OLD-SECRET' : 'test-user']));
+    await saveCredentials(provider.id, provider.credentialFields!, values);
+    const root = document.querySelector('section')!;
+    await initializeCredentialSettings(root, provider.id, provider.credentialFields!);
+    expect(root.querySelector<HTMLFormElement>('form')!.hidden).toBe(true);
+    expect(root.textContent).not.toContain('FAKE-OLD-SECRET');
+    root.querySelector<HTMLButtonElement>('[data-action="replace"]')!.click();
+    for (const field of provider.credentialFields!) {
+      const input = root.querySelector<HTMLInputElement>(`#credential-${provider.id}-${field.name}`)!;
+      expect(input.value).toBe('');
+      input.value = field.secret ? 'FAKE-NEW-SECRET' : 'new-test-user';
+    }
+    root.querySelector('form')!.dispatchEvent(new Event('submit', { cancelable: true }));
+    await vi.waitFor(() => expect(root.querySelector<HTMLFormElement>('form')!.hidden).toBe(true));
+    const stored = await loadCredentials(provider.id, provider.credentialFields!);
+    for (const field of provider.credentialFields!) expect(stored?.[field.name]).toBe(field.secret ? 'FAKE-NEW-SECRET' : 'new-test-user');
+    expect(root.innerHTML).not.toMatch(/FAKE-OLD-SECRET|FAKE-NEW-SECRET/);
+    for (const input of root.querySelectorAll('input')) expect(input.value).toBe('');
   });
 
   it('keeps the saved key unchanged on failed replacement and hides raw errors', async () => {
@@ -109,7 +133,7 @@ describe('credential Settings', () => {
     expect(field('apiKey').value).toBe('');
     expect((await loadCredentials('cults3d', cultsCredentialFields))?.apiKey).toBe(fake.apiKey);
     local.remove.mockRejectedValue(new Error(fake.apiKey));
-    document.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    document.querySelector<HTMLButtonElement>('[data-action="remove"]')!.click();
     await flush();
     expect(status()).toContain('could not be removed');
     expect(document.body.textContent).not.toContain(fake.apiKey);

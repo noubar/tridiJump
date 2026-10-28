@@ -16,7 +16,7 @@ export const providerAvailability = [
     reason: 'Aggregation unavailable: no supported public search interface verified.',
     searchUrl: (query: string) => queryUrl('https://makerworld.com/en/search/models', 'keyword', query) },
   { id: 'thingiverse', name: 'Thingiverse', classification: 'B',
-    reason: 'Official API search with your App Token. Live authenticated verification pending.',
+    reason: 'Official API search with your App Token.',
     createProvider: createThingiverseProvider,
     searchUrl: (query: string) => {
       const target = new URL(queryUrl('https://www.thingiverse.com/search', 'q', query));
@@ -32,11 +32,11 @@ export const providerAvailability = [
       return target.href;
     } },
   { id: 'myminifactory', name: 'MyMiniFactory', classification: 'B',
-    reason: 'Official API search with your API key. Live authenticated verification pending.',
+    reason: 'Official API search with your API key.',
     createProvider: createMyMiniFactoryProvider,
     searchUrl: (query: string) => queryUrl('https://www.myminifactory.com/search/', 'query', query) },
   { id: 'cults3d', name: 'Cults3D', classification: 'B',
-    reason: 'Official API search with your nickname and API key. Live authenticated verification pending.',
+    reason: 'Official API search with your nickname and API key.',
     createProvider: createCultsProvider,
     searchUrl: cultsSearchUrl },
 ] as const;

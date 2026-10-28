@@ -9,8 +9,9 @@ using your own local credentials. Unconfigured providers show Setup required;
 configured providers send actual searches and append normalized cards. Native
 search remains available for all six repositories. See the
 [live enablement review](docs/live-provider-enablement.md) for each access path,
-source, restriction and limitation. No authenticated live search has been
-verified in this development environment; fixtures do not prove live compatibility.
+source, restriction and limitation. The user has manually verified all three API
+integrations live. This Settings update is verified with fixtures and mocked
+extension storage; authenticated live testing was not repeated by the agent.
 Synonym expansion is not implemented.
 
 ## Development
@@ -33,21 +34,42 @@ URL parameters. You can edit and resubmit the search on the results page.
 Settings is available from the popup, results page, and extension's **Options**
 menu.
 
-Settings include the Expanded Search default, optional local search history
-(off by default, up to 20 recent queries), and System/Light/Dark themes. Use
-**Save settings** to apply changes. System follows device color preferences;
-saved theme changes also apply to other open extension pages. History can be
-cleared, and disabling it clears existing history. Preferences and history use
-extension-origin `localStorage` on this device; they are not synced.
+Settings has four areas: Repositories, Provider setup / credentials, Search, and
+Appearance. Repository switches persist independently of credentials: disabling a
+repository never removes its key. Re-enabling it restores searches without
+re-entry. Missing credentials produce Setup required, not a failure. Disabled
+repositories do not run or appear in native-search links on subsequent searches.
+Results-page repository filters still only filter the current result set.
 
-Settings has separate Save/Remove forms for Cults3D (nickname/key), MyMiniFactory
-(API key) and Thingiverse (App Token), with official onboarding links. Use only
-credentials obtained with free API access; tridiJump requires no paid API
-subscription. Current issuance/fees could not be independently verified through
-blocked account pages. Credentials use extension `storage.local` only, never sync or
-preferences/history storage. Saved secrets are never prefilled. This local
-storage is not encrypted by tridiJump or an OS credential vault. Do not paste
-credentials into chat. No personal/developer key is bundled.
+Changes save automatically; credential forms have an explicit **Save credentials**
+button. Each configured provider shows a fixed secret mask with **Replace credentials**
+and **Remove credentials** actions. Replacement starts with blank fields; removal
+returns the next enabled search to Setup required. Cults3D uses nickname + API key;
+MyMiniFactory uses API key; Thingiverse uses App Token. Official onboarding links
+are in Settings. Use only your own free API access; no developer credentials are
+bundled. MyMiniFactory's official protocol requires its key in the API request URL;
+keys are excluded from native-search links, errors and history.
+
+All settings, history and credentials use extension `storage.local`, never sync.
+Preferences and history from the older extension-origin `localStorage` are migrated
+when no extension-storage value exists; legacy data is removed only after a
+successful write. Credentials are never migrated through web storage. Local
+extension storage is not encrypted by tridiJump or an OS credential vault. Secrets
+are never prefilled, redisplayed, logged, exported or sent to tridiJump/GitHub.
+Do not paste credentials into chat. Removing a key locally does not revoke it at
+the provider.
+
+Search history is off by default and keeps at most 50 unique recent original
+queries, newest first. Disabling collection retains old entries; **Clear search
+history** empties them. Expanded Search default applies to new entry-page searches;
+explicit URL/toggle choices remain authoritative. Changing defaults never restarts
+an ongoing search. The expansion engine is not present in this checkout, so this
+build sends only the original query and cannot demonstrate English/German expansion.
+
+System/Light/Dark themes persist locally and update other open extension pages
+through storage change events. System follows browser/device color preferences
+through CSS. See the [Settings verification guide](docs/settings.md) for tests A-G,
+storage details and the bundled metadata/authentication boundary.
 
 Use **Search directly on…** links on the results page without a key. See the
 [provider access policy](docs/provider-policy.md): user-supplied keys are welcome
@@ -62,7 +84,8 @@ synthetic fixtures, never pretend-live sample cards.
 
 See [Cults3D integration notes](docs/provider-cults3d.md) for the mechanism,
 verification limits, credential requirements, and manual development checklist.
-Authenticated live search has not yet been verified with an authorized API key.
+Earlier investigation notes describe development-time verification limits; the user
+has since confirmed all three current API adapters working live.
 
 The grid mixes sources on one page and appends results as each source completes.
 Cards show only a thumbnail (or placeholder), title, source, and known price/free
@@ -151,8 +174,8 @@ or repository implementation is introduced.
 ## Search orchestration
 
 `SearchOrchestrator` (`src/search/orchestrator.ts`) accepts a synchronous
-`onUpdate(snapshot)` callback. Supply the enabled `Provider[]` to
-`start(query, providers, { timeoutMs?, signal? })`. Each snapshot contains the
+`onUpdate(snapshot)` callback. Supply `Provider[]` to
+`start(query, providers, { timeoutMs?, signal?, disabledProviderIds? })`. Each snapshot contains the
 query, all provider states, and the accumulated results. The first snapshot
 clears the previous search; subsequent snapshots arrive as each provider settles,
 with results appended in completion order. Render from each snapshot without
@@ -173,7 +196,8 @@ or cancellation. An already-aborted signal prevents provider execution.
 Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
-not execute providers. Disabled providers are omitted by the caller. The results
+not execute providers. Disabled IDs appear as `disabled` without invoking the
+adapter or reading its credentials. The results
 page supplies three authenticated providers. Credential loading is covered by
 cancellation and provider timeout; a superseded or timed-out read cannot launch
 a request. Printables, MakerWorld and Thangs use native fallback, with their

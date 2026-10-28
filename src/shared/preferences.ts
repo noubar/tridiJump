@@ -1,52 +1,73 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { normalizeQuery } from '../search/query';
-
+import { extensionLocal } from './extension-storage';
 export type Theme = 'system' | 'light' | 'dark';
-export interface Preferences {
-  theme: Theme;
-  expandedDefault: boolean;
-  historyEnabled: boolean;
-}
-
+export interface Preferences { theme: Theme; expandedDefault: boolean; historyEnabled: boolean }
 export const PREFERENCES_KEY = 'tridijump.preferences';
 export const HISTORY_KEY = 'tridijump.history';
-export const HISTORY_LIMIT = 20;
-
-export function readPreferences(): Preferences {
-  let value: Partial<Preferences> | null = null;
+export const REPOSITORIES_KEY = 'tridijump.repositories';
+export const HISTORY_LIMIT = 50;
+export function normalizePreferences(value: unknown): Preferences {
+  const data = value && typeof value === 'object' ? value as Partial<Preferences> : {};
+  return { theme: data.theme === 'light' || data.theme === 'dark' ? data.theme : 'system',
+    expandedDefault: data.expandedDefault === true, historyEnabled: data.historyEnabled === true };
+}
+async function read(key: string, legacy = false): Promise<unknown> {
   try {
-    value = JSON.parse(localStorage.getItem(PREFERENCES_KEY) ?? 'null');
-  } catch { /* Missing or unavailable storage uses safe defaults. */ }
-  return {
-    theme: value?.theme === 'light' || value?.theme === 'dark' ? value.theme : 'system',
-    expandedDefault: value?.expandedDefault === true,
-    historyEnabled: value?.historyEnabled === true,
-  };
+    const local = extensionLocal();
+    const stored = (await local.get(key))[key];
+    if (stored !== undefined || !legacy) return stored;
+    let text: string | null | undefined;
+    try { text = globalThis.localStorage?.getItem(key); } catch { /* Legacy storage can be unavailable. */ }
+    if (text == null) return;
+    let value: unknown;
+    try { value = JSON.parse(text); } catch { return; }
+    const normalized = key === PREFERENCES_KEY ? normalizePreferences(value) : normalizeHistory(value);
+    await local.set({ [key]: normalized });
+    try { globalThis.localStorage?.removeItem(key); } catch { /* Migration already succeeded. */ }
+    return normalized;
+  } catch { throw new Error('Local settings could not be read.'); }
 }
-
-export function savePreferences(preferences: Preferences): void {
-  localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
+async function write(key: string, value: unknown): Promise<void> {
+  try { await extensionLocal().set({ [key]: value }); }
+  catch { throw new Error('Local settings could not be saved.'); }
 }
-
-export function readHistory(): string[] {
-  try {
-    const value: unknown = JSON.parse(localStorage.getItem(HISTORY_KEY) ?? '[]');
-    return Array.isArray(value)
-      ? [...new Set(value.filter((item): item is string => typeof item === 'string')
-        .map(normalizeQuery).filter(Boolean))].slice(0, HISTORY_LIMIT)
-      : [];
-  } catch {
-    return [];
-  }
+export async function readPreferences(): Promise<Preferences> { return normalizePreferences(await read(PREFERENCES_KEY, true)); }
+export async function savePreferences(value: Preferences): Promise<void> { await write(PREFERENCES_KEY, normalizePreferences(value)); }
+function normalizeHistory(value: unknown): string[] {
+  return Array.isArray(value) ? [...new Set(value.filter((v): v is string => typeof v === 'string')
+    .map(normalizeQuery).filter(Boolean))].slice(0, HISTORY_LIMIT) : [];
 }
-
-export function rememberSearch(query: string): void {
+export async function readHistory(): Promise<string[]> { return normalizeHistory(await read(HISTORY_KEY, true)); }
+let historyWrites: Promise<void> = Promise.resolve();
+function queueHistory(operation: () => Promise<void>): Promise<void> {
+  const pending = historyWrites.then(operation);
+  historyWrites = pending.catch(() => {});
+  return pending;
+}
+export function rememberSearch(query: string): Promise<void> {
   const normalized = normalizeQuery(query);
-  if (!normalized || !readPreferences().historyEnabled) return;
-  const history = [normalized, ...readHistory().filter((item) => item !== normalized)];
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_LIMIT)));
+  return queueHistory(async () => {
+    if (!normalized || !(await readPreferences()).historyEnabled) return;
+    await write(HISTORY_KEY, normalizeHistory([normalized, ...await readHistory()]));
+  });
 }
-
-export function clearHistory(): void {
-  localStorage.removeItem(HISTORY_KEY);
+export function clearHistory(): Promise<void> { return queueHistory(() => write(HISTORY_KEY, [])); }
+export async function readRepositories(): Promise<Record<string, boolean>> {
+  const value = await read(REPOSITORIES_KEY);
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? Object.fromEntries(Object.entries(value).filter(([id, enabled]) => /^[a-z0-9][a-z0-9-]{0,63}$/.test(id) && typeof enabled === 'boolean')) : {};
+}
+/** Availability comes exclusively from packaged metadata. Missing IDs default on. */
+export function repositoryEnabled(source: { id: string; available?: boolean }, choices: Record<string, boolean>): boolean {
+  return source.available !== false && (!Object.hasOwn(choices, source.id) || choices[source.id] === true);
+}
+let repositoryWrites: Promise<void> = Promise.resolve();
+export function setRepositoryEnabled(id: string, enabled: boolean): Promise<void> {
+  if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(id)) return Promise.reject(new Error('Invalid repository.'));
+  const pending = repositoryWrites.then(async () => {
+    await write(REPOSITORIES_KEY, { ...await readRepositories(), [id]: enabled });
+  });
+  repositoryWrites = pending.catch(() => {});
+  return pending;
 }

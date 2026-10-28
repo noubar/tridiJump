@@ -122,3 +122,8 @@ a {
   .results-layout { grid-template-columns: 1fr; }
   .empty-state { padding: 1.25rem; }
 }
+
+/* Local Settings controls share one readable width on desktop and mobile. */
+body.settings main { max-width: 48rem; }
+#repository-availability { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+#repository-availability label { margin-bottom: 0.15rem; }

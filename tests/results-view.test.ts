@@ -69,7 +69,7 @@ describe('progressive results UI', () => {
     expect(query<HTMLInputElement>('#expanded').checked).toBe(expandedMode);
     await vi.advanceTimersByTimeAsync(0);
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(local.get.mock.calls.map(([key]) => key).sort()).toEqual(credentialKeys);
+    expect(local.get.mock.calls.map(([key]) => key).filter((key) => key.startsWith('tridijump.credentials.')).sort()).toEqual(credentialKeys);
     expect(titles()).toHaveLength(0);
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
@@ -83,6 +83,7 @@ describe('progressive results UI', () => {
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';
     query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
     expect(new URLSearchParams(window.location.search).get('q')).toBe('bolt & <tag>');
+    await vi.advanceTimersByTimeAsync(0);
     expect(query('#search-summary').textContent).toContain('bolt & <tag>');
     expect(query('#search-summary').querySelector('tag')).toBeNull();
     expect(titles()).toEqual([]);
@@ -92,7 +93,7 @@ describe('progressive results UI', () => {
     expect(fetchMock).not.toHaveBeenCalled();
     // A new explicit user search may check again, but the toggle must not fan
     // out configuration work or requests for a setup-required provider.
-    expect(local.get).toHaveBeenCalledTimes(6);
+    expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
     for (const key of credentialKeys) expect(local.get.mock.calls.filter(([requested]) => requested === key)).toHaveLength(2);
     window.dispatchEvent(new Event('pagehide'));
   });
@@ -106,13 +107,13 @@ describe('progressive results UI', () => {
     await import('../src/results/main');
     await vi.advanceTimersByTimeAsync(0);
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
-    expect(local.get).toHaveBeenCalledTimes(3);
+    expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(3);
     expect(fetchMock).not.toHaveBeenCalled();
     await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-EXPANDED-SETUP-KEY' });
     query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
     await vi.advanceTimersByTimeAsync(0);
     expect(fetchMock).toHaveBeenCalledOnce();
-    expect(local.get).toHaveBeenCalledTimes(6);
+    expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
     expect(query('#provider-status').textContent).toContain('Cults3D: success');
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
     expect(query('#provider-status').textContent).toContain('Thingiverse: Setup required');

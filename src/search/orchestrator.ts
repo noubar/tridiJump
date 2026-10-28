@@ -14,6 +14,7 @@ export interface SearchSnapshot {
 
 export interface SearchOptions {
   signal?: AbortSignal;
+  disabledProviderIds?: ReadonlySet<string>;
   /** Timeout per provider in milliseconds. Defaults to 10 seconds. */
   timeoutMs?: number;
 }
@@ -27,7 +28,7 @@ interface SearchRun {
   detachSignal: () => void;
 }
 
-/** Repository-independent search runner. Supply only enabled providers. */
+/** Repository-independent search runner. Disabled providers are represented without executing them. */
 export class SearchOrchestrator {
   private current?: SearchRun;
 
@@ -54,7 +55,8 @@ export class SearchOrchestrator {
     const run: SearchRun = {
       query: normalized,
       controller: new AbortController(),
-      states: new Map(unique.map((provider) => [provider.id, normalized
+      states: new Map(unique.map((provider) => [provider.id, options.disabledProviderIds?.has(provider.id)
+        ? { providerId: provider.id, status: 'disabled' } : normalized
         ? { providerId: provider.id, status: 'searching', query: normalized }
         : { providerId: provider.id, status: 'idle' }])),
       results: [],
@@ -71,9 +73,10 @@ export class SearchOrchestrator {
       return;
     }
     this.publish(run);
-    if (!normalized || unique.length === 0) run.detachSignal();
+    if (![...run.states.values()].some((state) => state.status === 'searching')) run.detachSignal();
     for (const provider of unique) {
       if (!normalized || this.current !== run || run.controller.signal.aborted) break;
+      if (options.disabledProviderIds?.has(provider.id)) continue;
       this.searchProvider(run, provider, timeoutMs);
     }
   }

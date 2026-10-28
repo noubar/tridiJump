@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import { extensionLocal } from '../shared/extension-storage';
 /** Inert, packaged UI descriptions only; no values, remote code or auth templates. */
 export interface CredentialField { name: string; label: string; secret: boolean }
 export type ProviderCredentials = Record<string, string>;
@@ -8,20 +9,6 @@ export class SetupRequired extends Error {
   constructor() { super('Provider configuration required.'); this.name = 'SetupRequired'; }
 }
 
-interface LocalStorageArea {
-  get(key: string): Promise<Record<string, unknown>>;
-  set(values: Record<string, unknown>): Promise<void>;
-  remove(key: string): Promise<void>;
-}
-function local(): LocalStorageArea {
-  const extension = globalThis as typeof globalThis & {
-    browser?: { storage?: { local?: LocalStorageArea } };
-    chrome?: { storage?: { local?: LocalStorageArea } };
-  };
-  const area = extension.browser?.storage?.local ?? extension.chrome?.storage?.local;
-  if (!area) throw new Error('Extension local storage is unavailable.');
-  return area;
-}
 function key(providerId: string): string { return `tridijump.credentials.${providerId}`; }
 
 /** Only declared fields are accepted. Never copy arbitrary settings or registry data. */
@@ -39,20 +26,27 @@ function normalize(value: unknown, fields: readonly CredentialField[]): Provider
 
 export async function loadCredentials(providerId: string, fields: readonly CredentialField[]): Promise<ProviderCredentials | undefined> {
   try {
-    const stored = await local().get(key(providerId));
+    const stored = await extensionLocal().get(key(providerId));
     return normalize(stored[key(providerId)], fields);
   } catch { throw new Error('Provider credentials could not be read from extension local storage.'); }
 }
 export async function saveCredentials(providerId: string, fields: readonly CredentialField[], values: ProviderCredentials): Promise<void> {
   const normalized = normalize(values, fields);
   if (!normalized) throw new Error('Complete all credential fields.');
-  try { await local().set({ [key(providerId)]: normalized }); }
+  try { await extensionLocal().set({ [key(providerId)]: normalized }); }
   catch { throw new Error('Provider credentials could not be saved locally.'); }
 }
 export async function clearCredentials(providerId: string): Promise<void> {
-  try { await local().remove(key(providerId)); }
+  try { await extensionLocal().remove(key(providerId)); }
   catch { throw new Error('Provider credentials could not be removed locally.'); }
 }
 export async function credentialsConfigured(providerId: string, fields: readonly CredentialField[]): Promise<boolean> {
   return (await loadCredentials(providerId, fields)) !== undefined;
+}
+
+/** This display projection never returns secret fields or their values. */
+export async function credentialDisplay(providerId: string, fields: readonly CredentialField[]) {
+  const values = await loadCredentials(providerId, fields);
+  return { configured: !!values, publicValues: values
+    ? Object.fromEntries(fields.filter((field) => !field.secret).map((field) => [field.name, values[field.name]!])) : {} };
 }
