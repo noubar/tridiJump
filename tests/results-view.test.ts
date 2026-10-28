@@ -57,16 +57,19 @@ describe('progressive results UI', () => {
     view.cancel();
   });
 
-  it('shows setup-required for all unconfigured APIs without fetching and retains native fallbacks', async () => {
+  it.each([false, true])('checks unconfigured providers once per search with Expanded Search=%s and never fetches', async (expandedMode) => {
+    vi.resetModules();
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
-    vi.stubGlobal('chrome', { storage: { local: { get: vi.fn().mockResolvedValue({}) } } });
-    window.history.replaceState(null, '', '/src/results/index.html?q=gear&expanded=1');
+    const { local } = mockExtensionStorage();
+    const credentialKeys = ['tridijump.credentials.cults3d', 'tridijump.credentials.myminifactory', 'tridijump.credentials.thingiverse'];
+    window.history.replaceState(null, '', `/src/results/index.html?q=gear${expandedMode ? '&expanded=1' : ''}`);
     await import('../src/results/main');
     expect(query<HTMLInputElement>('#query').value).toBe('gear');
-    expect(query<HTMLInputElement>('#expanded').checked).toBe(true);
+    expect(query<HTMLInputElement>('#expanded').checked).toBe(expandedMode);
     await vi.advanceTimersByTimeAsync(0);
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(local.get.mock.calls.map(([key]) => key).sort()).toEqual(credentialKeys);
     expect(titles()).toHaveLength(0);
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
@@ -87,6 +90,33 @@ describe('progressive results UI', () => {
     expect(new URL(query<HTMLAnchorElement>('[data-provider-id="cults3d"]').href).searchParams.get('q')).toBe('bolt & <tag>');
     expect(titles()).toEqual([]);
     expect(fetchMock).not.toHaveBeenCalled();
+    // A new explicit user search may check again, but the toggle must not fan
+    // out configuration work or requests for a setup-required provider.
+    expect(local.get).toHaveBeenCalledTimes(6);
+    for (const key of credentialKeys) expect(local.get.mock.calls.filter(([requested]) => requested === key)).toHaveLength(2);
+    window.dispatchEvent(new Event('pagehide'));
+  });
+
+  it('rechecks saved credentials on a new Expanded Search after setup-required without retrying other unconfigured APIs', async () => {
+    vi.resetModules();
+    const { local } = mockExtensionStorage();
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
+    vi.stubGlobal('fetch', fetchMock);
+    window.history.replaceState(null, '', '/src/results/index.html?q=cap&expanded=1');
+    await import('../src/results/main');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
+    expect(local.get).toHaveBeenCalledTimes(3);
+    expect(fetchMock).not.toHaveBeenCalled();
+    await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-EXPANDED-SETUP-KEY' });
+    query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(local.get).toHaveBeenCalledTimes(6);
+    expect(query('#provider-status').textContent).toContain('Cults3D: success');
+    expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
+    expect(query('#provider-status').textContent).toContain('Thingiverse: Setup required');
+    expect(titles()).toHaveLength(2);
     window.dispatchEvent(new Event('pagehide'));
   });
 

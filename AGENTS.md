@@ -18,6 +18,9 @@ work. This user-approved policy applies to all subsequent tridiJump tasks.
   tests. Local storage is not an encrypted operating-system credential vault.
 - Missing configuration means non-error `setup-required`, with Settings routing
   and native fallback where available; it must not prevent other providers working.
+- Expanded Search must not multiply requests for setup-required providers. Resolve
+  their configuration once per explicit search, then skip all expanded terms and
+  retries for them. A new explicit search can recheck credentials saved in Settings.
 - Keep credential support small, parsing provider-local, and orchestration generic.
   Preserve staged implementation scope; policy updates alone do not enable providers.
 - Classify each remaining provider A (no credentials), B (free user credentials),

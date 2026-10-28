@@ -89,6 +89,15 @@ configuration before network dispatch. If credentials are missing:
 - Offer native/direct search when possible.
 - Continue other configured providers independently.
 
+Expanded Search must never multiply requests to providers in `setup-required`.
+Check configuration at most once per provider per explicit user search; exclude
+unconfigured providers from all expanded-term dispatch and retries, retaining
+their Setup required state and configuration/fallback links. Do not treat missing
+configuration as a failure or an empty successful search. A new explicit search
+must be able to recheck configuration after the user saves credentials in Settings.
+Synonym expansion is not currently implemented; this rule also constrains its
+future implementation, without adding expansion in the credential/search work.
+
 Do not put secret values in search states, `ModelResult`, provider declarations,
 or snapshots. Configuration declarations describe fields; configuration status
 describes availability. Only provider execution receives that provider's values.
