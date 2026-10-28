@@ -32,8 +32,8 @@
           <details open>
             <summary>Filters</summary>
             <label for="price">Price</label>
-            <select id="price"><option value="all">All prices</option><option value="free">Free</option><option value="paid">Paid</option></select>
-            <p class="hint">Free and Paid exclude models whose price status is unknown.</p>
+            <select id="price" aria-describedby="price-help"><option value="all">All prices</option><option value="free">Free</option><option value="paid">Paid</option></select>
+            <p id="price-help" class="hint">Free and Paid exclude models whose price status is unknown.</p>
             <label for="format">File format</label>
             <select id="format" disabled aria-describedby="format-help"><option value="">All formats</option></select>
             <p id="format-help" class="hint">No file-format information is available yet.</p>
@@ -49,6 +49,8 @@
           <p id="result-count" role="status" aria-live="polite"></p>
           <p id="empty-state" class="empty-state">Enter a query to search for models.</p>
           <div id="results-grid" class="results-grid" aria-label="Model results"></div>
+          <p id="pagination-help" class="hint">Filters and sorting apply to loaded models.</p>
+          <button id="load-more" type="button" aria-describedby="pagination-help" hidden>Load more</button>
         </section>
       </div>
       <section class="panel" aria-labelledby="provider-status-heading">

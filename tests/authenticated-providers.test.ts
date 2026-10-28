@@ -101,10 +101,11 @@ describe.each(cases)('$id documented user-key API', (source) => {
     for (const payload of [null, [], {}, { error: source.secret }]) expect(() => source.normalize(payload, 'cap')).toThrow('unexpected');
     const [full, minimal] = source.normalize(source.fixture, 'cap');
     expect(full?.popularity).toBe(0);
-    expect(minimal).toEqual({ title: expect.any(String), url: expect.any(String), providerId: source.id, query: 'cap' });
+    expect(minimal).toEqual({ title: expect.any(String), url: expect.any(String), providerId: source.id, query: 'cap', ...(source.id === 'thingiverse' ? { isFree: true } : {}) });
     for (const result of [full, minimal]) {
       expect(result).not.toHaveProperty('price');
-      expect(result).not.toHaveProperty('isFree');
+      if (source.id === 'thingiverse') expect(result?.isFree).toBe(true);
+      else expect(result).not.toHaveProperty('isFree');
       expect(result).not.toHaveProperty('rating');
     }
   });
@@ -189,7 +190,7 @@ describe('provider-specific optional data', () => {
     expect(result?.downloads).toBe(42);
     expect(result?.createdAt).toBe('2026-10-28T12:00:00Z');
     expect(normalizeThingiverseResults({ hits: [null, { name: 'Valid', public_url: 'https://www.thingiverse.com/thing:1', thumbnail: 'javascript:alert(1)', creator: null, like_count: -1, download_count: '42', created_at: 'invalid' }] }, 'cap'))
-      .toEqual([{ title: 'Valid', url: 'https://www.thingiverse.com/thing:1', providerId: 'thingiverse', query: 'cap' }]);
+      .toEqual([{ title: 'Valid', url: 'https://www.thingiverse.com/thing:1', providerId: 'thingiverse', query: 'cap', isFree: true }]);
   });
   it.each(cases)('rejects a nonempty unusable $id batch instead of reporting a successful empty search', (source) => {
     const items = [null, { name: 'Offsite', url: 'https://attacker.test/model', public_url: 'https://attacker.test/model' }];

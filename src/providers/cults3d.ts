@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import type { Provider } from './provider';
+import type { Provider, ResultPage } from './provider';
+import { nextOffset, offsetNumber } from './pagination';
 import type { ModelResult } from '../shared/model-result';
 import { normalizeQuery } from '../search/query';
 import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
@@ -17,6 +18,7 @@ async function storedCredentials(): Promise<CultsCredentials | undefined> {
 const ENDPOINT = 'https://cults3d.com/graphql';
 const SEARCH = `query SearchModels($query: String!) {
   creationsSearchBatch(query: $query, limit: 20) {
+    total
     results {
       name(locale: EN)
       url(locale: EN)
@@ -28,6 +30,9 @@ const SEARCH = `query SearchModels($query: String!) {
     }
   }
 }`;
+// Preserve the working first-page operation; continuation arguments are only sent on Load more.
+const NEXT_SEARCH = SEARCH.replace('$query: String!', '$query: String!, $offset: Int!')
+  .replace('limit: 20)', 'limit: 20, offset: $offset)');
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -119,52 +124,57 @@ export function createCultsProvider(
   getCredentials: () => CultsCredentials | undefined | Promise<CultsCredentials | undefined> = storedCredentials,
 ): Provider {
   let blockedUntil = 0;
+  async function searchPage(rawQuery: string, cursor?: string, signal?: AbortSignal): Promise<ResultPage> {
+    const offset = offsetNumber(cursor);
+    checkAbort(signal);
+    const query = normalizeQuery(rawQuery);
+    if (!query) return { results: [] };
+    let credentials: CultsCredentials | undefined;
+    try { credentials = await getCredentials(); }
+    catch {
+      checkAbort(signal);
+      throw new Error('Cults3D configuration could not be loaded. Check extension local storage.');
+    }
+    // Extension storage cannot be aborted; never launch a request after a stale read.
+    checkAbort(signal);
+    if (!credentials?.nickname.trim() || !credentials.apiKey.trim()) throw new SetupRequired();
+    const auth = authorization(credentials);
+    if (Date.now() < blockedUntil) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
+    let response: Response;
+    try {
+      response = await fetch(ENDPOINT, {
+        method: 'POST', credentials: 'omit', redirect: 'error', cache: 'no-store', signal,
+        headers: { 'Content-Type': 'application/json', Authorization: auth },
+        body: JSON.stringify(cursor === undefined ? { query: SEARCH, variables: { query } }
+          : { query: NEXT_SEARCH, variables: { query, offset } }),
+      });
+    } catch {
+      checkAbort(signal);
+      throw new Error('Could not reach Cults3D. Try opening Cults3D directly.');
+    }
+    checkAbort(signal);
+    if (response.status === 429 || response.headers.get('x-ratelimit-remaining') === '0') {
+      blockedUntil = retryTime(response.headers);
+    }
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) throw new Error('Cults3D denied access. Check your API key or open Cults3D directly.');
+      if (response.status === 429) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
+      throw new Error(`Cults3D search failed (HTTP ${response.status}). Try opening Cults3D directly.`);
+    }
+    let payload: unknown;
+    try { payload = await response.json(); }
+    catch {
+      checkAbort(signal);
+      throw new Error('Cults3D returned an unreadable response.');
+    }
+    checkAbort(signal);
+    const results = credentialFreeResults(normalizeCultsResults(payload, query), [credentials.apiKey.trim(), auth.slice('Basic '.length)]);
+    const batch = record(record(record(payload)?.data)?.creationsSearchBatch)!;
+    return { results, nextCursor: nextOffset(offset, (batch.results as unknown[]).length, batch.total) };
+  }
   return {
-    id: 'cults3d',
-    credentialFields: cultsCredentialFields,
-    async search(rawQuery, signal) {
-      checkAbort(signal);
-      const query = normalizeQuery(rawQuery);
-      if (!query) return [];
-      let credentials: CultsCredentials | undefined;
-      try { credentials = await getCredentials(); }
-      catch {
-        checkAbort(signal);
-        throw new Error('Cults3D configuration could not be loaded. Check extension local storage.');
-      }
-      // Extension storage cannot be aborted; never launch a request after a stale read.
-      checkAbort(signal);
-      if (!credentials?.nickname.trim() || !credentials.apiKey.trim()) throw new SetupRequired();
-      const auth = authorization(credentials);
-      if (Date.now() < blockedUntil) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
-      let response: Response;
-      try {
-        response = await fetch(ENDPOINT, {
-          method: 'POST', credentials: 'omit', redirect: 'error', cache: 'no-store', signal,
-          headers: { 'Content-Type': 'application/json', Authorization: auth },
-          body: JSON.stringify({ query: SEARCH, variables: { query } }),
-        });
-      } catch {
-        checkAbort(signal);
-        throw new Error('Could not reach Cults3D. Try opening Cults3D directly.');
-      }
-      checkAbort(signal);
-      if (response.status === 429 || response.headers.get('x-ratelimit-remaining') === '0') {
-        blockedUntil = retryTime(response.headers);
-      }
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) throw new Error('Cults3D denied access. Check your API key or open Cults3D directly.');
-        if (response.status === 429) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
-        throw new Error(`Cults3D search failed (HTTP ${response.status}). Try opening Cults3D directly.`);
-      }
-      let payload: unknown;
-      try { payload = await response.json(); }
-      catch {
-        checkAbort(signal);
-        throw new Error('Cults3D returned an unreadable response.');
-      }
-      checkAbort(signal);
-      return credentialFreeResults(normalizeCultsResults(payload, query), [credentials.apiKey.trim(), auth.slice('Basic '.length)]);
-    },
+    id: 'cults3d', credentialFields: cultsCredentialFields,
+    search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
+    searchPage,
   };
 }

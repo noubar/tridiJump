@@ -16,3 +16,8 @@ were captured. The existing Cults fixture has its own provenance README.
 
 The combined selections and App Token compatibility still need an authenticated
 live check. Mocks prove parsing/wiring/cancellation, not provider availability.
+
+`myminifactory/pricing.json` is also original synthetic data, covering the official
+v2 Object `licenses` array and License `type: store` / boolean `value` shape. It
+contains explicit non-store, store and missing-store cases; no numeric price or
+currency is fabricated. It is not a captured authenticated response.

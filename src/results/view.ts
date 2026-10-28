@@ -5,7 +5,7 @@ import type { SearchSnapshot } from '../search/orchestrator';
 import type { ProviderSearchState } from '../search/provider-state';
 import type { ModelResult } from '../shared/model-result';
 import { createModelCard, safeModelUrl } from './card';
-import { canSort, filterResults, SORTS, sortResults } from './result-options';
+import { canSort, filterResults, priceKind, SORTS, sortResults } from './result-options';
 import type { PriceFilter, SortOrder } from './result-options';
 
 export interface ResultSource { name: string; provider: Provider; searchUrl?: (query: string) => string }
@@ -18,7 +18,9 @@ function option(label: string, value: string): HTMLOptionElement {
 }
 
 /** Owns only results controls and rendering; provider behavior stays behind its contract. */
-export function createResultsView(root: HTMLElement, sources: readonly ResultSource[]) {
+export function createResultsView(root: HTMLElement, sources: readonly ResultSource[], options: {
+  readDisabledProviders?: () => Promise<ReadonlySet<string>>;
+} = {}) {
   const grid = root.querySelector<HTMLElement>('#results-grid')!;
   const empty = root.querySelector<HTMLElement>('#empty-state')!;
   const count = root.querySelector<HTMLElement>('#result-count')!;
@@ -27,6 +29,9 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const price = root.querySelector<HTMLSelectElement>('#price')!;
   const repositories = root.querySelector<HTMLElement>('#repository-options')!;
   const statuses = root.querySelector<HTMLElement>('#provider-status')!;
+  const loadMore = root.querySelector<HTMLButtonElement>('#load-more')!;
+  const paginationHelp = root.querySelector<HTMLElement>('#pagination-help')!;
+  let version = 0;
   const names = new Map(sources.map((source) => [source.provider.id, source.name]));
   const selected = new Set(names.keys());
   const statusItems = new Map<string, HTMLLIElement>();
@@ -72,6 +77,15 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       : 'No file-format information is available yet.';
 
     const filtered = filterResults(snapshot.results, { providerIds: selected, price: price.value as PriceFilter, format: format.value });
+    const unknownPrices = new Map<string, number>();
+    for (const result of snapshot.results) {
+      if (selected.has(result.providerId) && priceKind(result) === undefined) {
+        unknownPrices.set(result.providerId, (unknownPrices.get(result.providerId) ?? 0) + 1);
+      }
+    }
+    root.querySelector('#price-help')!.textContent = 'Free and Paid exclude models whose price status is unknown.'
+      + (unknownPrices.size ? ' Price unavailable in loaded results: '
+        + [...unknownPrices].map(([id, count]) => `${names.get(id) ?? id} (${count})`).join(', ') + '.' : '');
     for (const option of sort.options) option.disabled = !canSort(filtered, option.value as SortOrder);
     if (!canSort(filtered, sort.value as SortOrder)) sort.value = 'best';
     const visible = sortResults(filtered, sort.value as SortOrder);
@@ -90,7 +104,13 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       if (grid.children[index] !== card) grid.insertBefore(card, grid.children[index] ?? null);
     });
     const pending = snapshot.states.filter((state) => state.status === 'searching').length;
-    count.textContent = `${visible.length} of ${snapshot.results.length} models · ${pending} sources searching`;
+    count.textContent = `${visible.length} matching · ${snapshot.results.length} loaded · ${pending} sources searching`;
+    const hasMore = snapshot.pages?.some((page) => page.hasMore) ?? false;
+    loadMore.hidden = !hasMore;
+    loadMore.disabled = snapshot.pages?.some((page) => page.loading) ?? false;
+    loadMore.textContent = loadMore.disabled ? 'Loading…' : 'Load more';
+    paginationHelp.textContent = 'Filters and sorting apply to loaded models.'
+      + (hasMore ? ' More results may be available; load another page to find additional matches.' : '');
     empty.hidden = visible.length > 0;
     const failed = snapshot.states.some((state) => state.status === 'failed' || state.status === 'timed-out');
     const setupRequired = snapshot.states.some((state) => state.status === 'setup-required');
@@ -133,12 +153,24 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   format.addEventListener('change', render);
   sort.addEventListener('change', render);
   const runner = new SearchOrchestrator((update) => { snapshot = update; render(); });
+  loadMore.addEventListener('click', () => {
+    if (loadMore.disabled) return;
+    const current = version;
+    loadMore.disabled = true;
+    void (options.readDisabledProviders?.() ?? Promise.resolve(undefined)).then((disabled) => {
+      if (current === version) runner.loadMore(disabled);
+    }, () => {
+      if (current === version) paginationHelp.textContent = 'Repository settings could not be read. No additional requests were started.';
+    }).finally(() => { if (current === version) loadMore.disabled = snapshot.pages?.some((page) => page.loading) ?? false; });
+  });
   render();
   return {
-    search(query: string, disabledProviderIds?: ReadonlySet<string>) {
+    search(query: string, disabledProviderIds?: ReadonlySet<string>, expandedQueries?: readonly string[]) {
+      version++;
       cards.clear();
-      runner.start(query, sources.map((source) => source.provider), { disabledProviderIds });
+      runner.start(query, sources.map((source) => source.provider), { disabledProviderIds, expandedQueries });
     },
-    cancel() { runner.cancel(); },
+    loadMore(disabledProviderIds?: ReadonlySet<string>) { runner.loadMore(disabledProviderIds); },
+    cancel() { version++; runner.cancel(); },
   };
 }

@@ -186,7 +186,7 @@ describe('progressive results UI', () => {
     expect(titles()).toEqual(['First', 'Second']);
     expect(query('.model-card')).toBe(card);
     expect(document.activeElement).toBe(focused);
-    expect(query('#result-count').textContent).toContain('2 of 2 models');
+    expect(query('#result-count').textContent).toContain('2 matching \u00b7 2 loaded');
     expect(query('#result-count').textContent).toContain('0 sources searching');
     view.cancel();
   });

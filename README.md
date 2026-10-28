@@ -76,7 +76,17 @@ Use **Search directly on…** links on the results page without a key. See the
 for verified free APIs; paid APIs are excluded. Scraping is considered only when
 permitted, with no authentication or anti-bot bypass.
 
-Each adapter fetches a bounded first page of up to 20 models. Cults EUR prices are converted
+Each adapter initially requests 20 models, then **Load more** requests one additional
+page per eligible provider. This is a conservative client batch size, not the API
+maximum or a total-results cap. Cards append progressively; disabled, unconfigured
+and exhausted providers are skipped. Counts distinguish matching and loaded models.
+Local filters stay active while loading additional pages. Unknown prices are never
+classified as Free. Thingiverse normal model downloads are classified Free
+without inventing a numeric price. MMF uses explicit store-license flags; missing
+flags stay Unknown. Cults retains its reported EUR cents. Details and the remaining
+live-verification limit are in [provider pricing](docs/provider-pricing.md). See [pagination and credential tests](docs/pagination.md) for
+API mechanisms, evidence limits and the manual acceptance checklist.
+Cults EUR prices are converted
 from reported cents; unavailable metadata stays unknown. No model files are
 downloaded. Demo code remains isolated in `src/results/demo/` for reference and
 is not imported or included in the production build. Automated tests use
@@ -171,12 +181,19 @@ the status names. These types do not run searches or manage timeouts; those are
 caller responsibilities. No registry, base class, provider-specific payloads,
 or repository implementation is introduced.
 
+The optional `searchPage(query, cursor?, signal?)` method returns normalized
+`results` and an opaque `nextCursor` when another batch may be available. Only the
+adapter interprets that cursor; it never supplies a network destination. The core
+uses this method when present, retaining `search()` compatibility for single-page
+callers. `loadMore()` appends one page per eligible provider without redoing page 1.
+
 ## Search orchestration
 
 `SearchOrchestrator` (`src/search/orchestrator.ts`) accepts a synchronous
 `onUpdate(snapshot)` callback. Supply `Provider[]` to
 `start(query, providers, { timeoutMs?, signal?, disabledProviderIds? })`. Each snapshot contains the
-query, all provider states, and the accumulated results. The first snapshot
+query, all provider states, and the accumulated results. Incremental adapters also
+report per-provider `pages` availability/loading state. The first snapshot
 clears the previous search; subsequent snapshots arrive as each provider settles,
 with results appended in completion order. Render from each snapshot without
 waiting for the other providers. The observer should not throw or mutate snapshots.

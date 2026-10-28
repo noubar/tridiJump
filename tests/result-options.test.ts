@@ -12,6 +12,11 @@ const low = model('Low', { price: { amount: 2, currency: 'EUR' }, downloads: 0, 
 const high = model('High', { price: { amount: 5, currency: 'EUR' }, downloads: 100, rating: 5, popularity: 80, createdAt: '2026-10-01', formats: ['3mf'] });
 
 describe('result filtering', () => {
+  it.each([null, 'false', 'true', 0, 1, {}])('does not coerce malformed isFree metadata into free or paid: %j', (isFree) => {
+    const malformed = { ...unknown, isFree } as unknown as ModelResult;
+    expect(priceKind(malformed)).toBeUndefined();
+    expect(priceLabel(malformed)).toBeUndefined();
+  });
   it('mixes repositories by default and combines repository, price, and format selections', () => {
     const other = model('Other', { providerId: 'b', isFree: true, formats: ['stl'] });
     const results = [low, other, unknown, high];

@@ -2,6 +2,12 @@
 import type { ModelResult } from '../shared/model-result';
 import type { CredentialField } from './credentials';
 
+export interface ResultPage {
+  results: ModelResult[];
+  /** Opaque continuation owned by the adapter, never a remotely supplied URL. */
+  nextCursor?: string;
+}
+
 export interface Provider {
   /** Stable identifier matching providerId on every returned result. */
   id: string;
@@ -15,4 +21,6 @@ export interface Provider {
    * The caller may attach query provenance if the provider does not supply it.
    */
   search(query: string, signal?: AbortSignal): Promise<ModelResult[]>;
+  /** Optional incremental interface. Undefined cursor requests the first page. */
+  searchPage?(query: string, cursor?: string, signal?: AbortSignal): Promise<ResultPage>;
 }

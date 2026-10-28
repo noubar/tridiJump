@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import type { Provider } from './provider';
+import type { Provider, ResultPage } from './provider';
+import { nextPage, pageNumber, PAGE_SIZE } from './pagination';
 import type { ModelResult } from '../shared/model-result';
 import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
@@ -24,6 +25,16 @@ function checkAbort(signal?: AbortSignal) {
   if (signal?.aborted) throw new DOMException('Search aborted', 'AbortError');
 }
 
+/** The documented v2 store-license flag describes paid objects, not a numeric price. */
+function freeStatus(licenses: unknown): boolean | undefined {
+  if (!Array.isArray(licenses)) return;
+  const store = licenses.map(record).filter((license) => license?.type === 'store');
+  if (!store.length || store.some((license) => typeof license!.value !== 'boolean')) return;
+  // Conflicting duplicate flags are insufficient evidence for either price class.
+  if (new Set(store.map((license) => license!.value)).size !== 1) return;
+  return store[0]!.value === false;
+}
+
 /** Official v2 search envelope. Price/publication date are not invented or relabeled. */
 export function normalizeMyMiniFactoryResults(payload: unknown, query: string): ModelResult[] {
   const items = record(payload)?.items;
@@ -35,6 +46,8 @@ export function normalizeMyMiniFactoryResults(payload: unknown, query: string): 
     const modelUrl = url(item?.url, true);
     if (!item || !title || !modelUrl) continue;
     const result: ModelResult = { title, url: modelUrl, providerId: 'myminifactory', query };
+    const isFree = freeStatus(item.licenses);
+    if (isFree !== undefined) result.isFree = isFree;
     const id = text(item.id) ?? (count(item.id) !== undefined ? String(item.id) : undefined);
     const creator = text(record(item.designer)?.username);
     const popularity = count(item.likes);
@@ -60,44 +73,49 @@ export function normalizeMyMiniFactoryResults(payload: unknown, query: string): 
 
 export function createMyMiniFactoryProvider(): Provider {
   let blockedUntil = 0;
+  async function searchPage(rawQuery: string, cursor?: string, signal?: AbortSignal): Promise<ResultPage> {
+    const page = pageNumber(cursor);
+    checkAbort(signal);
+    const query = normalizeQuery(rawQuery);
+    if (!query) return { results: [] };
+    let values;
+    try { values = await loadCredentials('myminifactory', myMiniFactoryCredentialFields); }
+    catch { checkAbort(signal); throw new Error('MyMiniFactory configuration could not be loaded. Check extension local storage.'); }
+    checkAbort(signal);
+    if (!values) throw new SetupRequired();
+    if (Date.now() < blockedUntil) throw new Error('MyMiniFactory rate limit reached. Please wait before searching again.');
+    // The official API specifies query-key auth. Never reuse this URL in UI,
+    // history, errors or fallback links; the fixed HTTPS origin alone receives it.
+    const endpoint = new URL('https://www.myminifactory.com/api/v2/search');
+    endpoint.search = new URLSearchParams({ q: query, page: String(page), per_page: String(PAGE_SIZE), key: values.apiKey! }).toString();
+    let response: Response;
+    try {
+      response = await fetch(endpoint.href, {
+        method: 'GET', signal, credentials: 'omit', redirect: 'error', cache: 'no-store',
+        referrerPolicy: 'no-referrer', headers: { Accept: 'application/json' },
+      });
+    } catch { checkAbort(signal); throw new Error('Could not reach MyMiniFactory. Open MyMiniFactory directly.'); }
+    checkAbort(signal);
+    if (response.status === 429) {
+      const retry = response.headers.get('retry-after');
+      const now = Date.now();
+      const reset = retry && /^\d+$/.test(retry) ? now + Number(retry) * 1000 : Date.parse(retry ?? '');
+      blockedUntil = Number.isFinite(reset) && reset >= now ? reset : now + 60_000;
+      throw new Error('MyMiniFactory rate limit reached. Please wait before searching again.');
+    }
+    if (response.status === 401 || response.status === 403) throw new Error('MyMiniFactory denied access. Check your API key in Settings or open the source directly.');
+    if (!response.ok) throw new Error(`MyMiniFactory search failed (HTTP ${response.status}). Open the source directly.`);
+    let payload: unknown;
+    try { payload = await response.json(); }
+    catch { checkAbort(signal); throw new Error('MyMiniFactory returned an unreadable response.'); }
+    checkAbort(signal);
+    const results = credentialFreeResults(normalizeMyMiniFactoryResults(payload, query), [values.apiKey!]);
+    const envelope = record(payload)!;
+    return { results, nextCursor: nextPage(page, (envelope.items as unknown[]).length, envelope.total_count) };
+  }
   return {
     id: 'myminifactory', credentialFields: myMiniFactoryCredentialFields,
-    async search(rawQuery, signal) {
-      checkAbort(signal);
-      const query = normalizeQuery(rawQuery);
-      if (!query) return [];
-      let values;
-      try { values = await loadCredentials('myminifactory', myMiniFactoryCredentialFields); }
-      catch { checkAbort(signal); throw new Error('MyMiniFactory configuration could not be loaded. Check extension local storage.'); }
-      checkAbort(signal);
-      if (!values) throw new SetupRequired();
-      if (Date.now() < blockedUntil) throw new Error('MyMiniFactory rate limit reached. Please wait before searching again.');
-      // The official API specifies query-key auth. Never reuse this URL in UI,
-      // history, errors or fallback links; the fixed HTTPS origin alone receives it.
-      const endpoint = new URL('https://www.myminifactory.com/api/v2/search');
-      endpoint.search = new URLSearchParams({ q: query, page: '1', per_page: '20', key: values.apiKey! }).toString();
-      let response: Response;
-      try {
-        response = await fetch(endpoint.href, {
-          method: 'GET', signal, credentials: 'omit', redirect: 'error', cache: 'no-store',
-          referrerPolicy: 'no-referrer', headers: { Accept: 'application/json' },
-        });
-      } catch { checkAbort(signal); throw new Error('Could not reach MyMiniFactory. Open MyMiniFactory directly.'); }
-      checkAbort(signal);
-      if (response.status === 429) {
-        const retry = response.headers.get('retry-after');
-        const now = Date.now();
-        const reset = retry && /^\d+$/.test(retry) ? now + Number(retry) * 1000 : Date.parse(retry ?? '');
-        blockedUntil = Number.isFinite(reset) && reset >= now ? reset : now + 60_000;
-        throw new Error('MyMiniFactory rate limit reached. Please wait before searching again.');
-      }
-      if (response.status === 401 || response.status === 403) throw new Error('MyMiniFactory denied access. Check your API key in Settings or open the source directly.');
-      if (!response.ok) throw new Error(`MyMiniFactory search failed (HTTP ${response.status}). Open the source directly.`);
-      let payload: unknown;
-      try { payload = await response.json(); }
-      catch { checkAbort(signal); throw new Error('MyMiniFactory returned an unreadable response.'); }
-      checkAbort(signal);
-      return credentialFreeResults(normalizeMyMiniFactoryResults(payload, query), [values.apiKey!]);
-    },
+    search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
+    searchPage,
   };
 }

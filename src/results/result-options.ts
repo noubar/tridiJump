@@ -22,7 +22,8 @@ export function knownPrice(result: ModelResult) {
 }
 
 export function priceKind(result: ModelResult): 'free' | 'paid' | undefined {
-  if (result.isFree !== undefined) return result.isFree ? 'free' : 'paid';
+  if (result.isFree === true) return 'free';
+  if (result.isFree === false) return 'paid';
   const price = knownPrice(result);
   return price ? (price.amount === 0 ? 'free' : 'paid') : undefined;
 }

@@ -16,7 +16,12 @@ const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
 const sources = providerAvailability.flatMap((source) => 'createProvider' in source
   ? [{ name: source.name, provider: source.createProvider(), searchUrl: source.searchUrl }] : []);
-const view = createResultsView(document.querySelector('main')!, sources);
+const view = createResultsView(document.querySelector('main')!, sources, {
+  async readDisabledProviders() {
+    const choices = await readRepositories();
+    return new Set(providerAvailability.filter((source) => !repositoryEnabled(source, choices)).map((source) => source.id));
+  },
+});
 
 let generation = 0;
 async function runSearch() {

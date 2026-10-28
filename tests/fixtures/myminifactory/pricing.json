@@ -1,0 +1,23 @@
+{
+  "total_count": 3,
+  "items": [
+    {
+      "id": 999999981,
+      "name": "Synthetic MMF free cap",
+      "url": "https://www.myminifactory.com/object/tridijump-test-free-cap-999999981",
+      "licenses": [{ "type": "store", "value": false }, { "type": "commercial-use", "value": false }]
+    },
+    {
+      "id": 999999982,
+      "name": "Synthetic MMF paid cap",
+      "url": "https://www.myminifactory.com/object/tridijump-test-paid-cap-999999982",
+      "licenses": [{ "type": "store", "value": true }]
+    },
+    {
+      "id": 999999983,
+      "name": "Synthetic MMF unknown cap",
+      "url": "https://www.myminifactory.com/object/tridijump-test-unknown-cap-999999983",
+      "licenses": [{ "type": "commercial-use", "value": true }]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ export interface ModelResult {
   creator?: string;
   /** Amount in major currency units, with an ISO 4217 currency code. */
   price?: { amount: number; currency: string };
-  /** Explicit free/paid information; missing price does not imply free. */
+  /** Reliable API or bundled provider semantics; missing numeric price alone does not imply free. */
   isFree?: boolean;
   /** Known file extensions, lowercase without a leading dot, e.g. "stl". */
   formats?: string[];
