@@ -4,6 +4,12 @@ tridiJump has no backend, accounts, analytics, telemetry, advertising, affiliate
 rewriting, external translation, AI service or remote executable code. Searches
 go directly to enabled repositories. Their own terms and privacy policies apply.
 
+Expanded Search generates up to three additional English/German phrase or synonym
+queries entirely locally, retaining the original. Those variants are sent only
+to the same enabled, configured model repositories as ordinary search requests.
+No translation data goes to another service. Application history and native
+fallback links retain only the original query. See [Expanded Search](docs/expanded-search.md).
+
 ## Local data
 
 Preferences, repository choices, optional search history and provider credentials

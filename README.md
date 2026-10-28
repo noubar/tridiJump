@@ -12,7 +12,7 @@ search remains available for all six repositories. See the
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
 extension storage; authenticated live testing was not repeated by the agent.
-Synonym expansion is not implemented.
+Expanded Search adds bounded local English/German phrase and synonym searches.
 
 Anonymous [Printables search](docs/provider-printables.md) now feeds the same grid.
 The user **live verified basic Chromium search, real cards and a tested model link
@@ -25,9 +25,10 @@ are preserved. Cancellation discards late replies immediately, while an
 already-started worker request may finish. See the report for the earlier CORS
 finding, new thumbnail checklist and query-only rollback if the image field fails.
 
-**Release audit: NOT READY FOR V1 RELEASE.** Expanded Search/EN/DE expansion
-is missing; live multipage acceptance and the MyMiniFactory URL-credential policy
-conflict remain unresolved. See the [final audit](docs/release-audit.md) and
+**Release audit follow-up: Expanded Search is now implemented.** Live multipage
+acceptance and the MyMiniFactory URL-credential policy conflict remain unresolved;
+this change alone does not establish release readiness. See the
+[historical final audit](docs/release-audit.md), [Expanded Search](docs/expanded-search.md) and
 [privacy/network inventory](PRIVACY.md).
 
 ## Supported repositories
@@ -99,8 +100,13 @@ Search history is off by default and keeps at most 50 unique recent original
 queries, newest first. Disabling collection retains old entries; **Clear search
 history** empties them. Expanded Search default applies to new entry-page searches;
 explicit URL/toggle choices remain authoritative. Changing defaults never restarts
-an ongoing search. The expansion engine is not present in this checkout, so this
-build sends only the original query and cannot demonstrate English/German expansion.
+an ongoing search. When enabled, Expanded Search retains the original query and
+adds up to three unique related English/German queries using a small bundled
+phrase map. It replaces one known phrase at a time, retaining product names;
+unknown terms can remain unchanged. This is not general-purpose translation.
+There is no AI or external translation service. Variant first pages run
+sequentially per provider; further pages remain user-driven. History and native
+fallbacks retain the original query. See [examples and limits](docs/expanded-search.md).
 
 System/Light/Dark themes persist locally and update other open extension pages
 through storage change events. System follows browser/device color preferences
@@ -161,7 +167,7 @@ npm run build       # Type check and production build
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
 - `src/providers/`: small provider contract, local credentials, three official API adapters and anonymous Printables search
-- `src/synonyms/`: reserved for later implementation
+- `src/synonyms/`: bounded local English/German phrase and synonym expansion
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
 - `tests/`: extension foundation checks

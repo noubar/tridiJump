@@ -8,8 +8,9 @@ before this change. The agent has not repeated authenticated live testing.
 
 ## Release-audit follow-up
 
-Read the [final audit](release-audit.md) for outstanding V1 blockers. Expanded
-Search currently saves a preference but has no production expansion engine.
+Read the [historical final audit](release-audit.md) for the original V1 blockers.
+[Expanded Search](expanded-search.md) now dispatches the original plus at most
+three local English/German phrase/synonym variants; other release gates remain.
 Read/modify/write history and repository updates, plus legacy migrations, now
 use same-origin Web Locks across extension pages where supported. Tests emulate
 separate page modules and delayed reads; native Chromium verification is pending.
@@ -99,10 +100,10 @@ D. **Remove:** Remove credentials for one enabled source. Search again. Expect S
    the old one. Cancel replacement retains the old key.
 E. **Expanded Search default:** enable the default, open a new popup and confirm
    the toggle is on. Changing the default must not restart an existing Results
-   search. Turn it off and open another popup to confirm off. **The checkout has
-   no expansion engine**, so English/German original + up to 3 variants cannot be
-   verified in this task. Only the original query runs, and unconfigured adapters
-   check configuration once per explicit search without network requests.
+   search. Turn it off and open another popup to confirm off. Search `gear` with
+   expansion on: expect original, `Zahnrad`, `cogwheel`, `cog` for searchable
+   providers. With it off, expect only `gear`. Unconfigured adapters check
+   configuration once per explicit search without network requests.
 F. **History:** enable Save recent searches locally, search, and confirm the query
    appears in Settings without reloading it. Disable collection and search again:
    old entries remain, the new query is absent. Clear search history; expect an
@@ -123,6 +124,6 @@ remain in the full suite. DOM tests are not authenticated browser/live tests.
 
 There is no dynamic official registry implementation in this checkout. New bundled
 entries preserve selections, and the pure availability helper supports a trusted
-unavailable flag. A remote metadata loader is outside Prompt 13. There is also no
-synonym/translation engine: Prompt 13 persists its default but does not add a new
-search subsystem. Those two assumptions in the prompt cannot be verified here.
+unavailable flag. A remote metadata loader is outside Prompt 13. The later
+Expanded Search blocker fix connects the small local phrase map to the existing
+variant-aware runner; it does not add another search subsystem.

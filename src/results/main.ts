@@ -6,6 +6,7 @@ import { readPreferences, rememberSearch, readRepositories, repositoryEnabled } 
 import { initializeTheme } from '../shared/theme';
 import { providerAvailability } from '../providers/availability';
 import { createResultsView } from './view';
+import { expandQuery } from '../synonyms/expand-query';
 
 void initializeTheme();
 const search = readSearch(window.location.search, (await readPreferences().catch(() => ({ expandedDefault: false }))).expandedDefault);
@@ -62,7 +63,8 @@ async function runSearch() {
       if (current === generation) document.querySelector('#storage-status')!.textContent = 'Search history could not be saved on this device.';
     });
   }
-  view.search(query, new Set(providerAvailability.filter((source) => !repositoryEnabled(source, choices)).map((source) => source.id)));
+  view.search(query, new Set(providerAvailability.filter((source) => !repositoryEnabled(source, choices)).map((source) => source.id)),
+    expandedMode ? expandQuery(query).slice(1) : undefined);
 }
 
 form.addEventListener('submit', (event) => {

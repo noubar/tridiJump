@@ -89,15 +89,13 @@ to the existing cross-source sorts.
 - Results deduplicate per provider by native model ID and URL (ignoring fragments).
   An optional ID missing from one duplicate does not prevent URL deduplication.
 
-The checkout still has **no synonym expansion engine**. The normal UI's Expanded
-Search toggle currently sends only the original query, as its help text explains.
-This task adds bounded core support for already-expanded local query strings via
+The production UI now uses the [local phrase map](expanded-search.md) to feed
 `expandedQueries`: original plus at most three unique extra terms. First pages for
 those terms run sequentially within each provider, with immediate result insertion.
 Setup required on the original skips all extra terms. Load more rotates streams,
 fetching one stream page per provider per click, not every page of every variant.
-Tests exercise this primitive, deduplication and the production toggle path; they
-are not proof that the absent English/German dictionary/translation feature exists.
+Tests exercise this primitive, deduplication, the actual expansion module and the
+production Results toggle path. Mocked paging is not proof of live remote schemas.
 
 ## Tests
 
@@ -140,9 +138,11 @@ The user previously verified their first-page integrations; this task demonstrat
 5. While Load more is pending, start a different search. Confirm old cards never
    enter the new results. Disable a provider or remove credentials and check the
    appropriate Disabled/Setup required state without blocking companions.
-6. Repeat with Expanded Search on. Current UI behavior remains original-only; full
-   English/German acceptance cannot pass until that separate engine exists. Core
-   explicit-variant tests verify the pagination/request limits for its future input.
+6. Repeat with Expanded Search on using `gear`: expect original, `Zahnrad`,
+   `cogwheel`, `cog`. First pages should arrive progressively, with one continuation
+   per eligible provider per Load more click. Missing-key sources should stay
+   Setup required without repeated checks. Compare with expansion off (original
+   only); see the [local phrase examples](expanded-search.md).
 
 Do not treat mocked pagination, inferred Cults arguments or the toggle alone as a
 completed authenticated/manual V1 acceptance run.

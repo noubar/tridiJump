@@ -117,8 +117,8 @@ unconfigured providers from all expanded-term dispatch and retries, retaining
 their Setup required state and configuration/fallback links. Do not treat missing
 configuration as a failure or an empty successful search. A new explicit search
 must be able to recheck configuration after the user saves credentials in Settings.
-Synonym expansion is not currently implemented; this rule also constrains its
-future implementation, without adding expansion in the credential/search work.
+The local Expanded Search implementation follows this rule through the existing
+variant-aware runner; configuration saved later is rechecked on a new search.
 
 Do not put secret values in search states, `ModelResult`, provider declarations,
 or snapshots. Configuration declarations describe fields; configuration status
