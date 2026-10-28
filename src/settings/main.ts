@@ -3,17 +3,19 @@ import '../shared/styles.css';
 import { clearHistory, readHistory, readPreferences, savePreferences, PREFERENCES_KEY, HISTORY_KEY } from '../shared/preferences';
 import type { Theme } from '../shared/preferences';
 import { applyTheme, initializeTheme } from '../shared/theme';
-import { cultsCredentialFields } from '../providers/cults3d';
 import { initializeCredentialSettings } from './provider-credentials';
 import { providerAvailability } from '../providers/availability';
 
 initializeTheme();
-// Preserve removal of previously stored keys, but do not collect new credentials
-// or imply they can enable an integration whose eligibility is unconfirmed.
-void initializeCredentialSettings(document.querySelector('#provider-cults3d')!, 'cults3d', cultsCredentialFields, { allowSave: false });
+for (const source of providerAvailability) {
+  if ('createProvider' in source) {
+    const provider = source.createProvider();
+    void initializeCredentialSettings(document.querySelector(`#provider-${source.id}`)!, source.id, provider.credentialFields!);
+  }
+}
 document.querySelector('#repository-availability')!.replaceChildren(...providerAvailability.map((source) => {
   const item = document.createElement('li');
-  item.textContent = `${source.name}: direct search only. ${source.reason}`;
+  item.textContent = `${source.name}: ${source.classification === 'D' ? 'direct search only. ' : ''}${source.reason}`;
   return item;
 }));
 const form = document.querySelector<HTMLFormElement>('#settings-form')!;

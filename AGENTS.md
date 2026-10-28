@@ -22,9 +22,11 @@ work. This user-approved policy applies to all subsequent tridiJump tasks.
   Preserve staged implementation scope; policy updates alone do not enable providers.
 - Classify each remaining provider A (no credentials), B (free user credentials),
   C (paid API), or D (no appropriate aggregation interface) before implementation.
-  Follow `docs/provider-classification.md`; do not infer API pricing from account
-  or marketplace pricing. Cults production dispatch requires confirmed free and
-  appropriate access. Preserve tested adapter work while this evidence is pending.
+  Follow the current `docs/live-provider-enablement.md`; the older all-fallback
+  classification is historical. Do not infer API pricing from account/marketplace
+  pricing. The live enablement task authorizes documented user-key integrations
+  against mocks when development keys are absent. Record unverified issuance,
+  fees and live compatibility honestly; use only the user's own free API access.
 - Every authenticated adapter needs tests for missing-key setup-required, correct
   authenticated request, isolated auth failure, no secret in errors, and Remove
   Credentials returning it to setup-required. Use mocks when live keys are absent.

@@ -1,5 +1,11 @@
 # V1 authenticated-provider classification
 
+**Superseded 2026-10-28:** see the [live enablement review](live-provider-enablement.md).
+Three official user-key adapters are now wired into production; all-fallback is
+no longer the current disposition. Authenticated live verification and current
+free issuance remain explicitly pending, not grounds to assert that no API exists.
+The text below preserves the earlier investigation's decision record.
+
 Rechecked 2026-10-27 against the user's special authenticated-provider policy.
 These **A–D product classifications** differ from the **A–E retrieval mechanism**
 letters in the historical investigation. This document supersedes its release

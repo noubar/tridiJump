@@ -7,6 +7,8 @@ import { loadCredentials, saveCredentials } from '../src/providers/credentials';
 import { mockExtensionStorage } from './helpers/extension-storage';
 import { SearchOrchestrator } from '../src/search/orchestrator';
 import type { SearchSnapshot } from '../src/search/orchestrator';
+import { createMyMiniFactoryProvider } from '../src/providers/myminifactory';
+import { createThingiverseProvider } from '../src/providers/thingiverse';
 
 const fake = { nickname: 'test-only-user', apiKey: 'FAKE-LOCAL-SECRET' };
 const field = (name: string) => document.querySelector<HTMLInputElement>(`#credential-cults3d-${name}`)!;
@@ -16,6 +18,30 @@ beforeEach(() => { document.body.replaceChildren(document.createElement('section
 afterEach(() => { document.body.replaceChildren(); vi.unstubAllGlobals(); });
 
 describe('credential Settings', () => {
+  it.each([
+    { make: createMyMiniFactoryProvider, values: { apiKey: 'FAKE-REMOVE-MMF' } as Record<string, string>, payload: { items: [] } },
+    { make: createThingiverseProvider, values: { appToken: 'FAKE-REMOVE-THINGIVERSE' } as Record<string, string>, payload: { hits: [] } },
+  ])('Remove Credentials returns $make to setup-required without another network request', async ({ make, values, payload }) => {
+    mockExtensionStorage();
+    const provider = make();
+    await saveCredentials(provider.id, provider.credentialFields!, values);
+    const root = document.querySelector('section')!;
+    await initializeCredentialSettings(root, provider.id, provider.credentialFields!);
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload)));
+    vi.stubGlobal('fetch', fetchMock);
+    let latest!: SearchSnapshot;
+    const runner = new SearchOrchestrator((update) => { latest = update; });
+    runner.start('cap', [provider]);
+    await vi.waitFor(() => expect(latest.states[0]?.status).toBe('no-results'));
+    root.querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+    await flush();
+    expect(status()).toContain('Local credentials removed');
+    runner.start('cap again', [provider]);
+    await vi.waitFor(() => expect(latest.states).toEqual([{ providerId: provider.id, status: 'setup-required' }]));
+    expect(fetchMock).toHaveBeenCalledOnce();
+    runner.cancel();
+  });
+
   it('allows removal while eligibility is pending, collects no new key, and returns the adapter to setup-required', async () => {
     const { local } = mockExtensionStorage();
     await saveCredentials('cults3d', cultsCredentialFields, fake);

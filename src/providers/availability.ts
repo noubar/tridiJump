@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { normalizeQuery } from '../search/query';
-import { cultsSearchUrl } from './cults3d';
+import { createCultsProvider, cultsSearchUrl } from './cults3d';
+import { createMyMiniFactoryProvider } from './myminifactory';
+import { createThingiverseProvider } from './thingiverse';
 
 // Current V1 disposition, not a claim that these services have no APIs at all.
 // See docs/provider-classification.md for evidence and conditions for enabling each.
@@ -11,8 +13,9 @@ export const providerAvailability = [
   { id: 'makerworld', name: 'MakerWorld', classification: 'D',
     reason: 'Aggregation unavailable: no supported public search interface verified.',
     searchUrl: (query: string) => queryUrl('https://makerworld.com/en/search/models', 'keyword', query) },
-  { id: 'thingiverse', name: 'Thingiverse', classification: 'D',
-    reason: 'Aggregation pending verification of current developer access and API terms.',
+  { id: 'thingiverse', name: 'Thingiverse', classification: 'B',
+    reason: 'Official API search with your App Token. Live authenticated verification pending.',
+    createProvider: createThingiverseProvider,
     searchUrl: (query: string) => {
       const target = new URL(queryUrl('https://www.thingiverse.com/search', 'q', query));
       target.searchParams.set('type', 'things');
@@ -26,11 +29,13 @@ export const providerAvailability = [
       target.searchParams.set('view', 'grid');
       return target.href;
     } },
-  { id: 'myminifactory', name: 'MyMiniFactory', classification: 'D',
-    reason: 'Aggregation pending verification of free key issuance and permitted extension use.',
+  { id: 'myminifactory', name: 'MyMiniFactory', classification: 'B',
+    reason: 'Official API search with your API key. Live authenticated verification pending.',
+    createProvider: createMyMiniFactoryProvider,
     searchUrl: (query: string) => queryUrl('https://www.myminifactory.com/search/', 'query', query) },
-  { id: 'cults3d', name: 'Cults3D', classification: 'D',
-    reason: 'Aggregation pending confirmation of free API access. Existing keys do not enable it.',
+  { id: 'cults3d', name: 'Cults3D', classification: 'B',
+    reason: 'Official API search with your nickname and API key. Live authenticated verification pending.',
+    createProvider: createCultsProvider,
     searchUrl: cultsSearchUrl },
 ] as const;
 

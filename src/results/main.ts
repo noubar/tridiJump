@@ -14,9 +14,9 @@ initializeSearchForm(form, search.expanded);
 const input = form.elements.namedItem('q') as HTMLInputElement;
 const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
-// None currently meets all V1 access/use requirements. Keep the tested adapter
-// available for development, without credential reads or API dispatch in production.
-const view = createResultsView(document.querySelector('main')!, []);
+const sources = providerAvailability.flatMap((source) => 'createProvider' in source
+  ? [{ name: source.name, provider: source.createProvider() }] : []);
+const view = createResultsView(document.querySelector('main')!, sources);
 
 function runSearch() {
   const links = document.querySelector<HTMLElement>('#native-searches')!;
@@ -32,7 +32,7 @@ function runSearch() {
     item.append(link);
     return item;
   }));
-  document.querySelector('#provider-status')!.replaceChildren(...providerAvailability.map((source) => {
+  document.querySelector('#fallback-status')!.replaceChildren(...providerAvailability.filter((source) => source.classification === 'D').map((source) => {
     const item = document.createElement('li');
     item.textContent = `${source.name}: direct search only — ${source.reason}`;
     return item;

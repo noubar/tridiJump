@@ -83,7 +83,8 @@ summary { cursor: pointer; font-weight: 600; padding-block: 0.5rem; }
 #history-list li { padding-block: 0.25rem; }
 #settings-form { max-width: 48rem; }
 .source-notice { border-left: 3px solid var(--muted); padding: 0.75rem 1rem; background: var(--surface); }
-#provider-cults3d input { display: block; width: min(100%, 28rem); margin-bottom: 1rem; }
+section[id^="provider-"] input { display: block; width: min(100%, 28rem); margin-bottom: 1rem; }
+section[id^="provider-"] + section { margin-top: 2rem; }
 .filter-group { border: 0; padding: 0; background: none; }
 .filter-group legend { padding: 0; margin-bottom: 0.75rem; }
 aside select { width: 100%; }

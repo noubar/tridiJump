@@ -1,10 +1,11 @@
 # Cults3D integration
 
-**Current production status:** native-search fallback only. The latest explicit
-instruction requires confirmed free and appropriate API access before use. Free
-API pricing remains unconfirmed, so a saved key does not enable dispatch. No
-API host permission is granted. The adapter and local credential code are preserved.
-See [current provider classification](provider-classification.md).
+**Current production status (2026-10-28):** connected to the results page with
+local user nickname/key configuration. Missing credentials produce Setup required;
+configured searches call the official endpoint. Authenticated live verification
+and current free key issuance remain pending. See the
+[live enablement review](live-provider-enablement.md) for evidence, all six
+providers, and exact configuration/manual acceptance steps.
 
 Official documentation was rechecked on 2026-10-27. The guide still documents
 nickname/API-key Basic auth and dynamic quotas; officially linked examples
@@ -14,15 +15,15 @@ No challenge was executed or bypassed. No incompatible change was established,
 but authenticated schema compatibility remains unverified.
 
 **API pricing remains unconfirmed by explicit first-party text.** This is not
-evidence of paid access. The user-key path is implemented and fixture-tested but
-gated in production under the [permanent policy](provider-policy.md).
-There was no account/key to verify
+evidence of paid access. The latest task explicitly requests documented user-key
+paths with fixture-based implementation when development keys are absent. This
+path is now connected, with use limited to the user's own free API access under
+the [permanent policy](provider-policy.md). There was no account/key to verify
 issuance or billing. **Live authenticated testing remains pending.**
 
 Implemented 2026-10-27. Cults3D is ranked first in the
 [provider investigation](provider-investigation.md). This implementation follows
-recommendation A (official API) for the retained adapter, with E (user-opened
-search) as the current production route. These historical mechanism letters
+recommendation A (official API), with E (user-opened search) as fallback. These historical mechanism letters
 are distinct from current A–D product classifications. The
 `search(query, signal?): Promise<ModelResult[]>` signature is unchanged. The
 credential follow-up adds only optional field declarations and generic setup handling.
@@ -40,9 +41,9 @@ The reusable Settings form supplies nickname/key fields, Save, Remove, and confi
 values are never prefilled; inputs clear on submission. Failed replacement leaves
 the previous saved key intact. Local removal does not revoke the key at Cults.
 This application storage is not encrypted by tridiJump or an OS credential vault.
-Production currently uses this form in removal-only mode: no credential fields
-or Save action are exposed while API eligibility is pending. Existing keys are
-preserved until the user removes them; stored status does not mean aggregation is enabled.
+Production now exposes the fields and Save/Remove actions. The official
+key-management route is `https://cults3d.com/en/api/keys`; prefer a read-only key.
+Stored status certifies local presence, not remote validity or current pricing.
 
 The adapter reads only its own credentials before network dispatch and checks
 abort again after that asynchronous read. It caches no credentials between
@@ -77,10 +78,10 @@ omit browser cookies and disable request caching.
 [Official API guide](https://cults3d.com/en/pages/graphql),
 [official feature log](https://cults3d.com/en/pages/logbook-updates-new-features-cults)
 
-The manifest currently grants only `storage` for credential status/removal. An
-enabled adapter would require only `https://cults3d.com/*`. No cookies,
-scripting, background worker, other provider host, or broad tabs permission is
-requested. A host grant does not override access policy, authentication or quotas.
+This adapter needs only `https://cults3d.com/*` and `storage`. The manifest also
+grants the precise origins of the other two implemented user-key APIs, never
+staging or wildcard hosts. No cookies, scripting, background worker or broad tabs
+permission is requested. A host grant does not override authentication or quotas.
 
 ## Normalization and errors
 
@@ -122,10 +123,10 @@ field shapes. It contains no captured creator assets, secrets, or actual model
 records. A fixture README describes provenance. No authenticated production
 response was available to capture. The tests cover normalization, empty results,
 invalid required/optional fields, server and network errors, rate limits, and
-cancellation. The real production entry is tested both without credentials
-and with a previously saved fake key: neither dispatches an API request, and
-both offer native search. The retained adapter's view and core are separately
-tested for Setup required and a Settings route. Additional tests cover local save/replace/remove,
+cancellation. The real production entry is tested without credentials (Setup
+required, no request) and with fake local credentials (actual adapter and
+orchestration, mocked HTTP, normalized model cards). Native fallback remains
+available in both cases. Additional tests cover local save/replace/remove,
 provider separation, malformed storage, no secret prefill, sanitized storage
 errors, and cancellation/new search/timeout during a delayed storage read.
 HTTP 401/403 errors containing echoed fake credentials/Basic headers are replaced
@@ -149,16 +150,15 @@ Development checks on 2026-10-27:
 ## Manual development checklist
 
 1. Run `npm run dev`, load `dist/` unpacked in Chromium, and open the popup.
-2. Submit `benchy` without credentials. Expect no demo cards or API requests,
-   a direct-search-only disposition with its reason, and the encoded Cults link.
-3. If an earlier development version saved a key, verify that no API request is
-   made and Settings permits removal without revealing the key. Search again:
-   aggregation stays unavailable until eligibility is confirmed.
-4. After free/appropriate access is confirmed and the adapter is enabled in a
-   subsequent change, verify Setup required, the Settings route, local Save,
-   real schema/cards/prices and cancellation using authorized free access.
-   Live authenticated verification remains pending. Never add scraping to hide
-   validation or access failures.
+2. Submit `cap` without credentials. Expect Setup required, no API request, a
+   Settings route, and the encoded Cults fallback link.
+3. Create your own free read-only key via the official key-management page.
+   Save nickname/key in Settings; reloading Settings must show blank fields and
+   configured status. Do not pay for API access if the onboarding conditions changed.
+4. Submit `cap` again: expect searching, then actual cards on success. Verify
+   original model links, prices and cancellation. Remove local credentials and
+   submit again: expect Setup required without another request. Live authenticated
+   verification remains pending. Never scrape to hide validation/access failures.
 5. Verify the manual fallback in a normal browser. If a challenge or access
    denial appears, stop; no bypass is part of this integration.
 

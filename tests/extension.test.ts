@@ -13,9 +13,9 @@ describe('extension foundation', () => {
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('retains local credential removal without granting any unverified API host', () => {
+  it('grants only extension storage and the three implemented official API origins', () => {
     expect(manifest.permissions ?? []).toEqual(['storage']);
-    expect(manifest.host_permissions ?? []).toEqual([]);
+    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*']);
     expect(manifest.optional_permissions ?? []).toEqual([]);
     expect(manifest.optional_host_permissions ?? []).toEqual([]);
     expect(manifest.background).toBeUndefined();
@@ -53,7 +53,7 @@ describe('extension foundation', () => {
       for (const [, href] of links) {
         const destination = new URL(href!, page);
         if (destination.protocol === 'file:') expect(existsSync(destination)).toBe(true);
-        else expect(destination.origin).toBe('https://cults3d.com');
+        else expect(['https://cults3d.com', 'https://www.myminifactory.com', 'https://www.thingiverse.com']).toContain(destination.origin);
       }
     }
   });

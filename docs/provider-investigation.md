@@ -4,8 +4,8 @@ Research date: **2026-10-27**. This is a research document, not an implementatio
 or authorization to ship an integration. No live providers, dependencies,
 permissions, credentials, or provider-interface changes were added.
 
-For current A–D product classifications and release decisions, see
-[provider classification](provider-classification.md). Its policy/access recheck
+For current implementation and evidence, see [live enablement review](live-provider-enablement.md).
+The earlier [provider classification](provider-classification.md) policy/access recheck
 supersedes the historical recommendations' release dispositions below.
 
 Subsequent implementation status and verification limits are documented in

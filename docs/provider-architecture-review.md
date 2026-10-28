@@ -1,6 +1,13 @@
 # V1 provider architecture review
 
-**Current release disposition:** the special authenticated-provider follow-up
+**Latest implementation (2026-10-28):** the live enablement task connects three
+official user-key adapters to Results and their Settings forms. The previous
+all-fallback disposition below is historical. The small Provider interface and
+generic orchestrator are unchanged. Current evidence, unresolved issuance/fees,
+manual acceptance steps and live verification limits are in the
+[live enablement review](live-provider-enablement.md).
+
+**Earlier release disposition (2026-10-27):** the special authenticated-provider follow-up
 gates Cults production use on confirmed free and appropriate access. That
 confirmation is pending, so production uses native fallback even for saved keys;
 Settings permits their removal. The shared credential mechanism and adapter tests

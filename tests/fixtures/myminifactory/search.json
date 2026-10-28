@@ -1,0 +1,19 @@
+{
+  "total_count": 2,
+  "items": [
+    {
+      "id": 999999991,
+      "name": "Synthetic cap from MyMiniFactory",
+      "url": "https://www.myminifactory.com/object/3d-print-tridijump-synthetic-cap-999999991",
+      "designer": { "username": "test-maker" },
+      "images": [{ "is_primary": true, "thumbnail": { "url": "https://images.example.test/mmf-cap.png" } }],
+      "files": [{ "filename": "cap.STL" }, { "filename": "cap.3mf" }, { "filename": "package.zip" }],
+      "likes": 0,
+      "published_at": "2026-10-28T12:00:00Z"
+    },
+    {
+      "name": "Synthetic minimal MyMiniFactory result",
+      "url": "https://www.myminifactory.com/object/3d-print-tridijump-synthetic-minimal-999999992"
+    }
+  ]
+}

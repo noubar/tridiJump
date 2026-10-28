@@ -4,12 +4,13 @@ A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
 The V1 application includes a search popup, progressive results grid, and settings.
-Production currently offers native-search links for all six repositories, with
-per-provider reasons aggregation is unavailable. The
-[current provider classifications](docs/provider-classification.md) document
-access and policy evidence. Cults3D's tested GraphQL adapter is preserved but
-excluded from production pending confirmation of free API access. A saved key
-does not bypass this condition. Live authenticated compatibility remains pending.
+Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
+using your own local credentials. Unconfigured providers show Setup required;
+configured providers send actual searches and append normalized cards. Native
+search remains available for all six repositories. See the
+[live enablement review](docs/live-provider-enablement.md) for each access path,
+source, restriction and limitation. No authenticated live search has been
+verified in this development environment; fixtures do not prove live compatibility.
 Synonym expansion is not implemented.
 
 ## Development
@@ -39,10 +40,11 @@ saved theme changes also apply to other open extension pages. History can be
 cleared, and disabling it clears existing history. Preferences and history use
 extension-origin `localStorage` on this device; they are not synced.
 
-Cults3D Settings currently permits removal of credentials saved by an earlier
-development version and shows local configured status; it collects no new key
-while eligibility is pending. The reusable Save/Remove mechanism is retained and
-tested. Credentials use extension `storage.local` only, never sync or
+Settings has separate Save/Remove forms for Cults3D (nickname/key), MyMiniFactory
+(API key) and Thingiverse (App Token), with official onboarding links. Use only
+credentials obtained with free API access; tridiJump requires no paid API
+subscription. Current issuance/fees could not be independently verified through
+blocked account pages. Credentials use extension `storage.local` only, never sync or
 preferences/history storage. Saved secrets are never prefilled. This local
 storage is not encrypted by tridiJump or an OS credential vault. Do not paste
 credentials into chat. No personal/developer key is bundled.
@@ -52,8 +54,7 @@ Use **Search directly on…** links on the results page without a key. See the
 for verified free APIs; paid APIs are excluded. Scraping is considered only when
 permitted, with no authentication or anti-bot bypass.
 
-When enabled in development/tests, the Cults adapter fetches a bounded first page
-of up to 20 models. EUR prices are converted
+Each adapter fetches a bounded first page of up to 20 models. Cults EUR prices are converted
 from reported cents; unavailable metadata stays unknown. No model files are
 downloaded. Demo code remains isolated in `src/results/demo/` for reference and
 is not imported or included in the production build. Automated tests use
@@ -90,7 +91,7 @@ npm run build       # Type check and production build
 - `src/results/`: safe card rendering, filter/sort helpers, and progressive view
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
-- `src/providers/`: minimal provider contract and isolated Cults3D implementation
+- `src/providers/`: small provider contract, local credentials, three isolated API adapters
 - `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
@@ -99,15 +100,15 @@ npm run build       # Type check and production build
 Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
-APIs, or remote executable code. The manifest requests only extension storage
-for credential status/removal. No API hosts,
-tabs, scripting, cookies, or background permissions are requested.
+APIs, or remote executable code. The manifest requests only extension storage and
+the three precise API origins: Cults3D, www.myminifactory.com and api.thingiverse.com.
+No tabs, scripting, cookies, staging API or background permissions are requested.
 
 ## Domain and provider contract
 
 Current live-integration research, access limitations, source links, and
 recommendations are in [Provider investigation](docs/provider-investigation.md),
-superseded for release decisions by [Provider classification](docs/provider-classification.md).
+superseded for implementation status by [Live enablement review](docs/live-provider-enablement.md).
 
 The [V1 provider architecture review](docs/provider-architecture-review.md)
 records the stable search signature, boundary checks, and adapter/orchestrator regression
@@ -159,7 +160,8 @@ waiting for the other providers. The observer should not throw or mutate snapsho
 
 Every provider starts independently and has a separate abort signal and timer
 (10 seconds by default). Successful empty responses become `no-results`;
-rejections become `failed`; expired timers become `timed-out` and abort only
+missing configuration becomes `setup-required`; other rejections become `failed`;
+expired timers become `timed-out` and abort only
 that provider. There is no aggregate promise gating progressive updates.
 
 Starting another search aborts the previous run. Both run identity and settled
@@ -172,11 +174,10 @@ Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled providers are omitted by the caller. The results
-page currently supplies no aggregation providers, including when keys are saved.
-In tests, Cults credential loading is covered by cancellation and provider timeout;
-a superseded or timed-out read cannot launch a request. Other adapters are not
-implemented. Available authenticated adapters without local credentials produce
-`setup-required`; unverified provider eligibility is a separate fallback disposition.
+page supplies three authenticated providers. Credential loading is covered by
+cancellation and provider timeout; a superseded or timed-out read cannot launch
+a request. Printables, MakerWorld and Thangs use native fallback, with their
+limitations documented separately. They are not counted as successful API searches.
 
 ## License
 

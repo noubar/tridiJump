@@ -75,7 +75,8 @@ framework, remote credential service, generic OAuth system, or plugin architectu
 
 Before implementing each remaining provider, record A (no credentials), B (free
 user credentials), C (paid API), or D (no appropriate aggregation interface).
-Use [current classification](provider-classification.md) and its cited evidence.
+Use the [live enablement review](live-provider-enablement.md) and its cited evidence;
+the older all-fallback classification is historical.
 Unknown cost is not evidence of paid access or verified free access. A paid
 marketplace membership is not automatically a paid API requirement.
 
@@ -111,12 +112,14 @@ requirements are met. Implement against official docs and appropriate synthetic
 fixtures/mocks when necessary, and mark **live authenticated testing pending**.
 Never claim that mocked tests verify the production schema or authenticated access.
 
-The public documentation recheck still does not explicitly establish Cults API
-pricing. Under the subsequent explicit instruction, production uses Cults only
-if free API access and appropriate use are confirmed. Until then the tested
-adapter and reusable credential code are preserved, but search dispatch is gated
-and Settings only permits removal of existing credentials. No live development
-key is required to complete fixture-based implementation once eligibility is known.
+The live enablement task (2026-10-28) explicitly requests connected documented
+user-key paths with fixture-based implementation when development keys are absent.
+Cults, MyMiniFactory and Thingiverse now have local Settings and real search
+dispatch. Free key issuance/fees and authenticated live results were not independently
+verified in this environment; record those limits rather than claiming unavailable
+aggregation or successful live testing. Use only the user's own free API access;
+there is no paid API dependency, bundled key, billing enrollment or scraping
+substitute for official authentication. Current evidence is in the enablement review.
 First-party sources:
 [API overview](https://cults3d.com/en/api),
 [API guide](https://cults3d.com/en/pages/graphql).
@@ -124,7 +127,7 @@ First-party sources:
 Prompt 08 originally remained an architecture review and added only the state
 type. The subsequent explicit credential implementation task authorizes the
 small local mechanism and Cults configuration described in the integration notes.
-The subsequent special authenticated-provider task adds the classifications and
-native fallbacks and enforces the Cults free-access gate. No other adapter has
-been implemented. Preserve the retrieval order above. Never substitute scraping
+The special authenticated-provider task added classifications and native fallbacks;
+the later live enablement task connects the three documented user-key APIs.
+Preserve the retrieval order above. Never substitute scraping
 for an appropriate free official API merely to avoid asking for a user key.

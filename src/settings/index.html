@@ -15,12 +15,23 @@
       <section class="panel" aria-labelledby="repositories-heading">
         <h2 id="repositories-heading">Repositories</h2>
         <ul id="repository-availability"></ul>
+        <p class="hint">Use only your own free API access. tridiJump requires no paid API subscription. If key creation asks you to pay for API access, use native search instead.</p>
+        <p class="hint">Credentials stay in extension local storage on this browser profile and go only to their provider. They are not synchronized. This storage is not encrypted by tridiJump or an operating-system credential vault. Removing credentials here does not revoke the provider key. Saved secrets are never filled back into these forms.</p>
         <section id="provider-cults3d" aria-labelledby="cults-heading">
           <h3 id="cults-heading">Cults3D</h3>
-          <p>Aggregation is disabled pending confirmation of free API access. Saved credentials do not enable it. You can remove any credentials saved by an earlier development version below.
-            <a href="https://cults3d.com/en/pages/graphql" target="_blank" rel="noopener noreferrer">Cults3D API and key setup</a></p>
-          <p class="hint">The public guide does not state API pricing. No new keys are requested until eligibility is confirmed. Native search works without a key.</p>
-          <p class="hint">Credentials stay in extension local storage on this browser profile and are sent only to Cults3D. They are not synchronized. This storage is not encrypted by tridiJump or an operating-system credential vault. Removing credentials here does not revoke the key at Cults3D.</p>
+          <p>Sign in and <a href="https://cults3d.com/en/api/keys" target="_blank" rel="noopener noreferrer">create a read-only API key</a>. Enter your nickname and key, never your password.
+            <a href="https://cults3d.com/en/pages/graphql" target="_blank" rel="noopener noreferrer">Official API guide</a></p>
+        </section>
+        <section id="provider-myminifactory" aria-labelledby="mmf-heading">
+          <h3 id="mmf-heading">MyMiniFactory</h3>
+          <p>Sign in, open <a href="https://www.myminifactory.com/settings/developer" target="_blank" rel="noopener noreferrer">Developer settings</a>, create an application and copy its API key. Use the API key, not the client ID or client secret.
+            <a href="https://www.myminifactory.com/pages/for-developers" target="_blank" rel="noopener noreferrer">Official developer guide</a></p>
+          <p class="hint">MyMiniFactory's documented authentication sends the key in the API request URL. tridiJump never includes it in native-search links, history or error messages.</p>
+        </section>
+        <section id="provider-thingiverse" aria-labelledby="thingiverse-heading">
+          <h3 id="thingiverse-heading">Thingiverse</h3>
+          <p>Sign in, open <a href="https://www.thingiverse.com/developers/my-apps" target="_blank" rel="noopener noreferrer">My Apps</a>, create an application and copy its App Token. Do not use its client secret or a browser session token.
+            <a href="https://www.thingiverse.com/developers/getting-started" target="_blank" rel="noopener noreferrer">Official developer guide</a></p>
         </section>
       </section>
       <form id="settings-form">

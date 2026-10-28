@@ -12,7 +12,7 @@
         <div><h1>tridiJump</h1><p class="muted">3D models in one place</p></div>
         <nav aria-label="Extension pages"><a href="../settings/index.html">Settings</a></nav>
       </header>
-      <p class="source-notice">Aggregation is unavailable for these repositories under the current verified access conditions. Use native search below; provider status explains each limitation. No API credentials are needed for these links.</p>
+      <p class="source-notice">Cults3D, MyMiniFactory and Thingiverse search use your own API credentials from Settings. Native search below works without a key. Other repositories remain direct-search-only.</p>
       <form id="search-form" action="./index.html" method="get" role="search">
         <label for="query">Search models</label>
         <div class="search-row">
@@ -54,6 +54,7 @@
       <section class="panel" aria-labelledby="provider-status-heading">
         <h2 id="provider-status-heading">Provider status</h2>
         <ul id="provider-status" aria-live="polite"></ul>
+        <ul id="fallback-status"></ul>
       </section>
       <p id="storage-status" role="status"></p>
     </main>

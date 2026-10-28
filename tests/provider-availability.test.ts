@@ -3,12 +3,16 @@ import { describe, expect, it } from 'vitest';
 import { providerAvailability } from '../src/providers/availability';
 
 describe('provider classification and native fallbacks', () => {
-  it('accounts for all six providers without presenting unconfirmed free access as available aggregation', () => {
+  it('connects the three user-key APIs and retains the three restricted/unavailable fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
       'cults3d', 'makerworld', 'myminifactory', 'printables', 'thangs', 'thingiverse',
     ]);
     for (const source of providerAvailability) {
-      expect(source.classification).toBe('D');
+      expect(source.classification).toBe(['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
+      if ('createProvider' in source) {
+        expect(source.createProvider().id).toBe(source.id);
+        expect(source.createProvider().credentialFields?.length).toBeGreaterThan(0);
+      }
       expect(source.reason).not.toBe('');
     }
   });
