@@ -78,7 +78,7 @@ describe('Cults3D official API transport', () => {
   it('does not send requests without credentials, for invalid credentials, or for blank queries', async () => {
     const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock);
     await expect(createCultsProvider(() => undefined).search('q')).rejects.toBeInstanceOf(SetupRequired);
-    await expect(createCultsProvider(() => ({ nickname: 'bad:user', apiKey: 'key' })).search('q')).rejects.toThrow('valid');
+    await expect(createCultsProvider(() => ({ nickname: 'bad:user', apiKey: 'FAKE-INVALID-NICKNAME-KEY' })).search('q')).rejects.toThrow('valid');
     await expect(makeProvider().search('  ')).resolves.toEqual([]);
     expect(fetchMock).not.toHaveBeenCalled();
   });

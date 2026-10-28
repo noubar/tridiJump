@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import type { Provider } from './provider';
 import type { ModelResult } from '../shared/model-result';
-import { loadCredentials, SetupRequired } from './credentials';
+import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
 import { normalizeQuery } from '../search/query';
 
@@ -93,7 +93,7 @@ export function createThingiverseProvider(): Provider {
       try { payload = await response.json(); }
       catch { checkAbort(signal); throw new Error('Thingiverse returned an unreadable response.'); }
       checkAbort(signal);
-      return normalizeThingiverseResults(payload, query);
+      return credentialFreeResults(normalizeThingiverseResults(payload, query), [token]);
     },
   };
 }

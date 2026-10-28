@@ -2,7 +2,7 @@
 import type { Provider } from './provider';
 import type { ModelResult } from '../shared/model-result';
 import { normalizeQuery } from '../search/query';
-import { loadCredentials, SetupRequired } from './credentials';
+import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
 
 export interface CultsCredentials { nickname: string; apiKey: string }
@@ -164,7 +164,7 @@ export function createCultsProvider(
         throw new Error('Cults3D returned an unreadable response.');
       }
       checkAbort(signal);
-      return normalizeCultsResults(payload, query);
+      return credentialFreeResults(normalizeCultsResults(payload, query), [credentials.apiKey.trim(), auth.slice('Basic '.length)]);
     },
   };
 }

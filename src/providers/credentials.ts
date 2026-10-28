@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { extensionLocal } from '../shared/extension-storage';
+import type { ModelResult } from '../shared/model-result';
 /** Inert, packaged UI descriptions only; no values, remote code or auth templates. */
 export interface CredentialField { name: string; label: string; secret: boolean }
 export type ProviderCredentials = Record<string, string>;
@@ -49,4 +50,21 @@ export async function credentialDisplay(providerId: string, fields: readonly Cre
   const values = await loadCredentials(providerId, fields);
   return { configured: !!values, publicValues: values
     ? Object.fromEntries(fields.filter((field) => !field.secret).map((field) => [field.name, values[field.name]!])) : {} };
+}
+
+/** Do not let an API echo authentication into cards, thumbnails or model links. */
+export function credentialFreeResults(results: ModelResult[], secrets: readonly string[]): ModelResult[] {
+  // JSON encoding preserves comparisons for quotes, Unicode and control characters.
+  const serialized = JSON.stringify(results);
+  const forbidden = secrets.filter(Boolean).flatMap((secret) => {
+    let encoded: string;
+    try { encoded = encodeURIComponent(secret); }
+    catch { throw new Error('Provider credentials contain invalid text. Check Settings.'); }
+    const formEncoded = new URLSearchParams({ key: secret }).toString().slice('key='.length);
+    return [secret, encoded, formEncoded];
+  });
+  if (forbidden.some((secret) => serialized.includes(JSON.stringify(secret).slice(1, -1)))) {
+    throw new Error('Provider returned authentication data in model results. Open the source directly.');
+  }
+  return results;
 }

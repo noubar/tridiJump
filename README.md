@@ -203,6 +203,10 @@ cancellation and provider timeout; a superseded or timed-out read cannot launch
 a request. Printables, MakerWorld and Thangs use native fallback, with their
 limitations documented separately. They are not counted as successful API searches.
 
+See the [credential security audit](docs/credential-security-audit.md) for the
+credential lifecycle, fixed-origin authentication checks, Git scan and documented
+MyMiniFactory request-URL exposure.
+
 ## License
 
 SPDX-License-Identifier: GPL-3.0-or-later

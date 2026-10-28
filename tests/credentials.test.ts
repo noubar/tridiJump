@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { clearCredentials, credentialsConfigured, loadCredentials, saveCredentials } from '../src/providers/credentials';
+import { clearCredentials, credentialFreeResults, credentialsConfigured, loadCredentials, saveCredentials } from '../src/providers/credentials';
 import { cultsCredentialFields } from '../src/providers/cults3d';
 import { mockExtensionStorage } from './helpers/extension-storage';
 
@@ -8,6 +8,25 @@ const fake = { nickname: 'test-only-user', apiKey: 'FAKE-NOT-A-REAL-KEY' };
 afterEach(() => vi.unstubAllGlobals());
 
 describe('provider-local credentials', () => {
+  it('blocks raw, URL-encoded and Basic-encoded echoes without attaching credentials to errors', () => {
+    const secret = 'FAKE-KEY/with+punctuation" and spaces';
+    const basic = btoa(`test-user:${secret}`);
+    const result = { title: 'Cap', url: 'https://example.test/cap', providerId: 'test' };
+    expect(credentialFreeResults([result], [secret, basic])).toEqual([result]);
+    const formEncoded = new URLSearchParams({ key: secret }).toString().slice('key='.length);
+    for (const value of [secret, encodeURIComponent(secret), formEncoded, basic]) {
+      for (const field of ['title', 'url', 'thumbnail']) {
+        try {
+          credentialFreeResults([{ ...result, [field]: `echo ${value}` }], [secret, basic]);
+          expect.unreachable('Authentication echo must not be returned');
+        } catch (error) {
+          expect(String(error)).toContain('authentication data');
+          expect(JSON.stringify(error)).not.toContain(secret);
+          expect(String(error)).not.toContain(value);
+        }
+      }
+    }
+  });
   it('saves, reads, checks, replaces, and removes only declared fields in extension local storage', async () => {
     const { local, sync } = mockExtensionStorage();
     const webStorage = { setItem: vi.fn(), getItem: vi.fn() };
