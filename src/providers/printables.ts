@@ -7,7 +7,7 @@ import { PrintablesFailure, printablesRuntime } from './printables-messages';
 import type { PrintablesErrorKind } from './printables-messages';
 
 // Undocumented frontend interface. See docs/provider-printables.md for evidence
-// and pending thumbnail verification. Never supplied by registry or credential data.
+// and user-reported search/thumbnail verification. Never supplied by registry or credential data.
 const record = (value: unknown): Record<string, unknown> | undefined =>
   value !== null && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
 const count = (value: unknown): number | undefined =>
@@ -16,7 +16,7 @@ function checkAbort(signal?: AbortSignal) {
   if (signal?.aborted) throw new DOMException('Search aborted', 'AbortError');
 }
 
-/** Candidate cover mapping; remote data may supply a relative path, never an origin. */
+/** Cover mapping; remote data may supply a relative path, never an origin. */
 function thumbnailUrl(value: unknown): string | undefined {
   if (typeof value !== 'string' || !value || value !== value.trim() || value.startsWith('/')) return;
   try {

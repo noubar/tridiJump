@@ -5,7 +5,7 @@ Native **Search directly** links remain available for every enabled repository.
 
 | Repository | Availability | What you need |
 | --- | --- | --- |
-| Printables | **Works immediately** | Enable the repository and search. No account or API credential is required by tridiJump. Basic anonymous search/cards and a tested model link were live verified by the user; cover images remain candidate/pending verification. |
+| Printables | **Works immediately** | Enable the repository and search. No account or API credential is required by tridiJump. Anonymous search/cards, a tested model link and cover images were live verified by the user. |
 | Cults3D | **Requires free provider setup** | Your Cults3D nickname and a read-only API key. |
 | MyMiniFactory | **Requires free provider setup** | Your application's MyMiniFactory API key. |
 | Thingiverse | **Requires free provider setup** | Your application's Thingiverse App Token. |

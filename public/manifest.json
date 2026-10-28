@@ -5,7 +5,7 @@
   "permissions": ["storage"],
   "background": { "service_worker": "background.js", "type": "module" },
   "host_permissions": ["https://cults3d.com/*", "https://www.myminifactory.com/*", "https://api.thingiverse.com/*", "https://api.printables.com/*"],
-  "description": "A lightweight foundation for unified 3D-model search.",
+  "description": "Search multiple 3D-model repositories in one progressive results grid.",
   "action": {
     "default_title": "Open tridiJump",
     "default_popup": "src/popup/index.html"

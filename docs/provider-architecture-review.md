@@ -1,5 +1,10 @@
 # V1 provider architecture review
 
+Historical staged investigation/review: current implementation and release status
+are recorded in [the final audit](release-audit.md) and
+[supported repositories](supported-repositories.md). Earlier verification limits
+below are dated evidence, not current all-provider support claims.
+
 **Latest implementation (2026-10-28):** the live enablement task connects three
 official user-key adapters to Results and their Settings forms. The previous
 all-fallback disposition below is historical. The small Provider interface and

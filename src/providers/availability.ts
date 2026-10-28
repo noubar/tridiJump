@@ -11,7 +11,7 @@ import { createPrintablesProvider } from './printables';
 // See docs/live-provider-enablement.md for evidence and verification limits.
 export const providerAvailability = [
   { id: 'printables', name: 'Printables', classification: 'A',
-    reason: 'Anonymous search live verified; cover previews pending live verification. Undocumented interface may change.',
+    reason: 'Anonymous search and cover previews live verified by the user. Undocumented interface may change.',
     createProvider: createPrintablesProvider,
     searchUrl: (query: string) => queryUrl('https://www.printables.com/search/models', 'q', query) },
   { id: 'makerworld', name: 'MakerWorld', classification: 'D',

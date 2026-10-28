@@ -1,7 +1,7 @@
-# Printables GraphQL candidate integration
+# Printables undocumented GraphQL integration
 
 Updated 2026-10-28. **Basic anonymous search/model links: LIVE VERIFIED by the
-user in Chromium. Cover thumbnail: CANDIDATE / PENDING manual verification.**
+user in Chromium. Cover thumbnails: LIVE VERIFIED by the user (Prompt 18 context).**
 This supersedes the earlier pending-search and direct-search-only dispositions.
 An HTTP refusal from Codex does not prove that a locally installed extension
 will be refused. Conversely, fixtures do not prove that it will succeed.
@@ -17,20 +17,20 @@ page. This is user-run manual evidence, not an agent-run browser test or a fixtu
 | MV3 worker reaches Printables; anonymous `searchPrints2` | **LIVE VERIFIED**, 2026-10-28 |
 | `id` / `name` / `slug` normalization into real cards | **LIVE VERIFIED**, 2026-10-28 |
 | Constructed model URL | **LIVE VERIFIED** for the tested card destination, 2026-10-28 |
-| `image.filePath` and fixed media URL; real cover display | **CANDIDATE / PENDING**; this task's only query increment |
+| `image.filePath` and fixed media URL; real cover display | **LIVE VERIFIED by the user**, reported in Prompt 18 |
 | Creator, rating, publication date, price, formats | **NOT LIVE VERIFIED**; no new mappings in this task |
 | Native ordering/filter enums | **NOT LIVE VERIFIED**; no new arguments |
 | Full pagination, >20 distinct models and exhaustion | **NOT LIVE VERIFIED** by this checkpoint; existing code/tests preserved |
 | Exact likes/download values and their native-page comparison | Still not separately verified; existing valid-integer mappings preserved |
 
-### Cover-image increment and manual acceptance
+### Cover-image increment and historical manual checklist
 
 Only `image { filePath }` is added to the live-working item selection. Endpoint,
 message transport, arguments, batch size, offset, totalCount, IDs/titles/slugs,
 likes/downloads, failure isolation and native fallback are preserved. There is
 one GraphQL search request per requested page and no model-detail enrichment.
 
-A candidate thumbnail is built with `new URL(filePath, 'https://media.printables.com/')`
+A thumbnail is built with `new URL(filePath, 'https://media.printables.com/')`
 only for a nonempty relative string path. It must resolve to that exact HTTPS
 origin without credentials, query or fragment. Validation rejects leading slash,
 absolute/scheme/protocol-relative paths, backslashes, controls/whitespace,
@@ -46,7 +46,7 @@ or `default-src` restriction. Normal remote image display therefore needs no
 new host grant or CSP change, consistent with the current
 [Chrome extension CSP configuration](https://developer.chrome.com/docs/extensions/reference/manifest/content-security-policy).
 The manifest, media permissions and shared renderer
-are unchanged; the media URL mapping itself remains a live-verification candidate.
+are unchanged; the user subsequently confirmed the media URL mapping and cover display.
 
 Manual thumbnail test:
 
@@ -428,7 +428,11 @@ distinct models were pending. The subsequent user checkpoint now establishes
 basic worker search/cards and a tested model URL as LIVE VERIFIED; >20 distinct
 models and full pagination/exhaustion remain unverified.
 
-### Cover thumbnail follow-up — 2026-10-28
+### Historical cover thumbnail follow-up — 2026-10-28
+
+The candidate status in this staged record was subsequently superseded: Prompt 18
+reports that the user verified working thumbnails. See the current evidence table
+above; the historical fixture counts below are not this audit's final test totals.
 
 Only the worker's image selection and provider-local optional thumbnail mapping
 changed in runtime behavior. Registry/Results status text, README and live

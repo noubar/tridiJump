@@ -1,5 +1,10 @@
 # V1 authenticated-provider classification
 
+Historical staged investigation/review: current implementation and release status
+are recorded in [the final audit](release-audit.md) and
+[supported repositories](supported-repositories.md). Earlier verification limits
+below are dated evidence, not current all-provider support claims.
+
 **Superseded 2026-10-28:** see the [live enablement review](live-provider-enablement.md).
 Three official user-key adapters are now wired into production; all-fallback is
 no longer the current disposition. Authenticated live verification and current

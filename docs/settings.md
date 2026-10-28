@@ -6,6 +6,15 @@ forms save only on submission. Existing API transports and normalization are
 unchanged; the user reported Thingiverse, MyMiniFactory and Cults3D working live
 before this change. The agent has not repeated authenticated live testing.
 
+## Release-audit follow-up
+
+Read the [final audit](release-audit.md) for outstanding V1 blockers. Expanded
+Search currently saves a preference but has no production expansion engine.
+Read/modify/write history and repository updates, plus legacy migrations, now
+use same-origin Web Locks across extension pages where supported. Tests emulate
+separate page modules and delayed reads; native Chromium verification is pending.
+The [privacy inventory](../PRIVACY.md) lists all network and credential behavior.
+
 ## Local storage
 
 All V1 state uses browser/chrome `storage.local`, requiring only the existing

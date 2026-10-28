@@ -32,16 +32,27 @@ async function write(key: string, value: unknown): Promise<void> {
   try { await extensionLocal().set({ [key]: value }); }
   catch { throw new Error('Local settings could not be saved.'); }
 }
-export async function readPreferences(): Promise<Preferences> { return normalizePreferences(await read(PREFERENCES_KEY, true)); }
-export async function savePreferences(value: Preferences): Promise<void> { await write(PREFERENCES_KEY, normalizePreferences(value)); }
+export async function readPreferences(): Promise<Preferences> {
+  return withLocalLock(PREFERENCES_KEY, async () => normalizePreferences(await read(PREFERENCES_KEY, true)));
+}
+export async function savePreferences(value: Preferences): Promise<void> {
+  return withLocalLock(PREFERENCES_KEY, () => write(PREFERENCES_KEY, normalizePreferences(value)));
+}
 function normalizeHistory(value: unknown): string[] {
   return Array.isArray(value) ? [...new Set(value.filter((v): v is string => typeof v === 'string')
     .map(normalizeQuery).filter(Boolean))].slice(0, HISTORY_LIMIT) : [];
 }
-export async function readHistory(): Promise<string[]> { return normalizeHistory(await read(HISTORY_KEY, true)); }
+export async function readHistory(): Promise<string[]> {
+  return withLocalLock(HISTORY_KEY, async () => normalizeHistory(await read(HISTORY_KEY, true)));
+}
 let historyWrites: Promise<void> = Promise.resolve();
+/** Extension pages share an origin, but not module-level queues. */
+function withLocalLock<T>(name: string, operation: () => Promise<T>): Promise<T> {
+  const locks = globalThis.navigator?.locks;
+  return locks ? locks.request(name, operation) : operation();
+}
 function queueHistory(operation: () => Promise<void>): Promise<void> {
-  const pending = historyWrites.then(operation);
+  const pending = historyWrites.then(() => withLocalLock(HISTORY_KEY, operation));
   historyWrites = pending.catch(() => {});
   return pending;
 }
@@ -49,7 +60,8 @@ export function rememberSearch(query: string): Promise<void> {
   const normalized = normalizeQuery(query);
   return queueHistory(async () => {
     if (!normalized || !(await readPreferences()).historyEnabled) return;
-    await write(HISTORY_KEY, normalizeHistory([normalized, ...await readHistory()]));
+    // Already holding the history lock; do not acquire it recursively.
+    await write(HISTORY_KEY, normalizeHistory([normalized, ...normalizeHistory(await read(HISTORY_KEY, true))]));
   });
 }
 export function clearHistory(): Promise<void> { return queueHistory(() => write(HISTORY_KEY, [])); }
@@ -65,9 +77,9 @@ export function repositoryEnabled(source: { id: string; available?: boolean }, c
 let repositoryWrites: Promise<void> = Promise.resolve();
 export function setRepositoryEnabled(id: string, enabled: boolean): Promise<void> {
   if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(id)) return Promise.reject(new Error('Invalid repository.'));
-  const pending = repositoryWrites.then(async () => {
+  const pending = repositoryWrites.then(() => withLocalLock(REPOSITORIES_KEY, async () => {
     await write(REPOSITORIES_KEY, { ...await readRepositories(), [id]: enabled });
-  });
+  }));
   repositoryWrites = pending.catch(() => {});
   return pending;
 }

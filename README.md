@@ -17,19 +17,24 @@ Synonym expansion is not implemented.
 Anonymous [Printables search](docs/provider-printables.md) now feeds the same grid.
 The user **live verified basic Chromium search, real cards and a tested model link
 on 2026-10-28**, using the packaged MV3 worker. No Printables credentials are needed.
-Only `image { filePath }` is now added as a cover-image candidate; its fixed media
-URL mapping and actual image loading remain **pending manual verification**.
+The user has also confirmed working Printables thumbnails. This is user-run live
+evidence, not an automated or agent-run browser test.
 Creator, ratings, creation date, formats, prices, native orderings and full live
 pagination/exhaustion are not claimed verified. Pagination code and native fallback
 are preserved. Cancellation discards late replies immediately, while an
 already-started worker request may finish. See the report for the earlier CORS
 finding, new thumbnail checklist and query-only rollback if the image field fails.
 
+**Release audit: NOT READY FOR V1 RELEASE.** Expanded Search/EN/DE expansion
+is missing; live multipage acceptance and the MyMiniFactory URL-credential policy
+conflict remain unresolved. See the [final audit](docs/release-audit.md) and
+[privacy/network inventory](PRIVACY.md).
+
 ## Supported repositories
 
 | Availability | Repositories | How to use |
 | --- | --- | --- |
-| **Works immediately** | Printables | Enable and search; no credentials. Cover images remain pending live verification. |
+| **Works immediately** | Printables | Enable and search; no credentials. Search and thumbnails user-live-verified. |
 | **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse | Obtain your own free provider credentials and save them in Settings. |
 | **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
 
@@ -155,7 +160,7 @@ npm run build       # Type check and production build
 - `src/results/`: safe card rendering, filter/sort helpers, and progressive view
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
-- `src/providers/`: small provider contract, local credentials, three official API adapters and an anonymous Printables candidate
+- `src/providers/`: small provider contract, local credentials, three official API adapters and anonymous Printables search
 - `src/synonyms/`: reserved for later implementation
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
@@ -166,7 +171,7 @@ dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage and
 the four precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
-and api.printables.com. The last permits the anonymous GraphQL candidate from
+and api.printables.com. The last permits the anonymous undocumented GraphQL interface from
 the packaged Printables worker; it grants no cookies or website scripting access.
 The manifest registers `background.js` as a module service worker. No additional
 permission is needed for that registration; no tabs, scripting, cookies or staging

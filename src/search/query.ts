@@ -2,7 +2,10 @@
 export const MAX_QUERY_LENGTH = 200;
 
 export function normalizeQuery(value: string): string {
-  return value.trim().slice(0, MAX_QUERY_LENGTH);
+  // URL-based providers use encodeURIComponent, which throws on lone surrogates.
+  const valid = value.trim().replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, '\ufffd');
+  const bounded = valid.slice(0, MAX_QUERY_LENGTH);
+  return /[\uD800-\uDBFF]$/.test(bounded) ? bounded.slice(0, -1) : bounded;
 }
 
 export function readSearch(search: string, expandedDefault = false) {

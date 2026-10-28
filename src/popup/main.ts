@@ -14,9 +14,11 @@ async function renderRepositoryCount() {
     const choices = await readRepositories();
     const enabled = providerAvailability.filter((source) => repositoryEnabled(source, choices));
     const sources = enabled.flatMap((source) => 'createProvider' in source ? [source.createProvider()] : []);
-    const states = await Promise.allSettled(sources.map((provider) => credentialsConfigured(provider.id, provider.credentialFields!)));
+    const authenticated = sources.filter((provider) => provider.credentialFields?.length);
+    const anonymous = sources.length - authenticated.length;
+    const states = await Promise.allSettled(authenticated.map((provider) => credentialsConfigured(provider.id, provider.credentialFields!)));
     const configured = states.filter((state) => state.status === 'fulfilled' && state.value).length;
-    count.textContent = `${configured} of ${sources.length} API repositories configured / ${enabled.length} repositories enabled`
+    count.textContent = `${anonymous} ready without setup / ${configured} of ${authenticated.length} API repositories configured / ${enabled.length} repositories enabled`
       + (states.some((state) => state.status === 'rejected') ? ' / some configuration could not be read' : '');
   } catch { count.textContent = 'Repository settings could not be read. Open Settings to try again.'; }
 }

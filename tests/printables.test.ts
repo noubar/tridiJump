@@ -32,7 +32,7 @@ afterEach(() => {
   vi.clearAllTimers(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals();
 });
 
-describe('Printables request and normalization (synthetic responses, live thumbnail check pending)', () => {
+describe('Printables request and normalization (synthetic responses; user live checkpoints recorded separately)', () => {
   it('sends only structured search inputs to the worker, whose fixed anonymous request escapes text and never loads credentials', async () => {
     for (const source of providerAvailability.filter((source) => source.classification === 'B')) {
       await saveCredentials(source.id, source.createProvider().credentialFields!, {
@@ -289,7 +289,7 @@ describe('Printables through the existing orchestrator and extension entries', (
     await import('../src/settings/main'); await vi.advanceTimersByTimeAsync(0);
     const toggle = document.querySelector<HTMLInputElement>('#repository-printables')!;
     expect(toggle.checked).toBe(true); expect(toggle.disabled).toBe(false);
-    expect(toggle.closest('li')!.textContent).toContain('cover previews pending live verification');
+    expect(toggle.closest('li')!.textContent).toContain('cover previews live verified by the user');
     expect(document.querySelector('[id^="credential-printables"]')).toBeNull();
     expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.printables')).toBe(false);
     toggle.checked = false; toggle.dispatchEvent(new Event('change')); await vi.advanceTimersByTimeAsync(0);

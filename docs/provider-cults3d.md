@@ -1,5 +1,10 @@
 # Cults3D integration
 
+Historical staged investigation/review: current implementation and release status
+are recorded in [the final audit](release-audit.md) and
+[supported repositories](supported-repositories.md). Earlier verification limits
+below are dated evidence, not current all-provider support claims.
+
 **Current production status (2026-10-28):** connected to the results page with
 local user nickname/key configuration. Missing credentials produce Setup required;
 configured searches call the official endpoint. Authenticated live verification

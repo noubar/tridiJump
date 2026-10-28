@@ -143,7 +143,7 @@ export function createCultsProvider(
     let response: Response;
     try {
       response = await fetch(ENDPOINT, {
-        method: 'POST', credentials: 'omit', redirect: 'error', cache: 'no-store', signal,
+        method: 'POST', credentials: 'omit', redirect: 'error', cache: 'no-store', referrerPolicy: 'no-referrer', signal,
         headers: { 'Content-Type': 'application/json', Authorization: auth },
         body: JSON.stringify(cursor === undefined ? { query: SEARCH, variables: { query } }
           : { query: NEXT_SEARCH, variables: { query, offset } }),

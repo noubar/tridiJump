@@ -30,7 +30,7 @@ describe('credential audit regressions', () => {
       const url = new URL(endpoint);
       const id = Object.keys(origins).find((id) => origins[id] === url.origin)!;
       expect(id).toBeDefined();
-      expect(options).toMatchObject({ credentials: 'omit', redirect: 'error', cache: 'no-store' });
+      expect(options).toMatchObject({ credentials: 'omit', redirect: 'error', cache: 'no-store', referrerPolicy: 'no-referrer' });
       const authorization = new Headers(options.headers).get('Authorization');
       if (id === 'cults3d') {
         expect(authorization).toBe(`Basic ${encodedCults}`);

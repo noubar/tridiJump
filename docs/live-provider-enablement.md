@@ -9,10 +9,10 @@ Direct-search fallback** categories and official credential instructions, see
 [supported repositories and provider credentials](supported-repositories.md).
 This investigation retains the detailed evidence and historical verification limits.
 
-**Printables follow-up:** the [GraphQL candidate](provider-printables.md) is now
+**Printables follow-up:** the [undocumented GraphQL integration](provider-printables.md) is now
 connected anonymously, based on the historical first-party schema observation.
 The user live verified basic worker search, real cards and a tested model link
-on **2026-10-28**. Cover images are now a candidate awaiting manual verification;
+on **2026-10-28**. The user has also confirmed working cover images;
 full live pagination/exhaustion and other optional mappings are not claimed verified.
 The original three authenticated integrations and their evidence below are unchanged.
 The user's Chromium test subsequently found page-context CORS failure after a
@@ -27,7 +27,7 @@ Each loads its own local credentials, constructs a real request to its official
 API, normalizes the response, and feeds the existing orchestrator and grid.
 Missing credentials produce **Setup required**, not a failure. All six native
 search links remain available. MakerWorld and Thangs are fallback-only. Printables
-now has an anonymous candidate adapter; its current behavior/limits are documented separately.
+now has an anonymous adapter; its current behavior/limits are documented separately.
 
 **No authenticated live model search was completed here.** No authorized key or
 connected browser was available. Successful authenticated responses, current key

@@ -115,7 +115,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     const failed = snapshot.states.some((state) => state.status === 'failed' || state.status === 'timed-out');
     const setupRequired = snapshot.states.some((state) => state.status === 'setup-required');
     empty.textContent = !snapshot.query ? 'Enter a query to search for models.'
-      : sources.length === 0 || snapshot.states.every((state) => state.status === 'disabled') ? 'No repository searches are enabled. Open the source directly using the link above.'
+      : sources.length === 0 || snapshot.states.every((state) => state.status === 'disabled') ? 'No repository searches are enabled. Enable a repository in Settings or use an available native-search link.'
       : snapshot.results.length ? 'No models match these filters.'
       : pending ? 'Searching sources…'
       : setupRequired ? 'Configure repositories in Settings or open the source directly.'
