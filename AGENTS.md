@@ -20,6 +20,15 @@ work. This user-approved policy applies to all subsequent tridiJump tasks.
   and native fallback where available; it must not prevent other providers working.
 - Keep credential support small, parsing provider-local, and orchestration generic.
   Preserve staged implementation scope; policy updates alone do not enable providers.
+- Classify each remaining provider A (no credentials), B (free user credentials),
+  C (paid API), or D (no appropriate aggregation interface) before implementation.
+  Follow `docs/provider-classification.md`; do not infer API pricing from account
+  or marketplace pricing. Cults production dispatch requires confirmed free and
+  appropriate access. Preserve tested adapter work while this evidence is pending.
+- Every authenticated adapter needs tests for missing-key setup-required, correct
+  authenticated request, isolated auth failure, no secret in errors, and Remove
+  Credentials returning it to setup-required. Use mocks when live keys are absent.
+  Never downgrade an appropriate free official API to scraping to avoid user keys.
 
 Keep the existing TypeScript/plain HTML/CSS, Manifest V3, Chromium-first
 architecture. No UI framework, backend, telemetry, or remote executable code.

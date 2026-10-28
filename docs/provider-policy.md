@@ -73,6 +73,12 @@ and which credential fields it requires (including labels and secret/non-secret
 classification). Use the smallest reusable mechanism needed for this; no vault
 framework, remote credential service, generic OAuth system, or plugin architecture.
 
+Before implementing each remaining provider, record A (no credentials), B (free
+user credentials), C (paid API), or D (no appropriate aggregation interface).
+Use [current classification](provider-classification.md) and its cited evidence.
+Unknown cost is not evidence of paid access or verified free access. A paid
+marketplace membership is not automatically a paid API requirement.
+
 Keep `search(query, signal?): Promise<ModelResult[]>` unchanged. Resolve required
 configuration before network dispatch. If credentials are missing:
 
@@ -106,15 +112,19 @@ fixtures/mocks when necessary, and mark **live authenticated testing pending**.
 Never claim that mocked tests verify the production schema or authenticated access.
 
 The public documentation recheck still does not explicitly establish Cults API
-pricing. The credential follow-up implements local Settings, configuration state,
-and documented API transport using synthetic fixtures, without requiring a paid
-subscription or live development credentials. Users must use only eligible free
-access. Pricing and live authenticated compatibility remain documented uncertainties,
-not claims of verified free access. First-party sources:
+pricing. Under the subsequent explicit instruction, production uses Cults only
+if free API access and appropriate use are confirmed. Until then the tested
+adapter and reusable credential code are preserved, but search dispatch is gated
+and Settings only permits removal of existing credentials. No live development
+key is required to complete fixture-based implementation once eligibility is known.
+First-party sources:
 [API overview](https://cults3d.com/en/api),
 [API guide](https://cults3d.com/en/pages/graphql).
 
 Prompt 08 originally remained an architecture review and added only the state
 type. The subsequent explicit credential implementation task authorizes the
 small local mechanism and Cults configuration described in the integration notes.
-No other provider has been implemented. Preserve the retrieval order above.
+The subsequent special authenticated-provider task adds the classifications and
+native fallbacks and enforces the Cults free-access gate. No other adapter has
+been implemented. Preserve the retrieval order above. Never substitute scraping
+for an appropriate free official API merely to avoid asking for a user key.

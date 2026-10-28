@@ -4,6 +4,10 @@ Research date: **2026-10-27**. This is a research document, not an implementatio
 or authorization to ship an integration. No live providers, dependencies,
 permissions, credentials, or provider-interface changes were added.
 
+For current A–D product classifications and release decisions, see
+[provider classification](provider-classification.md). Its policy/access recheck
+supersedes the historical recommendations' release dispositions below.
+
 Subsequent implementation status and verification limits are documented in
 [Cults3D integration](provider-cults3d.md); the research findings below remain
 the record of the investigation before implementation.

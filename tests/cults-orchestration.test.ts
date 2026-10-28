@@ -5,7 +5,7 @@ import { createCultsProvider } from '../src/providers/cults3d';
 import { SearchOrchestrator } from '../src/search/orchestrator';
 import type { SearchSnapshot } from '../src/search/orchestrator';
 import type { Provider } from '../src/providers/provider';
-import { saveCredentials } from '../src/providers/credentials';
+import { clearCredentials, saveCredentials } from '../src/providers/credentials';
 import { cultsCredentialFields } from '../src/providers/cults3d';
 import { mockExtensionStorage } from './helpers/extension-storage';
 
@@ -86,7 +86,7 @@ describe('real adapter at the core boundary (mocked HTTP only)', () => {
   });
 
   it('reads configuration again on the next search after keys are removed', async () => {
-    const { local } = mockExtensionStorage();
+    mockExtensionStorage();
     await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-REMOVABLE' });
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
     vi.stubGlobal('fetch', fetchMock);
@@ -95,7 +95,7 @@ describe('real adapter at the core boundary (mocked HTTP only)', () => {
     runner.start('first', [provider]);
     await vi.advanceTimersByTimeAsync(0);
     expect(latest().states[0]?.status).toBe('success');
-    await local.remove('tridijump.credentials.cults3d');
+    await clearCredentials('cults3d');
     runner.start('second', [provider]);
     await vi.advanceTimersByTimeAsync(0);
     expect(latest().states).toEqual([{ providerId: 'cults3d', status: 'setup-required' }]);
@@ -112,6 +112,27 @@ describe('real adapter at the core boundary (mocked HTTP only)', () => {
     expect(latest().results).toEqual([{ title: 'Companion', url: 'https://example.test/model', providerId: 'companion-test', query: 'gear' }]);
     expect(JSON.stringify(latest())).not.toContain('private server text');
     expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it.each([401, 403])('isolates HTTP %i authentication failure and never exposes echoed keys or headers', async (status) => {
+    mockExtensionStorage();
+    const secret = 'FAKE-SECRET-MUST-NOT-APPEAR';
+    const auth = `Basic ${btoa(`test-user:${secret}`)}`;
+    await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: secret });
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      error: `Denied for ${secret}; ${auth}`,
+    }), { status }));
+    vi.stubGlobal('fetch', fetchMock);
+    const { runner, latest, updates } = setup();
+    runner.start('gear', [createCultsProvider(), companion]);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(latest().states[0]).toMatchObject({ providerId: 'cults3d', status: 'failed', error: expect.stringContaining('Check your API key') });
+    expect(latest().states[1]?.status).toBe('success');
+    expect(latest().results).toHaveLength(1);
+    expect(JSON.stringify(updates)).not.toContain(secret);
+    expect(JSON.stringify(updates)).not.toContain(auth);
+    expect(JSON.stringify(updates)).not.toContain('Denied for');
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it('the core timeout aborts the real adapter without changing timeout to failure', async () => {

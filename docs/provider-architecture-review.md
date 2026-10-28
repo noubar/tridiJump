@@ -1,5 +1,12 @@
 # V1 provider architecture review
 
+**Current release disposition:** the special authenticated-provider follow-up
+gates Cults production use on confirmed free and appropriate access. That
+confirmation is pending, so production uses native fallback even for saved keys;
+Settings permits their removal. The shared credential mechanism and adapter tests
+remain implemented. See [current classifications](provider-classification.md).
+This changes eligibility/dispatch, not the stable search contract reviewed below.
+
 **Credential follow-up (2026-10-27):** the subsequently authorized task now adds
 optional `credentialFields`, shared extension-local load/save/remove/configured
 helpers, Settings configuration, and generic `SetupRequired` handling. Cults

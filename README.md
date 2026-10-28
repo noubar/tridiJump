@@ -4,10 +4,12 @@ A lightweight browser extension for searching multiple 3D-model repositories
 asynchronously and displaying models on one unified results page.
 
 The V1 application includes a search popup, progressive results grid, and settings.
-Cults3D uses its official GraphQL adapter when local user credentials are
-configured. Otherwise it shows Setup required and offers direct native search.
-Use only free API access; current public docs do not explicitly state API pricing.
-Live authenticated compatibility remains pending.
+Production currently offers native-search links for all six repositories, with
+per-provider reasons aggregation is unavailable. The
+[current provider classifications](docs/provider-classification.md) document
+access and policy evidence. Cults3D's tested GraphQL adapter is preserved but
+excluded from production pending confirmation of free API access. A saved key
+does not bypass this condition. Live authenticated compatibility remains pending.
 Synonym expansion is not implemented.
 
 ## Development
@@ -37,20 +39,21 @@ saved theme changes also apply to other open extension pages. History can be
 cleared, and disabling it clears existing history. Preferences and history use
 extension-origin `localStorage` on this device; they are not synced.
 
-Cults3D Settings accepts your nickname and API key (prefer a read-only key), with
-Save, Remove, and configured status. Credentials use extension `storage.local`
-only, never sync or preferences/history storage. Saved secrets are never prefilled.
-They are sent only to Cults3D using its documented authentication, never to
-tridiJump or GitHub. This local storage is not encrypted by tridiJump or an OS
-credential vault. Do not enter your account password or paste keys into chat.
-After saving/removing credentials, submit a search again to read the new configuration.
+Cults3D Settings currently permits removal of credentials saved by an earlier
+development version and shows local configured status; it collects no new key
+while eligibility is pending. The reusable Save/Remove mechanism is retained and
+tested. Credentials use extension `storage.local` only, never sync or
+preferences/history storage. Saved secrets are never prefilled. This local
+storage is not encrypted by tridiJump or an OS credential vault. Do not paste
+credentials into chat. No personal/developer key is bundled.
 
-Use **Search directly on Cults3D** on the results page without a key. See the
+Use **Search directly on…** links on the results page without a key. See the
 [provider access policy](docs/provider-policy.md): user-supplied keys are welcome
 for verified free APIs; paid APIs are excluded. Scraping is considered only when
 permitted, with no authentication or anti-bot bypass.
 
-The adapter fetches a bounded first page of up to 20 models. EUR prices are converted
+When enabled in development/tests, the Cults adapter fetches a bounded first page
+of up to 20 models. EUR prices are converted
 from reported cents; unavailable metadata stays unknown. No model files are
 downloaded. Demo code remains isolated in `src/results/demo/` for reference and
 is not imported or included in the production build. Automated tests use
@@ -97,14 +100,14 @@ Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-on
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage
-and `https://cults3d.com/*` for the implemented API. No other provider hosts,
+for credential status/removal. No API hosts,
 tabs, scripting, cookies, or background permissions are requested.
 
 ## Domain and provider contract
 
 Current live-integration research, access limitations, source links, and
-recommendations are in [Provider investigation](docs/provider-investigation.md).
-It introduces no live providers or interface changes.
+recommendations are in [Provider investigation](docs/provider-investigation.md),
+superseded for release decisions by [Provider classification](docs/provider-classification.md).
 
 The [V1 provider architecture review](docs/provider-architecture-review.md)
 records the stable search signature, boundary checks, and adapter/orchestrator regression
@@ -169,9 +172,11 @@ Queries use the existing trimming/length rules. Duplicate provider IDs execute
 only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled providers are omitted by the caller. The results
-page supplies Cults3D; without local credentials it makes no API request. Storage
-loading is covered by cancellation and provider timeout. A superseded or timed-out
-read cannot launch a request. The other five investigated providers are not implemented.
+page currently supplies no aggregation providers, including when keys are saved.
+In tests, Cults credential loading is covered by cancellation and provider timeout;
+a superseded or timed-out read cannot launch a request. Other adapters are not
+implemented. Available authenticated adapters without local credentials produce
+`setup-required`; unverified provider eligibility is a separate fallback disposition.
 
 ## License
 

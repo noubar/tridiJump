@@ -3,11 +3,11 @@ import { clearCredentials, credentialsConfigured, saveCredentials } from '../pro
 import type { CredentialField } from '../providers/credentials';
 
 /** One local form per implemented provider; stored secrets are never populated. */
-export function initializeCredentialSettings(root: HTMLElement, providerId: string, fields: readonly CredentialField[]) {
+export function initializeCredentialSettings(root: HTMLElement, providerId: string, fields: readonly CredentialField[], options: { allowSave?: boolean } = {}) {
   const form = document.createElement('form');
   form.autocomplete = 'off';
   const inputs = new Map<string, HTMLInputElement>();
-  for (const field of fields) {
+  for (const field of options.allowSave === false ? [] : fields) {
     const label = document.createElement('label');
     const input = document.createElement('input');
     input.id = `credential-${providerId}-${field.name}`;
@@ -23,6 +23,7 @@ export function initializeCredentialSettings(root: HTMLElement, providerId: stri
   const save = document.createElement('button');
   save.type = 'submit';
   save.textContent = 'Save credentials';
+  save.hidden = options.allowSave === false;
   const remove = document.createElement('button');
   remove.type = 'button';
   remove.textContent = 'Remove credentials';
@@ -47,7 +48,7 @@ export function initializeCredentialSettings(root: HTMLElement, providerId: stri
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (save.disabled) return;
+    if (save.disabled || options.allowSave === false) return;
     const values = Object.fromEntries([...inputs].map(([name, input]) => [name, input.value]));
     busy(true);
     // Clear even on failure: never leave a submitted secret displayed in the form.

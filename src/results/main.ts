@@ -4,7 +4,7 @@ import { readSearch } from '../search/query';
 import { initializeSearchForm } from '../search/form';
 import { readPreferences, rememberSearch } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
-import { createCultsProvider, cultsSearchUrl } from '../providers/cults3d';
+import { providerAvailability } from '../providers/availability';
 import { createResultsView } from './view';
 
 initializeTheme();
@@ -14,14 +14,29 @@ initializeSearchForm(form, search.expanded);
 const input = form.elements.namedItem('q') as HTMLInputElement;
 const expanded = form.elements.namedItem('expanded') as HTMLInputElement;
 input.value = search.query;
-const directSearch = document.querySelector<HTMLAnchorElement>('#direct-search')!;
-const view = createResultsView(document.querySelector('main')!, [
-  { name: 'Cults3D', provider: createCultsProvider() },
-]);
+// None currently meets all V1 access/use requirements. Keep the tested adapter
+// available for development, without credential reads or API dispatch in production.
+const view = createResultsView(document.querySelector('main')!, []);
 
 function runSearch() {
-  directSearch.href = cultsSearchUrl(input.value);
-  directSearch.hidden = !input.value;
+  const links = document.querySelector<HTMLElement>('#native-searches')!;
+  links.hidden = !input.value;
+  links.replaceChildren(...providerAvailability.map((source) => {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = source.searchUrl(input.value);
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = `Search directly on ${source.name}`;
+    link.dataset.providerId = source.id;
+    item.append(link);
+    return item;
+  }));
+  document.querySelector('#provider-status')!.replaceChildren(...providerAvailability.map((source) => {
+    const item = document.createElement('li');
+    item.textContent = `${source.name}: direct search only — ${source.reason}`;
+    return item;
+  }));
   document.querySelector('#search-summary')!.textContent = input.value
     ? `Search: “${input.value}” · Expanded Search ${expanded.checked ? 'on' : 'off'}`
     : 'Enter a query to start a search.';
