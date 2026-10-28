@@ -21,6 +21,11 @@ work. This user-approved policy applies to all subsequent tridiJump tasks.
 - Expanded Search must not multiply requests for setup-required providers. Resolve
   their configuration once per explicit search, then skip all expanded terms and
   retries for them. A new explicit search can recheck credentials saved in Settings.
+- Declarative registry data may describe non-secret capabilities such as
+  `requiresUserConfiguration`, never user nicknames, API keys, tokens, authentication
+  headers or secrets. Field definitions stay inert and packaged; no remote code,
+  auth templates, callbacks or registry-controlled authentication logic. The current
+  TypeScript provider list is packaged composition, not a remote registry loader.
 - Keep credential support small, parsing provider-local, and orchestration generic.
   Preserve staged implementation scope; policy updates alone do not enable providers.
 - Classify each remaining provider A (no credentials), B (free user credentials),

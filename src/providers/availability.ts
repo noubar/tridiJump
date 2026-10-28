@@ -5,7 +5,9 @@ import { createMyMiniFactoryProvider } from './myminifactory';
 import { createThingiverseProvider } from './thingiverse';
 
 // Current V1 disposition, not a claim that these services have no APIs at all.
-// See docs/provider-classification.md for evidence and conditions for enabling each.
+// Packaged composition only, never a remote/declarative authentication registry.
+// Do not merge user credential values into this list.
+// See docs/live-provider-enablement.md for evidence and verification limits.
 export const providerAvailability = [
   { id: 'printables', name: 'Printables', classification: 'D',
     reason: 'Aggregation unavailable: no approved public interface; Prusa terms restrict extraction.',

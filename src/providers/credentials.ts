@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+/** Inert, packaged UI descriptions only; no values, remote code or auth templates. */
 export interface CredentialField { name: string; label: string; secret: boolean }
 export type ProviderCredentials = Record<string, string>;
 

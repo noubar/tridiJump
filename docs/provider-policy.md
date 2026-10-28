@@ -62,6 +62,28 @@ it; this exception never applies to native-search fallback links. There is no
 credential proxy/backend. Restrict network destinations and
 request only storage/API permissions actually needed by an enabled feature.
 
+## Declarative registry boundary
+
+A declarative registry may expose non-secret capability metadata, for example
+`"requiresUserConfiguration": true`. It must never contain API keys, tokens,
+user-owned usernames/nicknames, authentication headers or any other secret.
+Do not merge local credential values into registry records, even temporarily or
+for export/debugging. User nicknames are credential values even when their input
+field is not password-masked.
+
+Credential field definitions are inert descriptions (field name, label, secret
+flag), currently shipped in the packaged provider implementation. They must not
+be remotely executable or allow registry data to change authentication. No
+downloaded functions, scripts, module URLs, auth-header/body templates, credential
+destination overrides or callbacks may be supplied by a declarative registry.
+Authentication, fixed network destinations and credential transmission remain
+owned by the packaged provider adapter.
+
+There is no declarative JSON/remote registry loader today. The TypeScript
+`providerAvailability` list imports packaged factories and fallback helpers; those
+local code references are application composition, not remotely supplied data.
+This policy does not require adding a registry or a configuration framework.
+
 ## Setup state and the smallest reusable mechanism
 
 The state model supports `idle`, `searching`, `success`, `no-results`, `failed`,
