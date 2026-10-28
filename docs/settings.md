@@ -38,6 +38,13 @@ storage failures use fixed, sanitized messages. There is no settings export.
 
 ## Authentication and registry boundary
 
+For user-facing onboarding, availability categories, official provider links and
+why credentials are needed, see
+[supported repositories and provider credentials](supported-repositories.md).
+tridiJump neither provides nor proxies keys, and no tridiJump server receives
+them. Users can remove them at any time in Settings; only the corresponding
+provider receives the configured credential when a search is sent.
+
 This checkout has a bundled list (`src/providers/availability.ts`), not a dynamic
 GitHub registry loader or registry.json. No remote registry is fetched or executed.
 All factory references, credential field semantics, storage IDs, destinations and
@@ -48,18 +55,19 @@ uses its fixed official origin and documented credentials.
 
 Only the three implemented authenticated providers have credential forms:
 
-| Provider | Fields | Official credential page |
+| Provider | Fields | Official credential page and documentation |
 | --- | --- | --- |
-| Cults3D | Nickname, API key | https://cults3d.com/en/api/keys |
-| MyMiniFactory | API key | https://www.myminifactory.com/settings/developer |
-| Thingiverse | App Token | https://www.thingiverse.com/developers/my-apps |
+| Cults3D | Nickname, API key | [API keys](https://cults3d.com/en/api/keys), [API guide](https://cults3d.com/en/pages/graphql) |
+| MyMiniFactory | API key | [Developer settings](https://www.myminifactory.com/settings/developer), [official API README](https://github.com/MyMiniFactory/api-documentation/blob/master/README.md) |
+| Thingiverse | App Token | [My Apps](https://www.thingiverse.com/developers/my-apps), [getting-started guide](https://www.thingiverse.com/developers/getting-started) |
 
 Use your own free access. MyMiniFactory's documented `key` query parameter is the
 existing protocol exception; no other key is put in a URL. Requests omit cookies
 and reject redirects. Native-search URLs contain only the search query, never
-stored credentials. Printables now has an anonymous GraphQL candidate and no
-credential form; its repository checkbox works normally. Chromium verification
-is pending; see [Printables notes](provider-printables.md). MakerWorld and Thangs
+stored credentials. Printables works immediately with no credential form; its
+basic anonymous search and a tested model link were user-live-verified in Chromium
+on 2026-10-28. Cover images remain pending; see
+[Printables notes](provider-printables.md). MakerWorld and Thangs
 remain native-search-only.
 
 ## Manual regression checks

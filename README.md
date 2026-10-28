@@ -25,6 +25,26 @@ are preserved. Cancellation discards late replies immediately, while an
 already-started worker request may finish. See the report for the earlier CORS
 finding, new thumbnail checklist and query-only rollback if the image field fails.
 
+## Supported repositories
+
+| Availability | Repositories | How to use |
+| --- | --- | --- |
+| **Works immediately** | Printables | Enable and search; no credentials. Cover images remain pending live verification. |
+| **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse | Obtain your own free provider credentials and save them in Settings. |
+| **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
+
+See [supported repositories and credential setup](docs/supported-repositories.md)
+for official onboarding links, fields and verification limits. Use only free API
+access; current new-account key issuance is not independently confirmed for every
+provider. If API access requires payment, use native search instead.
+
+Authenticated APIs require their own account/application credentials even when
+native website search is public. tridiJump does not provide or proxy credentials
+and has no server receiving them. Saved keys remain in browser extension local
+storage and are sent only to the corresponding repository. They are never synced
+or exported. Local storage is not an encrypted password vault. You can replace or
+remove credentials at any time in Settings; saved secrets are never redisplayed.
+
 ## Development
 
 Requires Node.js 24 or newer and npm.

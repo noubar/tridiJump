@@ -4,6 +4,11 @@ Reviewed **2026-10-28**. This is the current implementation and evidence record;
 it supersedes the all-fallback release disposition in the earlier classification.
 No synonyms or later roadmap features are included.
 
+For the user-facing **Works immediately / Requires free provider setup /
+Direct-search fallback** categories and official credential instructions, see
+[supported repositories and provider credentials](supported-repositories.md).
+This investigation retains the detailed evidence and historical verification limits.
+
 **Printables follow-up:** the [GraphQL candidate](provider-printables.md) is now
 connected anonymously, based on the historical first-party schema observation.
 The user live verified basic worker search, real cards and a tested model link
