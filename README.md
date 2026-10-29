@@ -169,6 +169,23 @@ npm run build        # Type check and production build
 npm run lexicon:build # Verify pinned sources and regenerate packaged indexes
 ```
 
+## Creating a release
+
+1. Commit all intended source changes so the Git worktree is clean.
+2. Run `npm run release`.
+3. Extract and smoke-test the exact ZIP named by the command.
+4. Tag and publish only after that verification succeeds.
+
+The command runs tests, type checking, two reproducible production builds,
+dependency and package security checks, deterministic ZIP creation, extraction
+verification, and SHA-256 generation. It writes the package and records under
+`release/`. Use `npm run release:check` to perform the validations without
+writing final release artifacts.
+
+Release automation intentionally does not commit, change versions, create tags,
+push, publish, upload, or run `npm audit fix`. Those repository and store actions
+remain manual.
+
 ## Structure
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
