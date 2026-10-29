@@ -30,6 +30,7 @@ numeric prices. See [provider pricing](provider-pricing.md).
 
 | Provider | Implemented mechanism | Client page size | More-page detection | Server filters used |
 | --- | --- | --- | --- | --- |
+| Printables | Anonymous frontend GraphQL `searchPrints2` through the fixed MV3 worker boundary, numeric `offset` + `limit` | 20 | Required numeric `totalCount`; offset advances by the raw item count. Empty batch or `offset + raw count >= totalCount` ends it. | None; frontend/default ordering, local filters/sorts |
 | Thingiverse | Existing developer REST `/search/{encoded-query}`, numbered `page` + `per_page`; App Token unchanged | 20 | Numeric `total` when present; otherwise a full raw batch means another page may exist. Empty/short batch with no total ends it. | None; native/default ordering, local filters/sorts |
 | MyMiniFactory | Official v2 `/search`, numbered `page` + `per_page`; query-key auth unchanged | 20 | Numeric `total_count`; otherwise same raw-batch fallback | None; native/default ordering, local filters/sorts |
 | Cults3D | `creationsSearchBatch`, `limit` + subsequent numeric `offset`, requesting batch `total`; Basic auth unchanged | 20 | Numeric batch `total`; otherwise full raw batch fallback. Offset advances by raw records received. | None on the search field; local filters/sorts |
@@ -42,6 +43,11 @@ Duplicate-only pages do not prove exhaustion and do not add duplicate cards.
 
 ### Evidence checked during this task
 
+- Printables has no public pagination contract used by this project. Its bundled
+  query requests `limit`, `offset` and `totalCount`; the user's earlier Chromium
+  checkpoint verified first-page search/cards, but pages two and three remain
+  **MANUAL VERIFICATION REQUIRED**. The 0/20/40 behavior is **VERIFIED BY TEST
+  ONLY** and must not be described as a live provider guarantee.
 - [Official MyMiniFactory OpenAPI](https://github.com/MyMiniFactory/api-documentation/blob/master/myminifactory-api.yaml)
   documents search page/per_page, total_count and a default page size of 30.
   Search supports sort/order (visits/date/popularity), category and printing-related
@@ -106,7 +112,7 @@ adapters succeed, removal, error/log/history secrecy with populated original-que
 history, conflicting metadata/fixed origins, and setup skipping with Expanded
 Search enabled. No keys are requested in chat or used live by the tests.
 
-`tests/pagination.test.ts` covers all three adapters over 20 + 20 + 5 synthetic
+`tests/pagination.test.ts` covers the three credentialed adapters over 20 + 20 + 5 synthetic
 records, distinct continuations, raw-count handling, malformed rows/missing totals,
 exhaustion, duplicate prevention (including duplicate-only pages), progressive
 appending, isolated page failure/retry, disabled/setup skipping, new-search aborts,
@@ -114,15 +120,26 @@ stale responses, page timeouts/external aborts, delayed settings reads, bounded
 variant dispatch, and the 60-loaded / 28-Free scenario followed by additional Free
 models (Thingiverse plus Cults; MMF records without flags remain unknown). Existing cards retain their DOM identity during loading.
 
+`tests/printables.test.ts` separately exercises the real worker message boundary
+and Printables adapter over offsets 0, 20 and 40, including a 20 + 20 + 5 final
+batch and raw-count continuation when one record is malformed.
+
 These are fixtures, not captured live results or proof of current API availability.
 No new runtime dependency, backend, permission or logging was added.
 
 ## Manual acceptance: live verification still pending
 
 No authorized live credentials are available in this development environment.
-**None of the three providers has been proven beyond 20 live results by the agent.**
-The user previously verified their first-page integrations; this task demonstrates
-45/provider and 135 combined through the real adapters with synthetic HTTP data.
+No connected Chromium session was available for anonymous Printables verification.
+The user subsequently observed both MyMiniFactory and Cults3D Results counts
+advancing 19 → 39 → 59 for `car` with Expanded Search off, proving live UI append
+beyond the first batch for both adapters. The user then completed manual Chromium
+acceptance for Printables and Thingiverse and confirmed their later pages also
+worked. Request-level diagnostic tables were not retained for those two providers.
+Automated tests demonstrate 45/provider through the real adapter code with
+synthetic HTTP data and cover the orchestration edge cases.
+See [the live pagination verification record](live-pagination-verification.md) for
+the evidence matrix and exact manual acceptance procedure.
 
 1. Build/load the extension, configure your own credentials in Settings and enable
    Thingiverse, MyMiniFactory and Cults3D. Search `cap` with Expanded Search off.
