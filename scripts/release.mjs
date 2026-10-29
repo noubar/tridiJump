@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  compareAllowlist, createDeterministicZip, detectSecretCategories,
+  compareAllowlist, containsScreenshotTooling, createDeterministicZip, detectSecretCategories,
   forbiddenPackagePath, isChromeVersion, isSafePackagePath,
   readZipEntries, sha256, validateManifest,
 } from './release-helpers.mjs';
@@ -123,6 +123,7 @@ async function inspectPackage(directory, expectedVersion, target, label) {
     const extension = file.relativePath.slice(file.relativePath.lastIndexOf('.')).toLowerCase();
     if (!TEXT_EXTENSIONS.has(extension)) continue;
     const text = await readFile(file.path, 'utf8');
+    if (containsScreenshotTooling(text)) errors.push(`${file.relativePath}: screenshot/demo tooling`);
     if (/\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0)\b/i.test(text) && ['.js', '.html', '.css'].includes(extension)) errors.push(`${file.relativePath}: development destination`);
     for (const category of detectSecretCategories(text)) errors.push(`${file.relativePath}: potential credential (${category})`);
   }

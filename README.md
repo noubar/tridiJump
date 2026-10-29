@@ -194,6 +194,32 @@ browser. Release automation intentionally does not commit, change versions, crea
 push, publish, upload, or run `npm audit fix`. Those repository and store actions
 remain manual.
 
+## Creating store screenshots
+
+Store screenshots are release tooling, not an extension feature. Vite rewrites
+the three page entry modules only during the dedicated screenshot build, which
+uses six generated local demonstration images and fictional metadata. These
+entries have no provider or extension-background entry. They never search
+providers, read credentials, or load third-party thumbnails. Chrome and Firefox
+capture the isolated build through a temporary local server with a restrictive
+screenshot-only content security policy.
+
+```sh
+npm run screenshots          # Chrome and Firefox screenshots
+npm run screenshots:chrome   # Chrome only
+npm run screenshots:firefox  # Firefox only
+npm run build:screenshots    # Build both isolated screenshot targets only
+```
+
+Each browser receives a 1280×800 results screenshot with all six repositories,
+plus 1280×800 popup and Settings screenshots under `release/screenshots/`.
+Set `TRIDIJUMP_CHROME_PATH` or `TRIDIJUMP_FIREFOX_PATH` when the browser
+executable is not discoverable. Normal production and release commands never
+enable fixture mode or package the demonstration artwork. The production entry
+modules contain no runtime screenshot switch, URL trigger, or storage setting.
+Release package inspection rejects demo artwork, fixture paths, and screenshot
+bootstrap modules in both the built directory and the extracted ZIP.
+
 ## Structure
 
 - `src/popup/`, `src/results/`, `src/settings/`: plain HTML/TypeScript entry pages
@@ -203,6 +229,7 @@ remain manual.
 - `src/providers/`: small provider contract, local credentials, three official API adapters and anonymous Printables search
 - `src/synonyms/`: lazy offline lexical lookup, ranking, phrases and compounds
 - `scripts/lexicon/`: deterministic OEWN/Ding source converters
+- `src/screenshots/`: build-time-only store screenshot entries and local fixture rendering
 - `lexical-source/`: pinned preferred-source archives, excluded from extension output
 - `public/lexical-data/`: generated packaged lookup chunks and provenance
 - `providers/`: reserved for provider definitions

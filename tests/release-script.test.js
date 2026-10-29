@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   compareAllowlist,
+  containsScreenshotTooling,
   createDeterministicZip,
   detectSecretCategories,
   forbiddenPackagePath,
@@ -35,12 +36,21 @@ describe('release helpers', () => {
     expect(forbiddenPackagePath('tests/result.js')).toBe('development directory');
     expect(forbiddenPackagePath('.env.production')).toBe('environment file');
     expect(forbiddenPackagePath('assets/app.js.map')).toBe('source map');
+    expect(forbiddenPackagePath('assets/Demo-Printables-a1b2.png')).toBe('screenshot/demo tooling');
+    expect(forbiddenPackagePath('assets/demo/screenshots/demo-results.json')).toBe('screenshot/demo tooling');
+    expect(forbiddenPackagePath('assets/screenshot-entry-a1b2.js')).toBe('screenshot/demo tooling');
   });
 
   it('detects strong secret indicators without rejecting normal auth code', () => {
     expect(detectSecretCategories('headers.Authorization = `Bearer ${token}`')).toEqual([]);
     expect(detectSecretCategories('Authorization: Bearer abcdefghijklmnopqrstuvwxyz123456')).toContain('bearer token');
     expect(detectSecretCategories('-----BEGIN PRIVATE KEY-----')).toContain('private key');
+  });
+
+  it('detects screenshot bootstrap markers without matching production UI text', () => {
+    expect(containsScreenshotTooling('renderScreenshotResults();')).toBe(true);
+    expect(containsScreenshotTooling('POST /__tridijump_screenshot_ready')).toBe(true);
+    expect(containsScreenshotTooling('Search 3D models in one place')).toBe(false);
   });
 
   it('validates package paths and hashes content', () => {

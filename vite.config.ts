@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { defineConfig, type Plugin } from 'vite';
+import { defineConfig, type HtmlTagDescriptor, type Plugin } from 'vite';
 
 function browserManifest(path: URL): Plugin {
   return {
@@ -12,9 +12,39 @@ function browserManifest(path: URL): Plugin {
   };
 }
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => {
+  const screenshotBuild = mode.startsWith('screenshots-');
+  return {
   base: './',
-  plugins: [browserManifest(new URL(`./manifests/${mode === 'firefox' ? 'firefox' : 'chrome'}.json`, import.meta.url)), {
+  plugins: [
+  ...(screenshotBuild ? [{
+    name: 'screenshot-network-isolation',
+    transformIndexHtml: {
+      order: 'pre' as const,
+      handler: (html: string, context: { path: string }) => {
+        const page = ['popup', 'results', 'settings'].find((value) => context.path.endsWith(`/src/${value}/index.html`));
+        if (!page) return html;
+        const tags: HtmlTagDescriptor[] = [{
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'",
+          },
+          injectTo: 'head-prepend' as const,
+        }];
+        if (page === 'results') {
+          for (const file of ['Printables', 'Thingiverse', 'MyMiniFactory', 'Cults3D', 'MakerWorld', 'Thangs']) {
+            tags.push({
+              tag: 'img',
+              attrs: { src: `../../assets/demo/screenshots/Demo-${file}.png`, hidden: true, alt: '' },
+              injectTo: 'body-prepend' as const,
+            });
+          }
+        }
+        return { html: html.replace('src="./main.ts"', `src="../screenshots/${page}-entry.ts"`), tags };
+      },
+    },
+  }] : [browserManifest(new URL(`./manifests/${mode === 'firefox' ? 'firefox' : 'chrome'}.json`, import.meta.url))]), {
     name: 'package-license',
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'LICENSE', source: readFileSync(new URL('./LICENSE', import.meta.url), 'utf8') });
@@ -30,13 +60,15 @@ export default defineConfig(({ mode }) => ({
     },
   }],
   build: {
-    outDir: mode === 'firefox' ? 'dist-firefox' : 'dist',
+    outDir: mode === 'screenshots-chrome' ? 'dist-screenshots/chrome'
+      : mode === 'screenshots-firefox' ? 'dist-screenshots/firefox'
+        : mode === 'firefox' ? 'dist-firefox' : 'dist',
     // Keep bundled thumbnails as files; the renderer rejects untrusted data URLs.
     assetsInlineLimit: 0,
     target: 'es2022',
     rolldownOptions: {
       input: {
-        background: fileURLToPath(new URL('./src/background.ts', import.meta.url)),
+        ...(screenshotBuild ? {} : { background: fileURLToPath(new URL('./src/background.ts', import.meta.url)) }),
         popup: fileURLToPath(new URL('./src/popup/index.html', import.meta.url)),
         results: fileURLToPath(new URL('./src/results/index.html', import.meta.url)),
         settings: fileURLToPath(new URL('./src/settings/index.html', import.meta.url)),
@@ -46,4 +78,5 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-}));
+  };
+});

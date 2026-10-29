@@ -18,6 +18,10 @@
     "release:chrome": "node scripts/release.mjs chrome",
     "release:firefox": "node scripts/release.mjs firefox",
     "release:check": "node scripts/release.mjs all --check",
+    "build:screenshots": "node scripts/screenshots.mjs all --build-only",
+    "screenshots": "node scripts/screenshots.mjs all",
+    "screenshots:chrome": "node scripts/screenshots.mjs chrome",
+    "screenshots:firefox": "node scripts/screenshots.mjs firefox",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

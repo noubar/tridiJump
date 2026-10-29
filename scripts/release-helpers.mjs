@@ -51,6 +51,10 @@ export function forbiddenPackagePath(relativePath) {
   const parts = normalized.toLowerCase().split('/');
   const base = parts.at(-1) ?? '';
   if (parts.some((part) => ['node_modules', '.git', 'tests', 'test', 'fixtures'].includes(part))) return 'development directory';
+  if (parts.some((part) => ['screenshot', 'screenshots'].includes(part))
+    || normalized.toLowerCase().includes('assets/demo/')
+    || /^demo-.*\.png$/i.test(base)
+    || /(?:demo-results|screenshot-bootstrap|screenshot-entry)/i.test(base)) return 'screenshot/demo tooling';
   if (base === '.env' || base.startsWith('.env.')) return 'environment file';
   if (base.endsWith('.map')) return 'source map';
   if (/\.(tmp|temp|bak|orig|swp)$/.test(base) || base.endsWith('~')) return 'temporary file';
@@ -70,6 +74,10 @@ export function detectSecretCategories(text) {
   ];
   for (const [category, pattern] of checks) if (pattern.test(text)) categories.push(category);
   return categories;
+}
+
+export function containsScreenshotTooling(text) {
+  return /(?:__tridijump_screenshot_ready|Screenshot fixture must contain|Benchy Calibration Collection|screenshot-mode|renderScreenshot(?:Popup|Results|Settings))/i.test(text);
 }
 
 export function sha256(value) {

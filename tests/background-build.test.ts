@@ -4,6 +4,19 @@ import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
 import { expect, it } from 'vitest';
 
+type ViteOutput = Awaited<ReturnType<typeof build>>;
+function bundleOutputs(result: ViteOutput) {
+  const builds = Array.isArray(result) ? result : [result];
+  return builds.flatMap((value) => 'output' in value ? value.output : []);
+}
+
+function expectNoScreenshotTooling(result: ViteOutput) {
+  const outputs = bundleOutputs(result);
+  expect(outputs.some((output) => /Demo-|demo-results|screenshots|screenshot-entry/i.test(output.fileName))).toBe(false);
+  const text = outputs.map((output) => output.type === 'chunk' ? output.code : typeof output.source === 'string' ? output.source : '').join('\n');
+  expect(text).not.toMatch(/renderScreenshot|screenshot-mode|captureToken|Demo-Printables|Benchy Calibration Collection|__TRIDIJUMP_SCREENSHOT_MODE__/);
+}
+
 it('production build emits the registered module worker and all its local static imports', async () => {
   const manifest = JSON.parse(readFileSync(new URL('../manifests/chrome.json', import.meta.url), 'utf8'));
   const result = await build({
@@ -11,6 +24,7 @@ it('production build emits the registered module worker and all its local static
     logLevel: 'silent', build: { write: false, minify: false },
   });
   const outputs = Array.isArray(result) ? result : [result];
+  expectNoScreenshotTooling(result);
   const assets = outputs.flatMap((value) => 'output' in value ? value.output : []).filter((value) => value.type === 'asset');
   const license = assets.find((asset) => asset.fileName === 'LICENSE');
   expect(license).toBeDefined();
@@ -44,6 +58,7 @@ it('Firefox production build emits its event-page manifest and the shared backgr
     mode: 'firefox', logLevel: 'silent', build: { write: false, minify: false },
   });
   const outputs = Array.isArray(result) ? result : [result];
+  expectNoScreenshotTooling(result);
   const assets = outputs.flatMap((value) => 'output' in value ? value.output : []).filter((value) => value.type === 'asset');
   const generatedManifest = assets.find((asset) => asset.fileName === 'manifest.json');
   expect(JSON.parse(String(generatedManifest?.source))).toEqual(manifest);
@@ -52,4 +67,19 @@ it('Firefox production build emits its event-page manifest and the shared backgr
   expect(entry?.isEntry).toBe(true);
   expect(entry?.code).toContain('onMessage.addListener');
   expect(manifest.background.service_worker).toBeUndefined();
+});
+
+it('dedicated screenshot build contains local fixtures without production provider entries', async () => {
+  const result = await build({
+    configFile: fileURLToPath(new URL('../vite.config.ts', import.meta.url)),
+    mode: 'screenshots-chrome', logLevel: 'silent', build: { write: false, minify: false },
+  });
+  const outputs = bundleOutputs(result);
+  expect(outputs.some((output) => output.fileName === 'background.js')).toBe(false);
+  expect(outputs.some((output) => output.fileName === 'manifest.json')).toBe(false);
+  expect(outputs.filter((output) => /assets\/Demo-[^-]+-[A-Za-z0-9_-]+\.png/.test(output.fileName))).toHaveLength(6);
+  const text = outputs.map((output) => output.type === 'chunk' ? output.code : typeof output.source === 'string' ? output.source : '').join('\n');
+  expect(text).toContain('Benchy Calibration Collection');
+  expect(text).toContain('Direct search');
+  expect(text).not.toMatch(/api\.printables\.com|api\.thingiverse\.com|cults3d\.com\/api|myminifactory\.com\/api/);
 });

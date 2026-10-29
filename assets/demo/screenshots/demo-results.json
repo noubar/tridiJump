@@ -1,0 +1,8 @@
+[
+  { "providerId": "printables", "providerName": "Printables", "title": "Benchy Calibration Collection", "creator": "Demo Maker", "thumbnail": "Demo-Printables.png", "mode": "aggregated" },
+  { "providerId": "thingiverse", "providerName": "Thingiverse", "title": "Classic 3D Print Test Boats", "creator": "Demo Maker", "thumbnail": "Demo-Thingiverse.png", "mode": "aggregated" },
+  { "providerId": "myminifactory", "providerName": "MyMiniFactory", "title": "Benchy Print Tests", "creator": "Demo Maker", "thumbnail": "Demo-MyMiniFactory.png", "mode": "aggregated" },
+  { "providerId": "cults3d", "providerName": "Cults3D", "title": "Calibration Boat Collection", "creator": "Demo Maker", "thumbnail": "Demo-Cults3D.png", "mode": "aggregated" },
+  { "providerId": "makerworld", "providerName": "MakerWorld", "title": "Search for “benchy” on MakerWorld", "thumbnail": "Demo-MakerWorld.png", "mode": "direct-search" },
+  { "providerId": "thangs", "providerName": "Thangs", "title": "Search for “benchy” on Thangs", "thumbnail": "Demo-Thangs.png", "mode": "direct-search" }
+]
