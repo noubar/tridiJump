@@ -127,10 +127,10 @@ batch and raw-count continuation when one record is malformed.
 These are fixtures, not captured live results or proof of current API availability.
 No new runtime dependency, backend, permission or logging was added.
 
-## Manual acceptance: live verification still pending
+## Manual acceptance: completed
 
-No authorized live credentials are available in this development environment.
-No connected Chromium session was available for anonymous Printables verification.
+No authorized live credentials were available in the development environment, so
+the agent did not inspect authenticated requests or a connected Chromium session.
 The user subsequently observed both MyMiniFactory and Cults3D Results counts
 advancing 19 → 39 → 59 for `car` with Expanded Search off, proving live UI append
 beyond the first batch for both adapters. The user then completed manual Chromium
@@ -161,5 +161,7 @@ the evidence matrix and exact manual acceptance procedure.
    Setup required without repeated checks. Compare with expansion off (original
    only); see the [offline lexical behavior](expanded-search.md).
 
-Do not treat mocked pagination, inferred Cults arguments or the toggle alone as a
-completed authenticated/manual V1 acceptance run.
+The user-completed Chromium run clears the V1 live-pagination gate. Automated
+tests remain the evidence for exact cursor values, cancellation, malformed-row
+handling, deduplication, and failure isolation because credentials and raw network
+traces were not shared with the development environment.

@@ -59,9 +59,10 @@ or exported settings. There is no settings export feature.
 **MyMiniFactory exception:** its documented key authentication uses an HTTPS
 request URL. That key can therefore be visible in DevTools and provider-side
 request logs. Avoid sharing raw request URLs. This follows the earlier explicit
-protocol exception, but does not satisfy Prompt 18's stricter no-URL-credential
-criterion; see the [release audit](docs/release-audit.md). No alternative
-authentication mechanism has been substituted without verification.
+provider-protocol exception adopted for V1. The destination and parameter are
+fixed in bundled code; no alternative authentication mechanism is substituted
+without provider documentation. See the
+[credential security audit](docs/credential-security-audit.md).
 
 ## Verification limits
 
@@ -70,3 +71,21 @@ the release audit. This is not a guarantee against compromised browsers,
 extensions, devices, providers or all possible secret encodings. Never submit
 keys in issues, chat, screenshots or public traces. Use your provider's revocation
 controls if a credential has been exposed.
+
+## Retention and deletion
+
+Local preferences remain until changed or the extension data is removed. Optional
+history remains until cleared in Settings or the extension data is removed.
+Provider credentials remain until removed in Settings, the extension data is
+removed, or the browser removes it. Removing a local credential does not revoke it
+at the provider. Third-party repositories control their own request logs and
+retention under their policies.
+
+## Open source, policy changes and contact
+
+tridiJump is open-source software licensed under GPL-3.0-or-later. Its source and
+this policy are published at <https://github.com/noubar/tridiJump>. Material policy
+changes will be committed there with the applicable extension release. Questions
+and privacy reports can be filed at
+<https://github.com/noubar/tridiJump/issues>; do not include API credentials or
+unredacted authenticated request details.

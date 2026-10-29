@@ -1,7 +1,8 @@
 # tridiJump
 
-A lightweight browser extension for searching multiple 3D-model repositories
-asynchronously and displaying models on one unified results page.
+A free and open-source Chromium browser extension for searching multiple
+3D-model repositories asynchronously and displaying models on one unified
+results page.
 
 The V1 application includes a search popup, progressive results grid, and settings.
 Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
@@ -20,16 +21,17 @@ The user **live verified basic Chromium search, real cards and a tested model li
 on 2026-10-28**, using the packaged MV3 worker. No Printables credentials are needed.
 The user has also confirmed working Printables thumbnails. This is user-run live
 evidence, not an automated or agent-run browser test.
-Creator, ratings, creation date, formats, prices, native orderings and full live
-pagination/exhaustion are not claimed verified. Pagination code and native fallback
-are preserved. Cancellation discards late replies immediately, while an
+Creator, ratings, creation date, formats, prices and native orderings remain
+provider-dependent. The user completed live multi-page acceptance for all four
+aggregated providers on 2026-10-29. Cancellation discards late replies immediately, while an
 already-started worker request may finish. See the report for the earlier CORS
 finding, new thumbnail checklist and query-only rollback if the image field fails.
 
-**Release audit follow-up: Expanded Search is now implemented.** Live multipage
-acceptance and the MyMiniFactory URL-credential policy conflict remain unresolved;
-this change alone does not establish release readiness. See the
-[historical final audit](docs/release-audit.md), [Expanded Search](docs/expanded-search.md) and
+The V1 release blockers recorded by the historical audit were subsequently
+resolved: Expanded Search is implemented, live pagination acceptance is complete,
+and the MyMiniFactory credential policy records its narrow documented URL-key
+exception. See the [release decision and historical audit](docs/release-audit.md),
+[Expanded Search](docs/expanded-search.md) and
 [privacy/network inventory](PRIVACY.md).
 
 ## Supported repositories
@@ -129,9 +131,11 @@ and exhausted providers are skipped. Counts distinguish matching and loaded mode
 Local filters stay active while loading additional pages. Unknown prices are never
 classified as Free. Thingiverse normal model downloads are classified Free
 without inventing a numeric price. MMF uses explicit store-license flags; missing
-flags stay Unknown. Cults retains its reported EUR cents. Details and the remaining
-live-verification limit are in [provider pricing](docs/provider-pricing.md). See [pagination and credential tests](docs/pagination.md) for
-API mechanisms, evidence limits and the manual acceptance checklist.
+flags stay Unknown. Cults retains its reported EUR cents. Details are in
+[provider pricing](docs/provider-pricing.md). See
+[pagination and credential tests](docs/pagination.md) and the
+[live acceptance record](docs/live-pagination-verification.md) for API mechanisms,
+evidence limits and the completed manual acceptance.
 Cults EUR prices are converted
 from reported cents; unavailable metadata stays unknown. No model files are
 downloaded. Demo code remains isolated in `src/results/demo/` for reference and

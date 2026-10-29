@@ -1,6 +1,6 @@
 {
   "name": "tridijump",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "A lightweight browser extension for unified 3D-model search.",
   "license": "GPL-3.0-or-later",

@@ -1,12 +1,28 @@
-# Final adversarial V1 release audit — 2026-10-28
+# V1 release decision and historical adversarial audit
 
-**Historical audit; superseded Expanded Search finding:** a later temporary
-phrase-map follow-up has itself been replaced by the packaged Open English
-WordNet 2025 and TU Chemnitz Ding 1.9 lexical engine. See
-[Expanded Search](expanded-search.md) for current behavior and tests. The dated
-findings below are preserved as the audit record; live pagination acceptance and
-the MyMiniFactory URL-credential policy conflict remain unresolved. This note
-does not rerun or replace the full release audit.
+## Superseding release decision — 2026-10-29
+
+**READY FOR V1 RELEASE.** The three blockers recorded by the 2026-10-28 audit
+below were subsequently resolved and verified:
+
+- Expanded Search now uses the packaged Open English WordNet 2025 and TU Chemnitz
+  Ding 1.9 lexical engine, with bounded English/German variants and production
+  dispatch tests.
+- The user completed live multi-page Chromium acceptance for all four aggregated
+  providers. See [the live pagination record](live-pagination-verification.md).
+- The MyMiniFactory credential-policy conflict was resolved by retaining the
+  provider's documented query-key protocol as a fixed-origin, provider-specific
+  exception. See [the credential security audit](credential-security-audit.md).
+
+The remainder of this file is the dated audit record and intentionally retains
+its original findings, test counts and verdict. It must not be read as the current
+release status.
+
+# Historical final adversarial V1 release audit — 2026-10-28
+
+**Historical record:** see the superseding release decision above for the current
+status. The findings below are preserved unchanged as evidence of what the audit
+found at that time.
 
 ## 1. Release verdict
 
