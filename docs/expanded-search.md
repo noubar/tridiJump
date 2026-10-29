@@ -22,7 +22,8 @@ server. Unknown input can correctly remain original-only.
    including a conservative linking element where necessary.
 7. Reconstruct one-token phrases or a bounded bilingual phrase without a
    Cartesian product.
-8. Rank source-backed candidates, remove normalized duplicates and return the
+8. Rank source-backed candidates with their source sense order, reject candidates
+   below the V1 quality threshold, remove normalized duplicates and return the
    original plus at most three variants.
 
 OEWN extraction includes same-synset lemmas from its noun artifact, object and
@@ -36,37 +37,44 @@ lemmas are all indexed, so `Handy` is found inside its grouped
 flattened into base meanings.
 
 The only manual domain knowledge is ranking and preservation metadata. It does
-not supply replacement phrases. English product-head ranking contains: box,
-bracket, case, casing, clip, cover, enclosure, handle, headphone, holder, hook,
-housing, lid, mount, phone, rack, shell, stand, tool and wheel. German ranking
-contains: Aufbewahrung, Befestigung, Box, Fassung, Gehäuse, Halter, Halterung,
-Kiste, Ständer, Telefon, Wand and Werkzeug. Product span protection contains:
-Raspberry Pi, Arduino, ESP32, Bambu and Prusa. These lists only rank or preserve
-terms already present in the real sources.
+not supply replacement phrases. The small reviewed ranking sets cover common
+physical product heads such as cases, holders, mounts, stands, tools, walls,
+wheels, cars and telephones, plus their directly relevant German counterparts.
+Product span protection contains Raspberry Pi, Arduino, ESP32, Bambu and Prusa.
+These sets only rank or preserve terms already present in the real sources.
 
 ## German compounds and phrases
 
-Compound decomposition tries the exact Ding record first, then considers one
+Compound decomposition tries the exact Ding record first. A strong whole-word
+product translation stops decomposition. Otherwise it considers one
 two-part right-headed split whose components both have Ding entries. It permits
 the linking elements `s`, `es`, `n`, `en`, `er` and `e` only at a boundary where
 both resulting components are known. It selects one best split and combines the
-best modifier with at most three head translations.
+best modifier with only head translations that clear the quality threshold.
+Gerund-like heads can be shortened only when the concise product noun is also
+present in the packaged lexical data.
 
 This produces source-backed searches such as `Werkzeughalter` → `tool holder`,
 `Aufbewahrungsbox` → `storage box`, and `Kopfhörerständer` → `headphone stand`.
 The same generic algorithm handles compounds absent from the product-protection
 and ranking lists.
 
-Phrase reconstruction changes one head component at a time. Protected spans are
+Phrase reconstruction changes one head component at a time. It suppresses an
+expanded translation such as `indoor wall` when the same source senses also
+contain the complete concise product head `wall`; this prevents an unrelated
+modifier from leaking into a reconstructed compound. Protected spans are
 left intact, so `Raspberry Pi Gehäuse` can produce `Raspberry Pi case`. A bounded
 whole-phrase bilingual reconstruction is allowed, but recursive
 translation→synonym→translation expansion is not. A German exact translation may
 receive one corroborated same-synset English enrichment step; expansion ends
 there.
 
-This is search assistance rather than full translation or perfect word-sense
-disambiguation. Some dictionary alternatives can be uncommon, and not every
-German compound has an unambiguous split.
+Candidates retain Ding sense and term order during scoring. Concrete product
+heads, concise conventional phrases and cross-source corroboration score higher;
+later ambiguous senses and verbose forms score lower. The final minimum score is
+explicit, so the engine can return zero, one or two alternatives instead of
+filling all three slots. This is search assistance rather than full translation
+or perfect word-sense disambiguation.
 
 ## Generated assets and maintainer workflow
 
@@ -93,7 +101,7 @@ source, version, retrieval date, checksum, converter version and output format
 are recorded in `public/lexical-data/provenance.json`. Licensing and attribution
 are in `THIRD_PARTY_NOTICES.md` and `licenses/`.
 
-At runtime, the results page hashes a normalized lookup key into one of 16
+At runtime, the results page hashes a normalized lookup key into one of 64
 packaged JSON buckets and fetches only needed extension-local chunks. Loaded
 chunks are cached for that page. Invalid or missing data fails closed to fewer or
 no variants. Expanded Search off does not invoke the lexical loader.

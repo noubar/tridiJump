@@ -6,32 +6,50 @@ import type { LexicalSenses } from './packaged-lexicon';
 
 export type CandidateSource = 'ding-translation' | 'oewn-synonym' | 'compound' | 'phrase-reconstruction' | 'translation-enrichment';
 export interface LexicalCandidate { text: string; source: CandidateSource; score: number; order: number }
+interface RankedTerm { text: string; score: number; senseIndex: number; termIndex: number }
 
 // Ranking only: these words never create a candidate that is absent from OEWN/Ding.
-const PRODUCT_HEADS = new Set(['box', 'bracket', 'case', 'casing', 'clip', 'cover', 'enclosure', 'handle', 'headphone', 'holder', 'hook', 'housing', 'lid', 'mount', 'phone', 'rack', 'shell', 'stand', 'tool', 'wheel']);
-const GERMAN_PRODUCT_TERMS = new Set(['aufbewahrung', 'befestigung', 'box', 'fassung', 'gehäuse', 'halter', 'halterung', 'kiste', 'ständer', 'telefon', 'wand', 'werkzeug']);
+const PRODUCT_HEADS = new Set(['auto', 'automobile', 'base', 'box', 'bracket', 'car', 'case', 'casing', 'cellphone', 'clip', 'cogwheel', 'cover', 'enclosure', 'gear', 'gearwheel', 'handle', 'headphone', 'holder', 'hook', 'housing', 'lid', 'mount', 'pedestal', 'phone', 'rack', 'screen', 'shell', 'stand', 'telephone', 'tool', 'wall', 'wheel']);
+const GERMAN_PRODUCT_TERMS = new Set(['abdeckung', 'aufbewahrung', 'auto', 'automobil', 'befestigung', 'box', 'fassung', 'gehäuse', 'getriebe', 'halter', 'halterung', 'kiste', 'ständer', 'telefon', 'wand', 'werkzeug', 'zahnrad']);
 const PROTECTED_PHRASES = ['Raspberry Pi', 'Arduino', 'ESP32', 'Bambu', 'Prusa'] as const;
 const LINKING_ELEMENTS = ['es', 'en', 'er', 's', 'n', 'e'] as const;
+const MIN_VARIANT_SCORE = 130;
 
 function candidateScore(text: string): number {
   const normalized = normalizeLexicalKey(text);
   const words = normalized.split(' ');
   const productHead = isProductTerm(text);
-  return (productHead || GERMAN_PRODUCT_TERMS.has(normalized) ? 30 : 0)
-    + (words.length <= 2 ? 4 : 0) - Math.max(0, words.length - 3) * 3;
+  return (GERMAN_PRODUCT_TERMS.has(normalized) ? 36 : productHead ? 30 : 0)
+    + (words.length === 1 ? 8 : words.length === 2 ? 4 : 0)
+    - Math.max(0, words.length - 2) * 3;
 }
 
 function isProductTerm(text: string): boolean {
   let head = normalizeLexicalKey(text).split(' ').at(-1) ?? '';
   if (head.endsWith('s')) head = head.slice(0, -1);
-  return [...PRODUCT_HEADS].some((value) => head === value || (head.length > value.length + 2 && head.endsWith(value)));
+  return PRODUCT_HEADS.has(head);
+}
+
+function expandedProductHeadIsAvailable(text: string, senses: LexicalSenses): boolean {
+  const words = normalizeLexicalKey(text).split(' ');
+  if (words.length < 2) return false;
+  const head = words.at(-1)!;
+  return isProductTerm(head) && senses.flat().some((term) => normalizeLexicalKey(term) === head);
+}
+
+function rankedTermCandidates(senses: LexicalSenses, limit = 8): RankedTerm[] {
+  return senses.flatMap((sense, senseIndex) => sense.map((text, termIndex) => ({
+    text, senseIndex, termIndex,
+    score: candidateScore(text) - senseIndex * 6 - termIndex,
+  })))
+    .filter(({ text }) => !expandedProductHeadIsAvailable(text, senses))
+    .sort((left, right) => right.score - left.score || left.senseIndex - right.senseIndex || left.termIndex - right.termIndex)
+    .filter((value, index, values) => values.findIndex((other) => normalizeLexicalKey(other.text) === normalizeLexicalKey(value.text)) === index)
+    .slice(0, limit);
 }
 
 function rankedTerms(senses: LexicalSenses, limit = 8): string[] {
-  return senses.flatMap((sense, senseIndex) => sense.map((text, termIndex) => ({ text, rank: candidateScore(text) - senseIndex * 3 - termIndex / 10 })))
-    .sort((left, right) => right.rank - left.rank)
-    .filter((value, index, values) => values.findIndex((other) => normalizeLexicalKey(other.text) === normalizeLexicalKey(value.text)) === index)
-    .slice(0, limit).map(({ text }) => text);
+  return rankedTermCandidates(senses, limit).map(({ text }) => text);
 }
 
 function protectedRanges(query: string): Array<{ start: number; end: number }> {
@@ -72,23 +90,24 @@ export class LexicalEngine {
     const german = likelyGerman(word, de, en);
     const candidates: LexicalCandidate[] = [];
     if (german) {
-      const translations = rankedTerms(de);
-      const supported = new Set(translations.map(normalizeLexicalKey));
-      for (const text of translations) add(candidates, text, 'ding-translation', 120 + candidateScore(text));
+      const translations = rankedTermCandidates(de);
+      const supported = new Set(translations.map(({ text }) => normalizeLexicalKey(text)));
+      for (const term of translations) add(candidates, term.text, 'ding-translation', 105 + term.score);
       for (const translation of translations.slice(0, 3)) {
-        const enriched = await this.lexicon.lookup('synonyms', translation);
+        const enriched = await this.lexicon.lookup('synonyms', translation.text);
         for (const text of rankedTerms(enriched.slice(0, 1), 3)) {
-          if (supported.has(normalizeLexicalKey(text))) add(candidates, text, 'translation-enrichment', 75 + candidateScore(text));
+          if (supported.has(normalizeLexicalKey(text))) add(candidates, text, 'translation-enrichment', 95 + candidateScore(text));
         }
       }
     } else {
       const originalTranslations = new Set(en.flat().map(normalizeLexicalKey));
       for (const text of rankedTerms(synonyms.slice(0, 1), 2)) {
+        if (isProductTerm(word) && !isProductTerm(text)) continue;
         const translated = await this.lexicon.lookup('translations/en', text);
         const corroborated = translated.flat().some((value) => originalTranslations.has(normalizeLexicalKey(value)));
-        add(candidates, text, 'oewn-synonym', 115 + candidateScore(text) + (corroborated ? 10 : originalTranslations.size ? -30 : 0));
+        add(candidates, text, 'oewn-synonym', 125 + candidateScore(text) + (corroborated ? 10 : 0));
       }
-      for (const text of rankedTerms(en)) add(candidates, text, 'ding-translation', 95 + candidateScore(text));
+      for (const term of rankedTermCandidates(en)) add(candidates, term.text, 'ding-translation', 120 + term.score);
     }
     return { german, candidates };
   }
@@ -121,15 +140,28 @@ export class LexicalEngine {
       this.lexicon.lookup('translations/de', split.left), this.lexicon.lookup('translations/de', split.right),
     ]);
     const modifiers = rankedTerms(leftSenses, 3);
-    const heads = rankedTerms(rightSenses, 3);
+    const heads = rankedTermCandidates(rightSenses);
     const candidates: LexicalCandidate[] = [];
     const modifier = modifiers[0];
     if (!modifier) return [];
     const singularModifier = await this.attributiveModifier(modifier);
-    for (const [headIndex, head] of heads.entries()) {
-      add(candidates, `${singularModifier} ${head}`, 'compound', 110 + candidateScore(head) - headIndex);
+    for (const head of heads) {
+      const conciseHead = await this.conciseCompoundHead(head.text);
+      const score = 105 + candidateScore(conciseHead) - head.senseIndex * 6 - head.termIndex;
+      add(candidates, `${singularModifier} ${conciseHead}`, 'compound', score);
     }
     return candidates;
+  }
+
+  private async conciseCompoundHead(value: string): Promise<string> {
+    const normalized = normalizeLexicalKey(value);
+    if (!/^\p{L}+ing$/u.test(normalized) || isProductTerm(normalized)) return value;
+    const base = normalized.slice(0, -3);
+    if (!isProductTerm(base)) return value;
+    const [synonyms, translations] = await Promise.all([
+      this.lexicon.lookup('synonyms', base), this.lexicon.lookup('translations/en', base),
+    ]);
+    return synonyms.length || translations.length ? base : value;
   }
 
   private async attributiveModifier(value: string): Promise<string> {
@@ -154,7 +186,7 @@ export class LexicalEngine {
         const mixedLanguage = replacement.source === 'ding-translation' && transformable.length > 1 && ranges.length === 0;
         if (mixedLanguage) continue;
         if (isProductTerm(word.text) && replacement.source === 'oewn-synonym' && !isProductTerm(replacement.text)) continue;
-        add(candidates, query.slice(0, word.start) + replacement.text + query.slice(word.end), 'phrase-reconstruction', replacement.score - 5);
+        add(candidates, query.slice(0, word.start) + replacement.text + query.slice(word.end), 'phrase-reconstruction', replacement.score);
       }
     }
 
@@ -163,9 +195,7 @@ export class LexicalEngine {
       if (translations.every((senses) => senses.length)) {
         const choices = translations.map((senses) => rankedTerms(senses, 2));
         const primary = choices.map((choice) => choice[0]).filter((value): value is string => Boolean(value));
-        if (primary.length === choices.length) add(candidates, primary.join(' '), 'phrase-reconstruction', 105);
-        const alternateHead = choices.at(-1)?.[1];
-        if (alternateHead && primary.length === choices.length) add(candidates, [...primary.slice(0, -1), alternateHead].join(' '), 'phrase-reconstruction', 104);
+        if (primary.length === choices.length) add(candidates, primary.join(' '), 'phrase-reconstruction', 135);
       }
     }
     return candidates;
@@ -178,12 +208,15 @@ export class LexicalEngine {
     if (/\s/u.test(original)) candidates = await this.phraseCandidates(original);
     else {
       const simple = await this.simpleCandidates(original);
-      candidates = [...simple.candidates, ...(await this.decomposeGermanCompound(original))];
+      const strongExact = simple.german && simple.candidates.some((candidate) => candidate.source === 'ding-translation'
+        && candidate.score >= MIN_VARIANT_SCORE && isProductTerm(candidate.text));
+      candidates = [...simple.candidates, ...(strongExact ? [] : await this.decomposeGermanCompound(original))];
     }
     candidates.sort((left, right) => right.score - left.score || left.order - right.order || left.text.localeCompare(right.text));
     const result = [original];
     const seen = new Set([normalizeLexicalKey(original).replace(/[\p{P}\p{S}]/gu, '')]);
     for (const candidate of candidates) {
+      if (candidate.score < MIN_VARIANT_SCORE) continue;
       const key = normalizeLexicalKey(candidate.text).replace(/[\p{P}\p{S}]/gu, '');
       if (!key || seen.has(key)) continue;
       seen.add(key);
