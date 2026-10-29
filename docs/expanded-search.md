@@ -1,91 +1,123 @@
 # V1 Expanded Search
 
-Expanded Search uses a small bundled English/German phrase map and search
-synonyms. It runs locally with no AI, translation service, new permission or
-external dependency. It is model-discovery assistance, not general translation.
+Expanded Search uses bundled offline lexical data to find a small number of
+related English and German search terms. Open English WordNet 2025 core supplies
+conservative English noun synonyms. The TU Chemnitz Ding 1.9 dictionary supplies
+German-to-English and English-to-German noun translations.
 
-## Algorithm
+It always searches the original query first and adds at most three alternatives.
+It does not contact an AI, translation API, dictionary website or tridiJump
+server. Unknown input can correctly remain original-only.
 
-`src/synonyms/expand-query.ts` normalizes input with the existing safe query
-rules. A blank input returns no queries. Otherwise the original is first.
-Matching is case-insensitive and Unicode-aware, on whole words/phrases; multiple
-spaces in a known phrase are accepted. For matching and deduplication, canonical
-Unicode equivalents are treated alike. The original retains its entered casing.
+## Lexical pipeline
 
-Choose one longest matching phrase; ties use the earliest occurrence. Replace
-that phrase with alternatives from its group, preserving surrounding text and
-product-name casing. Never combine substitutions from several words/groups.
-Omit duplicate alternatives case-insensitively, whitespace/Unicode equivalents,
-and replacements exceeding the existing 200-code-unit input bound. Stop after
-three additional queries (four total). Unknown queries remain original-only.
+`src/synonyms/` implements this bounded pipeline:
 
-The modest map has 21 groups, including explicit phone-holder, wall-mount,
-headphone-stand and plant-pot phrases plus conservative generic discovery terms.
-Some alternatives broaden meaning; they are not universal translation assertions.
-Proper names such as Raspberry Pi, ESP32, Arduino, iPhone, Samsung and Bambu Lab
-are preserved when a surrounding generic term is replaced. There is no stemming,
-arbitrary compound splitting, dictionary download or combinatorial word product.
+1. Preserve the safely trimmed original query exactly.
+2. Normalize Unicode, whitespace, case, apostrophes and hyphens only for lookup.
+3. Protect a small set of relevant product/platform spans and alphanumeric IDs.
+4. Look up exact Ding noun translations in the likely language direction.
+5. Look up English synonyms from the first suitable concrete OEWN noun sense.
+6. For an unsupported German compound, find one evidence-backed two-part split,
+   including a conservative linking element where necessary.
+7. Reconstruct one-token phrases or a bounded bilingual phrase without a
+   Cartesian product.
+8. Rank source-backed candidates, remove normalized duplicates and return the
+   original plus at most three variants.
 
-## Required examples
+OEWN extraction includes same-synset lemmas from its noun artifact, object and
+shape files. It does not include hypernyms, hyponyms, meronyms, antonyms or other
+graph relations. For example, `car` can yield `auto` and `automobile`, while
+`vehicle` is not introduced as a hypernym.
 
-| Input | Ordered queries |
-| --- | --- |
-| Zahnrad | Zahnrad; gear; cogwheel; cog |
-| gear | gear; Zahnrad; cogwheel; cog |
-| phone holder | phone holder; Handyhalter; smartphone holder; phone mount |
-| Handyhalter | Handyhalter; phone holder; smartphone holder; phone mount |
-| Raspberry Pi Gehäuse | Raspberry Pi Gehäuse; Raspberry Pi case; Raspberry Pi enclosure; Raspberry Pi housing |
-| raspberry pi case | raspberry pi case; raspberry pi Gehäuse; raspberry pi enclosure; raspberry pi housing |
+Ding records remain grouped by aligned base-lemma segment. Equivalent source
+lemmas are all indexed, so `Handy` is found inside its grouped
+`Mobiltelefon; Funktelefon; Handy` record. Plural/example pipe segments are not
+flattened into base meanings.
 
-Mixed text such as `ESP32 Gehäuse holder` replaces only `Gehäuse`; the other word
-and product name stay intact. This intentionally avoids trying to translate every
-token. Unknown `xyzzy` has no additional queries.
+The only manual domain knowledge is ranking and preservation metadata. It does
+not supply replacement phrases. English product-head ranking contains: box,
+bracket, case, casing, clip, cover, enclosure, handle, headphone, holder, hook,
+housing, lid, mount, phone, rack, shell, stand, tool and wheel. German ranking
+contains: Aufbewahrung, Befestigung, Box, Fassung, Gehäuse, Halter, Halterung,
+Kiste, Ständer, Telefon, Wand and Werkzeug. Product span protection contains:
+Raspberry Pi, Arduino, ESP32, Bambu and Prusa. These lists only rank or preserve
+terms already present in the real sources.
 
-## Production dispatch and paging
+## German compounds and phrases
 
-Results `runSearch()` captures the checkbox and supplies only the generated extra
-queries to the existing view's `expandedQueries` argument. When off, it supplies
-none. Popup passes the existing URL flag; Settings controls the default for new
-entry pages. An explicit query URL/toggle remains authoritative.
+Compound decomposition tries the exact Ding record first, then considers one
+two-part right-headed split whose components both have Ding entries. It permits
+the linking elements `s`, `es`, `n`, `en`, `er` and `e` only at a boundary where
+both resulting components are known. It selects one best split and combines the
+best modifier with at most three head translations.
 
-The same orchestrator starts providers independently. Within each provider it
-searches the original first, then the remaining variant first pages sequentially,
-inserting results after each completion. No second runner or provider-specific
-dispatch exists. Missing credentials stop that provider after its one setup check;
-there are no expanded-term HTTP attempts or repeated missing-key checks. Disabled
-providers do not execute or read credentials. A new explicit search can recheck
-credentials saved in Settings. A failure/timeout stops further initial variants
-for that provider while other providers continue.
+This produces source-backed searches such as `Werkzeughalter` → `tool holder`,
+`Aufbewahrungsbox` → `storage box`, and `Kopfhörerständer` → `headphone stand`.
+The same generic algorithm handles compounds absent from the product-protection
+and ranking lists.
 
-Each variant retains its own continuation. Load more remains user-driven and
-requests at most one continuation per eligible provider per click, rotating among
-streams. No continuation pages load automatically. Starting a new search aborts
-the old run and invalidates every old variant and cursor, even if an old response
-arrives late. Provider/model-ID and URL deduplication keeps a repeated model to one
-card per provider. The existing optional `ModelResult.query` keeps its first
-matched-query provenance; no separate matchedQuery field is added.
+Phrase reconstruction changes one head component at a time. Protected spans are
+left intact, so `Raspberry Pi Gehäuse` can produce `Raspberry Pi case`. A bounded
+whole-phrase bilingual reconstruction is allowed, but recursive
+translation→synonym→translation expansion is not. A German exact translation may
+receive one corroborated same-synset English enrichment step; expansion ends
+there.
 
-Native fallbacks use only the original query; no variant tabs open automatically.
-Application history also stores only the original query. Resulting variants are
-sent only to the existing enabled/configured repositories as normal searches;
-these requests can be up to four times the initial per-provider request count.
-Existing timeouts, rate-limit isolation and provider origins are unchanged.
+This is search assistance rather than full translation or perfect word-sense
+disambiguation. Some dictionary alternatives can be uncommon, and not every
+German compound has an unambiguous split.
 
-## Verification and limitations
+## Generated assets and maintainer workflow
 
-Tests exercise the actual expansion module and Results entry point, the real
-Printables adapter/worker handler through the mocked extension channel, and the
-existing runner. Coverage includes all six examples, casing/spacing/Unicode,
-unknown and mixed input, product names, length/cap/dedup bounds, off/default/on,
-progressive cards, setup/disable behavior, original-only history/native links,
-independent user-driven cursors, and stale variant responses after a new search.
-HTTP responses remain synthetic: these tests do not establish live provider
-pagination schemas. Existing live-pagination and credential-policy release gates
-from the [historical audit](release-audit.md) remain separate. Browser acceptance
-of the newly wired Expanded Search remains pending.
+The verified upstream archives live in `lexical-source/archives/` and are never
+copied into the browser distribution. Run:
 
-Validation: `npm test` passed **389 tests across 26 files** (37 new focused
-expansion/production-path tests). `npm run typecheck`, `npm run build` and
-`git diff --check` passed. The generated manifest is unchanged, all 27 inspected
-local references resolve, and the stale unavailable-expansion wording is absent
-from production output. No provider protocol, dependency or permission changed.
+```sh
+npm run lexicon:build
+```
+
+The command verifies both pinned SHA-256 checksums, parses the sources, creates
+64 deterministic buckets for each index and reports counts and byte sizes. The
+normal `npm run build` performs no lexical network request and consumes the
+approved generated assets already under `public/lexical-data/`.
+
+Maintainers can explicitly reacquire the pinned sources with:
+
+```sh
+npm run lexicon:fetch
+```
+
+That command refuses to install an artifact whose checksum differs. Upstream
+source, version, retrieval date, checksum, converter version and output format
+are recorded in `public/lexical-data/provenance.json`. Licensing and attribution
+are in `THIRD_PARTY_NOTICES.md` and `licenses/`.
+
+At runtime, the results page hashes a normalized lookup key into one of 16
+packaged JSON buckets and fetches only needed extension-local chunks. Loaded
+chunks are cached for that page. Invalid or missing data fails closed to fewer or
+no variants. Expanded Search off does not invoke the lexical loader.
+
+## Provider dispatch and paging
+
+The existing orchestrator searches each enabled provider independently. Within
+one provider it searches the original and then remaining variant first pages
+sequentially, appending results progressively. Setup-required stops that provider
+after one credential check, so expanded variants never multiply its requests.
+Disabled providers do not execute. MakerWorld and Thangs remain direct-search
+fallbacks and receive only the original query in their links.
+
+Each variant retains independent continuation state. Load more remains
+user-driven, result URL/ID deduplication still applies, and `ModelResult.query`
+records the first matching query. Starting another search cancels the old run and
+suppresses late variant results. Search history and native fallbacks retain only
+the original query.
+
+## Limits
+
+- Original query plus at most three alternatives.
+- Concrete same-synset English nouns only.
+- One primary lexical lookup and at most one corroborated enrichment step.
+- One German compound split with at most two components in V1.
+- No sentence translation, remote fallback or guarantee for every word.
+- No new browser permission or external lexical network destination.

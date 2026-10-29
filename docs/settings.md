@@ -125,5 +125,5 @@ remain in the full suite. DOM tests are not authenticated browser/live tests.
 There is no dynamic official registry implementation in this checkout. New bundled
 entries preserve selections, and the pure availability helper supports a trusted
 unavailable flag. A remote metadata loader is outside Prompt 13. The later
-Expanded Search blocker fix connects the small local phrase map to the existing
+Expanded Search connects the bundled offline lexical engine to the existing
 variant-aware runner; it does not add another search subsystem.

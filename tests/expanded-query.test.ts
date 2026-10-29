@@ -1,49 +1,93 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { describe, expect, it } from 'vitest';
-import { expandQuery } from '../src/synonyms/expand-query';
+import { testLexicalEngine } from './helpers/lexicon';
 
-describe('production local phrase expansion', () => {
+const engine = testLexicalEngine();
+
+describe('generated offline lexical expansion', () => {
   it.each([
-    ['Zahnrad', ['Zahnrad', 'gear', 'cogwheel', 'cog']],
-    ['gear', ['gear', 'Zahnrad', 'cogwheel', 'cog']],
-    ['phone holder', ['phone holder', 'Handyhalter', 'smartphone holder', 'phone mount']],
-    ['Handyhalter', ['Handyhalter', 'phone holder', 'smartphone holder', 'phone mount']],
-    ['Raspberry Pi Gehäuse', ['Raspberry Pi Gehäuse', 'Raspberry Pi case', 'Raspberry Pi enclosure', 'Raspberry Pi housing']],
-    ['raspberry pi case', ['raspberry pi case', 'raspberry pi Gehäuse', 'raspberry pi enclosure', 'raspberry pi housing']],
-  ])('expands %s into useful bounded alternatives', (query, expected) => {
-    expect(expandQuery(query)).toEqual(expected);
+    ['car', ['auto', 'automobile']],
+    ['gear', ['gear wheel']],
+    ['case', ['shell', 'casing']],
+    ['holder', ['Halterung']],
+    ['mount', ['Fassung']],
+    ['box', ['Gehäuse', 'Kiste']],
+    ['cover', ['Abdeckung']],
+    ['stand', ['Ständer']],
+    ['tool', ['Werkzeug']],
+    ['phone', ['telephone', 'Telefon']],
+    ['Auto', ['car', 'automobile']],
+    ['Zahnrad', ['gearwheel', 'toothed wheel']],
+    ['Gehäuse', ['case']],
+    ['Halter', ['bracket', 'holder']],
+    ['Halterung', ['holder']],
+    ['Kiste', ['box', 'case']],
+    ['Abdeckung', ['cover']],
+    ['Ständer', ['stand']],
+    ['Werkzeug', ['tool']],
+    ['Handy', ['mobile phone']],
+    ['Kopfhörer', ['headphones']],
+  ])('uses the real generated assets for %s', async (query, useful) => {
+    const expanded = await engine.expand(query);
+    expect(expanded[0]).toBe(query);
+    expect(expanded.slice(1)).toEqual(expect.arrayContaining(useful));
   });
 
-  it.each([' GEAR ', 'PHONE   HOLDER', 'Gehäuse', 'Geha\u0308use'])('deduplicates case, whitespace and Unicode equivalents: %s', (query) => {
-    const expanded = expandQuery(query);
+  it('uses only same-synset concrete nouns and does not traverse the OEWN graph', async () => {
+    const car = await engine.expand('car');
+    expect(car).toEqual(expect.arrayContaining(['car', 'auto', 'automobile']));
+    expect(car).not.toContain('vehicle');
+    expect(await engine.expand('case')).toEqual(['case', 'shell', 'casing', 'Gehäuse']);
+    expect((await engine.expand('gear')).slice(1)).toContain('gear wheel');
+  });
+
+  it.each([
+    ['phone holder', ['Telefon Halterung']],
+    ['wall mount', ['Wand Fassung']],
+    ['tool holder', ['Werkzeug Halterung']],
+    ['storage box', ['Aufbewahrung Box']],
+    ['Raspberry Pi case', ['Raspberry Pi shell', 'Raspberry Pi casing']],
+    ['Handyhalter', ['mobile phone holder']],
+    ['Wandhalterung', ['indoor wall mounting bracket']],
+    ['Werkzeughalter', ['tool holder']],
+    ['Aufbewahrungsbox', ['storage box']],
+    ['Raspberry Pi Gehäuse', ['Raspberry Pi case']],
+    ['Kopfhörerständer', ['headphone stand']],
+  ])('reconstructs useful phrase/compound variants for %s', async (query, useful) => {
+    expect(await engine.expand(query)).toEqual(expect.arrayContaining([query, ...useful]));
+  });
+
+  it('decomposes an unlisted compound from component evidence rather than a phrase override', async () => {
+    const expanded = await engine.expand('Telefonhalter');
+    expect(expanded[0]).toBe('Telefonhalter');
+    expect(expanded.some((value) => /phone|telephone/i.test(value) && /holder|bracket/i.test(value))).toBe(true);
+  });
+
+  it.each([' GEAR ', 'Gehäuse', 'Geha\u0308use'])('normalizes only lookup keys while retaining the trimmed original: %s', async (query) => {
+    const expanded = await engine.expand(query);
     expect(expanded[0]).toBe(query.trim());
-    expect(expanded.length).toBeGreaterThan(1);
-    expect(expanded.length).toBeLessThanOrEqual(4);
-    const keys = expanded.map((value) => value.normalize('NFC').replace(/\s+/g, ' ').toLowerCase());
+    const keys = expanded.map((value) => value.normalize('NFC').replace(/\s+/g, ' ').toLocaleLowerCase('de-DE'));
     expect(new Set(keys).size).toBe(keys.length);
-    expect(expanded.every((value) => value.trim().length > 0)).toBe(true);
   });
 
-  it.each(['', '  \t\n'])('never emits blanks: %j', (query) => { expect(expandQuery(query)).toEqual([]); });
-  it.each(['xyzzy', 'iPhone', 'showcase', 'gearbox', 'cogwheelhouse', 'Bambu Lab', 'Adapter'])('leaves unknown or partial-word matches alone: %s', (query) => {
-    expect(expandQuery(query)).toEqual([query]);
+  it('retains protected product names and technical identifiers', async () => {
+    for (const product of ['Raspberry Pi', 'ESP32', 'Arduino', 'Bambu', 'Prusa']) {
+      const expanded = await engine.expand(`${product} Gehäuse`);
+      expect(expanded.every((query) => query.startsWith(`${product} `))).toBe(true);
+    }
   });
-  it.each(['Raspberry Pi', 'ESP32', 'Arduino', 'iPhone', 'Samsung', 'Bambu Lab'])('retains product name %s when replacing surrounding generic text', (product) => {
-    const expanded = expandQuery(`${product} Gehäuse`);
-    expect(expanded).toContain(`${product} case`);
-    expect(expanded.every((query) => query.startsWith(`${product} `))).toBe(true);
+
+  it('keeps unknown input original-only and enforces global bounds deterministically', async () => {
+    expect(await engine.expand('xqzvblorp123')).toEqual(['xqzvblorp123']);
+    expect(await engine.expand('')).toEqual([]);
+    const first = await engine.expand('Zahnrad');
+    expect(first).toHaveLength(4);
+    expect(await engine.expand('Zahnrad')).toEqual(first);
+    expect(first.every((value) => value.trim() && value.length <= 200)).toBe(true);
   });
-  it('prefers the longest full phrase and never independently combines every word', () => {
-    expect(expandQuery('Arduino phone holder case')).toEqual([
-      'Arduino phone holder case', 'Arduino Handyhalter case', 'Arduino smartphone holder case', 'Arduino phone mount case',
-    ]);
-  });
-  it('degrades conservatively for mixed-language input', () => {
-    expect(expandQuery('ESP32 Gehäuse holder')).toContain('ESP32 case holder');
-    expect(expandQuery('ESP32 Gehäuse holder')).toHaveLength(4);
-  });
-  it('omits overlong alternatives rather than clipping a product name', () => {
-    const query = 'P'.repeat(195) + ' case';
-    expect(expandQuery(query)).toEqual([query]);
+
+  it('omits overlong reconstructed alternatives rather than clipping the query', async () => {
+    const query = `${'P'.repeat(195)} case`;
+    expect(await engine.expand(query)).toEqual([query]);
   });
 });

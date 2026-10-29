@@ -1,10 +1,11 @@
 # Final adversarial V1 release audit — 2026-10-28
 
-**Historical audit; targeted follow-up:** the subsequent Expanded Search blocker
-fix implements the small local EN/DE phrase map and actual Results dispatch.
-See [Expanded Search](expanded-search.md) for current behavior and tests. The
-original findings below are preserved; live pagination acceptance and the
-MyMiniFactory URL-credential policy conflict remain unresolved. This follow-up
+**Historical audit; superseded Expanded Search finding:** a later temporary
+phrase-map follow-up has itself been replaced by the packaged Open English
+WordNet 2025 and TU Chemnitz Ding 1.9 lexical engine. See
+[Expanded Search](expanded-search.md) for current behavior and tests. The dated
+findings below are preserved as the audit record; live pagination acceptance and
+the MyMiniFactory URL-credential policy conflict remain unresolved. This note
 does not rerun or replace the full release audit.
 
 ## 1. Release verdict

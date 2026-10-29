@@ -12,7 +12,8 @@ search remains available for all six repositories. See the
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
 extension storage; authenticated live testing was not repeated by the agent.
-Expanded Search adds bounded local English/German phrase and synonym searches.
+Expanded Search adds bounded offline English synonyms, English/German dictionary
+translations, phrase reconstruction and conservative German compound searches.
 
 Anonymous [Printables search](docs/provider-printables.md) now feeds the same grid.
 The user **live verified basic Chromium search, real cards and a tested model link
@@ -101,10 +102,11 @@ queries, newest first. Disabling collection retains old entries; **Clear search
 history** empties them. Expanded Search default applies to new entry-page searches;
 explicit URL/toggle choices remain authoritative. Changing defaults never restarts
 an ongoing search. When enabled, Expanded Search retains the original query and
-adds up to three unique related English/German queries using a small bundled
-phrase map. It replaces one known phrase at a time, retaining product names;
-unknown terms can remain unchanged. This is not general-purpose translation.
-There is no AI or external translation service. Variant first pages run
+adds up to three unique related English/German queries from bundled Open English
+WordNet 2025 and TU Chemnitz Ding 1.9 indexes. It can reconstruct a phrase or
+conservatively split a supported German compound while retaining product names.
+Unknown terms can remain unchanged. This is not general-purpose translation.
+There is no AI, runtime dictionary request or external translation service. Variant first pages run
 sequentially per provider; further pages remain user-driven. History and native
 fallbacks retain the original query. See [examples and limits](docs/expanded-search.md).
 
@@ -156,8 +158,9 @@ Other choices are Latest, Most downloaded, and Highest rated.
 ```sh
 npm test             # Run Vitest checks
 npm run test:watch   # Watch tests
-npm run typecheck   # Strict TypeScript checks
-npm run build       # Type check and production build
+npm run typecheck    # Strict TypeScript checks
+npm run build        # Type check and production build
+npm run lexicon:build # Verify pinned sources and regenerate packaged indexes
 ```
 
 ## Structure
@@ -167,7 +170,10 @@ npm run build       # Type check and production build
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
 - `src/providers/`: small provider contract, local credentials, three official API adapters and anonymous Printables search
-- `src/synonyms/`: bounded local English/German phrase and synonym expansion
+- `src/synonyms/`: lazy offline lexical lookup, ranking, phrases and compounds
+- `scripts/lexicon/`: deterministic OEWN/Ding source converters
+- `lexical-source/`: pinned preferred-source archives, excluded from extension output
+- `public/lexical-data/`: generated packaged lookup chunks and provenance
 - `providers/`: reserved for provider definitions
 - `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
 - `tests/`: extension foundation checks

@@ -89,7 +89,7 @@ to the existing cross-source sorts.
 - Results deduplicate per provider by native model ID and URL (ignoring fragments).
   An optional ID missing from one duplicate does not prevent URL deduplication.
 
-The production UI now uses the [local phrase map](expanded-search.md) to feed
+The production UI now uses the [offline lexical engine](expanded-search.md) to feed
 `expandedQueries`: original plus at most three unique extra terms. First pages for
 those terms run sequentially within each provider, with immediate result insertion.
 Setup required on the original skips all extra terms. Load more rotates streams,
@@ -142,7 +142,7 @@ The user previously verified their first-page integrations; this task demonstrat
    `cogwheel`, `cog`. First pages should arrive progressively, with one continuation
    per eligible provider per Load more click. Missing-key sources should stay
    Setup required without repeated checks. Compare with expansion off (original
-   only); see the [local phrase examples](expanded-search.md).
+   only); see the [offline lexical behavior](expanded-search.md).
 
 Do not treat mocked pagination, inferred Cults arguments or the toggle alone as a
 completed authenticated/manual V1 acceptance run.

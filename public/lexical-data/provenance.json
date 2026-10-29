@@ -1,0 +1,44 @@
+{
+  "generatedFormatVersion": 1,
+  "converterVersion": "1",
+  "retrievalDate": "2026-10-28",
+  "sources": [
+    {
+      "name": "Open English WordNet",
+      "version": "2025 core",
+      "url": "https://github.com/globalwordnet/english-wordnet/releases/download/2025-edition/english-wordnet-2025-json.zip",
+      "file": "english-wordnet-2025-json.zip",
+      "sha256": "7d749f6e2c39e6970e4997839dcf6e42fd281f3c2fae0171d2192bae8cfa4b51",
+      "license": "CC-BY-4.0 with the underlying Princeton WordNet license notice"
+    },
+    {
+      "name": "Ding German-English Dictionary",
+      "version": "1.9",
+      "url": "https://ftp.tu-chemnitz.de/pub/Local/urz/ding/ding-1.9.tar.gz",
+      "file": "ding-1.9.tar.gz",
+      "sha256": "69a6c81fcf785a286c053a352f3201cc8671c72851615c4b707a434309b098e5",
+      "license": "GPL-2.0-or-later"
+    }
+  ],
+  "counts": {
+    "oewnSelectedSynsets": 5041,
+    "oewnIndexedLemmas": 11818,
+    "dingNounRecords": 144251,
+    "dingGermanLemmas": 172996,
+    "dingEnglishLemmas": 172797
+  },
+  "assets": {
+    "synonyms": {
+      "bytes": 540751,
+      "chunks": 64
+    },
+    "dingGermanToEnglish": {
+      "bytes": 8944068,
+      "chunks": 64
+    },
+    "dingEnglishToGerman": {
+      "bytes": 9083350,
+      "chunks": 64
+    }
+  }
+}

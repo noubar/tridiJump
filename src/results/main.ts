@@ -29,13 +29,23 @@ async function runSearch() {
   const current = ++generation;
   const query = input.value;
   const expandedMode = expanded.checked;
+  const expandedTerms = document.querySelector<HTMLElement>('#expanded-terms')!;
+  expandedTerms.hidden = true;
+  expandedTerms.textContent = '';
   view.search('');
   let choices: Record<string, boolean>;
-  try { choices = await readRepositories(); } catch {
+  let variants: string[];
+  try {
+    [choices, variants] = await Promise.all([
+      readRepositories(),
+      expandedMode ? expandQuery(query) : Promise.resolve([query]),
+    ]);
+  } catch {
     if (current === generation) document.querySelector('#storage-status')!.textContent = 'Repository settings could not be read. Search was not started.';
     return;
   }
   if (current !== generation) return;
+  const alternatives = variants.slice(1);
   const links = document.querySelector<HTMLElement>('#native-searches')!;
   links.hidden = !query;
   links.replaceChildren(...providerAvailability.filter((source) => repositoryEnabled(source, choices)).map((source) => {
@@ -57,6 +67,12 @@ async function runSearch() {
   document.querySelector('#search-summary')!.textContent = query
     ? `Search: “${query}” · Expanded Search ${expandedMode ? 'on' : 'off'}`
     : 'Enter a query to start a search.';
+  if (query && expandedMode) {
+    expandedTerms.hidden = false;
+    expandedTerms.textContent = alternatives.length
+      ? `Additional search terms: ${alternatives.join(' · ')}`
+      : 'No useful related terms found. Searching the original query only.';
+  }
   document.querySelector('#storage-status')!.textContent = '';
   if (query) {
     void rememberSearch(query).catch(() => {
@@ -64,7 +80,7 @@ async function runSearch() {
     });
   }
   view.search(query, new Set(providerAvailability.filter((source) => !repositoryEnabled(source, choices)).map((source) => source.id)),
-    expandedMode ? expandQuery(query).slice(1) : undefined);
+    alternatives);
 }
 
 form.addEventListener('submit', (event) => {

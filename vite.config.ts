@@ -9,9 +9,14 @@ export default defineConfig({
     name: 'package-license',
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'LICENSE', source: readFileSync(new URL('./LICENSE', import.meta.url), 'utf8') });
+      for (const file of ['THIRD_PARTY_NOTICES.md', 'licenses/Open-English-WordNet-CC-BY-4.0.txt',
+        'licenses/Princeton-WordNet-License.txt', 'licenses/Ding-GPL-2.0-or-later.txt']) {
+        this.emitFile({ type: 'asset', fileName: file, source: readFileSync(new URL(`./${file}`, import.meta.url), 'utf8') });
+      }
       this.emitFile({ type: 'asset', fileName: 'SOURCE.txt', source:
         'tridiJump\nCopyright (C) 2026 tridiJump contributors\nSPDX-License-Identifier: GPL-3.0-or-later\n'
         + 'Source repository: https://github.com/noubar/tridiJump\n'
+        + 'Lexical source archives and deterministic converters are included in the source repository.\n'
         + 'Release distributors must provide the complete corresponding source for the exact build, including modifications.\n' });
     },
   }],

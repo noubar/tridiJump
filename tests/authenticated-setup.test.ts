@@ -35,6 +35,7 @@ function mockRequests(rejectId?: string, status = 401) {
     return new Response(JSON.stringify(id === rejectId ? { errors: [{ message: Object.values(secrets).join(' ') + basic }] } : fixtures[id]), { status: id === rejectId ? status : 200 });
   });
 }
+const providerRequests = (request: ReturnType<typeof mockRequests>) => request.mock.calls.filter(([url]) => /^https?:\/\//u.test(String(url)));
 function submit() { document.querySelector('form')!.dispatchEvent(new Event('submit', { cancelable: true })); }
 async function start(expanded = false) {
   document.body.innerHTML = resultsHtml.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
@@ -94,17 +95,17 @@ describe.each(sources)('$name complete credential/setup flow', (source) => {
     await start(true);
     expect(document.querySelector<HTMLInputElement>('#expanded')!.checked).toBe(true);
     expect(status(source.id)).toBe('setup-required');
-    expect(request).toHaveBeenCalledTimes(2);
-    expect(request.mock.calls.every(([url]) => new URL(url).origin !== origins[source.id])).toBe(true);
+    expect(providerRequests(request)).toHaveLength(2);
+    expect(providerRequests(request).every(([url]) => new URL(url).origin !== origins[source.id])).toBe(true);
     const reads = () => storage.local.get.mock.calls.filter(([key]) => key === `tridijump.credentials.${source.id}`).length;
     expect(reads()).toBe(1);
     document.querySelector<HTMLSelectElement>('#price')!.dispatchEvent(new Event('change'));
     await vi.advanceTimersByTimeAsync(30_000);
-    expect(reads()).toBe(1); expect(request).toHaveBeenCalledTimes(2);
+    expect(reads()).toBe(1); expect(providerRequests(request)).toHaveLength(2);
     expect(document.querySelectorAll('.model-card')).toHaveLength(4);
     // Configuration becomes usable on a new explicit search, without page reload.
     await configure(source.id); submit(); await vi.advanceTimersByTimeAsync(0);
-    expect(status(source.id)).toBe('success'); expect(request).toHaveBeenCalledTimes(5);
+    expect(status(source.id)).toBe('success'); expect(providerRequests(request)).toHaveLength(5);
     expect(document.querySelectorAll('.model-card')).toHaveLength(6);
   });
 });

@@ -25,6 +25,7 @@ function provider(id: string, delay: number, results: ModelResult[], fail = fals
 }
 const query = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const titles = () => [...document.querySelectorAll('.model-card h3')].map((node) => node.textContent);
+const providerFetches = (request: ReturnType<typeof vi.fn>) => request.mock.calls.filter(([url]) => /^https?:\/\//u.test(String(url)));
 function change(selector: string, value: string) {
   const select = query<HTMLSelectElement>(selector);
   select.value = value;
@@ -98,7 +99,7 @@ describe('progressive results UI', () => {
     expect(query('#provider-status').textContent).not.toContain('failed');
     expect(query<HTMLAnchorElement>('#provider-status a').getAttribute('href')).toBe('../settings/index.html#provider-cults3d');
     expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(providerFetches(fetchMock)).toHaveLength(0);
     view.cancel();
   });
 
@@ -115,7 +116,7 @@ describe('progressive results UI', () => {
     expect(query<HTMLInputElement>('#query').value).toBe('gear');
     expect(query<HTMLInputElement>('#expanded').checked).toBe(expandedMode);
     await vi.advanceTimersByTimeAsync(0);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(providerFetches(fetchMock)).toHaveLength(0);
     expect(local.get.mock.calls.map(([key]) => key).filter((key) => key.startsWith('tridijump.credentials.')).sort()).toEqual(credentialKeys);
     expect(titles()).toHaveLength(0);
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
@@ -139,7 +140,7 @@ describe('progressive results UI', () => {
     await vi.advanceTimersByTimeAsync(0);
     expect(new URL(query<HTMLAnchorElement>('[data-provider-id="cults3d"]').href).searchParams.get('q')).toBe('bolt & <tag>');
     expect(titles()).toEqual([]);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(providerFetches(fetchMock)).toHaveLength(0);
     // A new explicit user search may check again, but the toggle must not fan
     // out configuration work or requests for a setup-required provider.
     expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
@@ -152,18 +153,20 @@ describe('progressive results UI', () => {
     const { data, local } = mockExtensionStorage();
     // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
     data['tridijump.repositories'] = { printables: false };
-    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
+    const fetchMock = vi.fn(async (url: string) => /^https?:\/\//u.test(url)
+      ? new Response(JSON.stringify(fixture))
+      : new Response(null, { status: 404 }));
     vi.stubGlobal('fetch', fetchMock);
     window.history.replaceState(null, '', '/src/results/index.html?q=cap&expanded=1');
     await import('../src/results/main');
     await vi.advanceTimersByTimeAsync(0);
     expect(query('#provider-status').textContent).toContain('Cults3D: Setup required');
     expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(3);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(providerFetches(fetchMock)).toHaveLength(0);
     await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-EXPANDED-SETUP-KEY' });
     query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
     await vi.advanceTimersByTimeAsync(0);
-    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(providerFetches(fetchMock)).toHaveLength(1);
     expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
     expect(query('#provider-status').textContent).toContain('Cults3D: success');
     expect(document.querySelector('#provider-status [data-status="success"] a')).toBeNull();
