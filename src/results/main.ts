@@ -47,7 +47,9 @@ async function runSearch() {
   if (current !== generation) return;
   const alternatives = variants.slice(1);
   const links = document.querySelector<HTMLElement>('#native-searches')!;
+  const directSearchSection = document.querySelector<HTMLElement>('#direct-search-section')!;
   links.hidden = !query;
+  directSearchSection.hidden = !query;
   links.replaceChildren(...providerAvailability.filter((source) => repositoryEnabled(source, choices)).map((source) => {
     const item = document.createElement('li');
     const link = document.createElement('a');
@@ -65,7 +67,7 @@ async function runSearch() {
     return item;
   }));
   document.querySelector('#search-summary')!.textContent = query
-    ? `Search: “${query}” · Expanded Search ${expandedMode ? 'on' : 'off'}`
+    ? `Results for “${query}” · Expanded search ${expandedMode ? 'on' : 'off'}`
     : 'Enter a query to start a search.';
   if (query && expandedMode) {
     expandedTerms.hidden = false;

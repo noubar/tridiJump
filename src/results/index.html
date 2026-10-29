@@ -9,57 +9,78 @@
   <body class="results">
     <main>
       <header class="page-header">
-        <div><h1>tridiJump</h1><p class="muted">3D models in one place</p></div>
+        <div class="brand-lockup">
+          <img src="../../icons/tridijump-48.png" width="44" height="44" alt="" />
+          <div><h1>tridiJump</h1><p class="muted">3D models in one place</p></div>
+        </div>
         <nav aria-label="Extension pages"><a href="../settings/index.html">Settings</a></nav>
       </header>
-      <p class="source-notice">Printables uses an anonymous, undocumented search interface. Cults3D, MyMiniFactory and Thingiverse use your own API credentials from Settings. MakerWorld and Thangs remain direct-search-only. Native search links remain available.</p>
-      <form id="search-form" action="./index.html" method="get" role="search">
-        <label for="query">Search models</label>
+      <form id="search-form" class="results-search" action="./index.html" method="get" role="search">
+        <label class="visually-hidden" for="query">Search models</label>
         <div class="search-row">
-          <input id="query" name="q" type="search" required maxlength="200" placeholder="Search for a 3D model" />
+          <input id="query" name="q" type="search" required maxlength="200" placeholder="Search 3D models" />
+          <span class="expanded-control">
+            <label class="expanded-toggle" for="expanded">
+              <span class="toggle-track"><input id="expanded" name="expanded" type="checkbox" value="1" aria-describedby="expanded-help" /><span aria-hidden="true"></span></span>
+              <strong>Expanded search</strong>
+            </label>
+            <span class="tooltip">
+              <button class="tooltip-button" type="button" aria-label="About Expanded Search" aria-describedby="expanded-help">?</button>
+              <span id="expanded-help" class="tooltip-content" role="tooltip">Search related English and German terms too, using up to 3 additional variants.</span>
+            </span>
+          </span>
           <button type="submit">Search</button>
         </div>
-        <label class="check" for="expanded"><input id="expanded" name="expanded" type="checkbox" value="1" aria-describedby="expanded-help" />Expanded Search</label>
-        <p id="expanded-help" class="hint">Search related English and German terms too. Local only; up to 3 additional variants.</p>
       </form>
-      <ul id="native-searches" aria-label="Search repositories directly" hidden></ul>
+      <div class="search-secondary">
+        <details class="compact-disclosure">
+          <summary>How repositories work</summary>
+          <p>Printables searches without setup. Cults3D, MyMiniFactory and Thingiverse use credentials saved in Settings. MakerWorld and Thangs open their own search pages.</p>
+        </details>
+        <details id="direct-search-section" class="compact-disclosure" hidden>
+          <summary>Open repository search</summary>
+          <ul id="native-searches" aria-label="Search repositories directly" hidden></ul>
+        </details>
+      </div>
       <div class="results-layout">
-        <aside class="panel" aria-label="Refine results">
-          <fieldset class="filter-group" aria-describedby="repository-filter-help">
+        <aside class="refine-panel" aria-label="Refine results">
+          <fieldset class="filter-group repository-filters" aria-describedby="repository-filter-help">
             <legend>Repositories</legend>
             <div id="repository-options"></div>
-            <p id="repository-filter-help" class="hint">Show or hide loaded cards only. To stop a repository's searches, disable it in <a href="../settings/index.html">Settings</a>.</p>
+            <p id="repository-filter-help" class="hint">Filters loaded results. Disable repositories in <a href="../settings/index.html">Settings</a> to stop searching them.</p>
           </fieldset>
-          <details open>
-            <summary>Filters</summary>
+          <fieldset class="filter-group result-filters">
+            <legend>Filters</legend>
             <label for="price">Price</label>
             <select id="price" aria-describedby="price-help"><option value="all">All prices</option><option value="free">Free</option><option value="paid">Paid</option></select>
             <p id="price-help" class="hint">Free and Paid exclude models whose price status is unknown.</p>
             <label for="format">File format</label>
             <select id="format" disabled aria-describedby="format-help"><option value="">All formats</option></select>
             <p id="format-help" class="hint">No file-format information is available yet.</p>
-          </details>
+          </fieldset>
         </aside>
-        <section aria-labelledby="results-heading">
+        <section class="results-content" aria-labelledby="results-heading">
           <div class="results-toolbar">
-            <h2 id="results-heading">Results</h2>
-            <div><label for="sort">Sort by</label><select id="sort" aria-describedby="sort-help"></select></div>
+            <div class="results-title"><h2 id="results-heading">Results</h2><p id="result-count" role="status" aria-live="polite"></p></div>
+            <div class="sort-control"><label for="sort">Sort by</label><select id="sort" title="Sorts use only available provider metadata"></select></div>
           </div>
-          <p id="sort-help" class="hint">Best match keeps arrival and source ordering. Unknown values sort last. Price sorting needs reported prices in one currency; popularity needs one repository. Unavailable sorts are disabled; if a sort becomes unavailable, Best match is used.</p>
           <p id="search-summary" class="query-summary"></p>
           <p id="expanded-terms" class="hint" aria-live="polite" hidden></p>
-          <p id="result-count" role="status" aria-live="polite"></p>
+          <details class="sort-help compact-disclosure">
+            <summary>About sorting</summary>
+            <p id="sort-help">Best match keeps source ordering. Missing values sort last. Price sorting needs one currency, and popularity can only compare models from one repository. Unavailable options are disabled.</p>
+          </details>
           <p id="empty-state" class="empty-state">Enter a query to search for models.</p>
           <div id="results-grid" class="results-grid" aria-label="Model results"></div>
           <p id="pagination-help" class="hint">Filters and sorting apply to loaded models.</p>
           <button id="load-more" type="button" aria-describedby="pagination-help" hidden>Load more</button>
+          <details id="provider-status-details" class="provider-status-panel compact-disclosure">
+            <summary>Repository status</summary>
+            <ul id="provider-status" aria-live="polite"></ul>
+            <ul id="fallback-status"></ul>
+          </details>
         </section>
       </div>
-      <section class="panel" aria-labelledby="provider-status-heading">
-        <h2 id="provider-status-heading">Provider status</h2>
-        <ul id="provider-status" aria-live="polite"></ul>
-        <ul id="fallback-status"></ul>
-      </section>
       <p id="storage-status" role="status"></p>
     </main>
   </body>

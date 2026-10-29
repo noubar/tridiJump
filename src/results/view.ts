@@ -31,6 +31,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const statuses = root.querySelector<HTMLElement>('#provider-status')!;
   const loadMore = root.querySelector<HTMLButtonElement>('#load-more')!;
   const paginationHelp = root.querySelector<HTMLElement>('#pagination-help')!;
+  const providerStatusDetails = root.querySelector<HTMLDetailsElement>('#provider-status-details')!;
   let version = 0;
   const names = new Map(sources.map((source) => [source.provider.id, source.name]));
   const selected = new Set(names.keys());
@@ -104,7 +105,10 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       if (grid.children[index] !== card) grid.insertBefore(card, grid.children[index] ?? null);
     });
     const pending = snapshot.states.filter((state) => state.status === 'searching').length;
-    count.textContent = `${visible.length} matching · ${snapshot.results.length} loaded · ${pending} sources searching`;
+    count.textContent = pending
+      ? `${visible.length} results · Searching ${pending} ${pending === 1 ? 'repository' : 'repositories'}…`
+      : visible.length === snapshot.results.length ? `${visible.length} results`
+      : `${visible.length} results · ${snapshot.results.length} loaded`;
     const hasMore = snapshot.pages?.some((page) => page.hasMore) ?? false;
     loadMore.hidden = !hasMore;
     loadMore.disabled = snapshot.pages?.some((page) => page.loading) ?? false;
@@ -114,6 +118,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     empty.hidden = visible.length > 0;
     const failed = snapshot.states.some((state) => state.status === 'failed' || state.status === 'timed-out');
     const setupRequired = snapshot.states.some((state) => state.status === 'setup-required');
+    if (failed || setupRequired) providerStatusDetails.open = true;
     empty.textContent = !snapshot.query ? 'Enter a query to search for models.'
       : sources.length === 0 || snapshot.states.every((state) => state.status === 'disabled') ? 'No repository searches are enabled. Enable a repository in Settings or use an available native-search link.'
       : snapshot.results.length ? 'No models match these filters.'

@@ -240,7 +240,7 @@ describe('loaded-result filters and counts', () => {
     expect(document.querySelectorAll('.model-card')).toHaveLength(60);
     const free = document.querySelector<HTMLSelectElement>('#price')!; free.value = 'free'; free.dispatchEvent(new Event('change'));
     expect(document.querySelectorAll('.model-card')).toHaveLength(28);
-    expect(document.querySelector('#result-count')!.textContent).toContain('28 matching');
+    expect(document.querySelector('#result-count')!.textContent).toContain('28 results');
     expect(document.querySelector('#result-count')!.textContent).toContain('60 loaded');
     const first = document.querySelector('.model-card'); const button = document.querySelector<HTMLButtonElement>('#load-more')!;
     expect(button.hidden).toBe(false); button.click(); await vi.advanceTimersByTimeAsync(0);

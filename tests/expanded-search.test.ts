@@ -144,7 +144,7 @@ it.each(['variant first page', 'variant continuation'])('a new ordinary search i
   await start();
   if (pending === 'variant first page') {
     expect(document.querySelectorAll('.model-card')).toHaveLength(2);
-    expect(document.querySelector('#result-count')!.textContent).toContain('1 sources searching');
+    expect(document.querySelector('#result-count')!.textContent).toContain('Searching 1 repository');
   }
   if (pending === 'variant continuation') { await more(); await more(); }
   expect(release).toBeDefined();

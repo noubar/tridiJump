@@ -61,7 +61,7 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
     await vi.advanceTimersByTimeAsync(400);
     expect(document.querySelectorAll('.model-card')).toHaveLength(4);
     expect(document.querySelector('.model-card')).toBe(first);
-    expect(document.querySelector('#result-count')!.textContent).toContain('4 matching \u00b7 4 loaded');
+    expect(document.querySelector('#result-count')!.textContent).toBe('4 results');
     const links = [...document.querySelectorAll<HTMLAnchorElement>('.model-card a')];
     expect(links.map((link) => link.href)).toEqual([
       ...mmf.items.map((item) => item.url), ...thingiverse.hits.map((item) => item.public_url),

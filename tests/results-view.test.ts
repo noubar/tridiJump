@@ -44,6 +44,17 @@ afterEach(() => {
 });
 
 describe('progressive results UI', () => {
+  it('keeps secondary information collapsed and exposes an accessible Expanded Search switch', () => {
+    expect(query<HTMLDetailsElement>('.search-secondary details').open).toBe(false);
+    expect(query<HTMLDetailsElement>('.sort-help').open).toBe(false);
+    expect(query<HTMLDetailsElement>('#provider-status-details').open).toBe(false);
+    expect(query<HTMLInputElement>('#expanded').type).toBe('checkbox');
+    expect(query<HTMLLabelElement>('label[for="expanded"]').textContent).toContain('Expanded search');
+    expect(query<HTMLButtonElement>('.tooltip-button').getAttribute('aria-describedby')).toBe('expanded-help');
+    expect(query('#expanded-help').getAttribute('role')).toBe('tooltip');
+    expect(query('#expanded-help').textContent).toContain('English and German');
+  });
+
   it('distinguishes setup, failure, timeout and disabled states and preserves setup action focus', async () => {
     const disabled = vi.fn();
     const view = createResultsView(query('main'), [
@@ -56,6 +67,7 @@ describe('progressive results UI', () => {
     view.search('cap & bolt', new Set(['disabled']));
     await vi.advanceTimersByTimeAsync(0);
     const setup = query('#provider-status [data-status="setup-required"]');
+    expect(query<HTMLDetailsElement>('#provider-status-details').open).toBe(true);
     expect(setup.textContent).toContain('Setup required');
     expect(setup.getAttribute('role')).not.toBe('alert');
     const [configure, direct] = setup.querySelectorAll('a');
@@ -193,8 +205,8 @@ describe('progressive results UI', () => {
     expect(titles()).toEqual(['First', 'Second']);
     expect(query('.model-card')).toBe(card);
     expect(document.activeElement).toBe(focused);
-    expect(query('#result-count').textContent).toContain('2 matching \u00b7 2 loaded');
-    expect(query('#result-count').textContent).toContain('0 sources searching');
+    expect(query('#result-count').textContent).toBe('2 results');
+    expect(query('#result-count').textContent).not.toContain('searching');
     view.cancel();
   });
 
