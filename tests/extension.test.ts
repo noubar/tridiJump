@@ -31,6 +31,17 @@ describe('extension foundation', () => {
     expect(manifest.options_ui.open_in_tab).toBe(true);
   });
 
+  it('packages the supplied branding at Chromium extension icon sizes', () => {
+    expect(manifest.icons).toEqual({
+      16: 'icons/tridijump-16.png', 32: 'icons/tridijump-32.png',
+      48: 'icons/tridijump-48.png', 128: 'icons/tridijump-128.png',
+    });
+    expect(manifest.action.default_icon).toEqual(manifest.icons);
+    for (const icon of Object.values<string>(manifest.icons)) {
+      expect(existsSync(new URL(`public/${icon}`, root)), icon).toBe(true);
+    }
+  });
+
   it('submits popup searches through a local GET form in a separate tab', () => {
     const html = readFileSync(new URL(manifest.action.default_popup, root), 'utf8');
     const form = html.match(/<form\b[^>]+>/)![0];

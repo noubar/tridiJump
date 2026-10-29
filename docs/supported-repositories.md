@@ -117,8 +117,11 @@ new search to use the provider; no extension reinstall or reload is needed.
 
 ## Documentation verification limits
 
-Official sources were checked on 2026-10-28. MyMiniFactory's public API README
-and schema were readable. Cults' indexed official API guide/release log confirmed
+Official sources were checked again for the MyMiniFactory credential-policy audit
+on 2026-10-29. Its OpenAPI defines `ApiKeyAuth` as a query parameter named `key`
+and separately defines OAuth flows; it does not define the same API key as an
+Authorization or custom header. MyMiniFactory's public API README and schema were
+readable. Cults' indexed official API guide/release log confirmed
 nickname/key authentication and read-only keys; direct English-guide retrieval
 and Thingiverse's getting-started page returned HTTP 403 to the research tool.
 No login or access challenge was bypassed. These retrieval limits do not establish

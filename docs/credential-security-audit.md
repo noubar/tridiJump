@@ -1,8 +1,9 @@
 # Credential security audit
 
-Date: 2026-10-28. Scope: current application, tests, fixtures, documentation,
-generated extension, local Git configuration, all local Git blobs and available
-history. The starting checkout was clean, at `f31c133`.
+Initial audit: 2026-10-28. MyMiniFactory policy follow-up: 2026-10-29. Scope:
+current application, tests, fixtures, documentation, generated extension, local
+Git configuration, all local Git blobs and available history. The initial audit's
+starting checkout was clean, at `f31c133`.
 
 ## Findings
 
@@ -27,12 +28,19 @@ history. The starting checkout was clean, at `f31c133`.
    image request. This finding was demonstrated with synthetic malicious data;
    it is not evidence that an actual provider leaked a real credential.
 3. **MyMiniFactory query-key authentication is an intentional exposure exception.**
-   The existing official protocol uses `key` on the HTTPS API request URL. The key
+   Rechecked against MyMiniFactory's first-party OpenAPI on 2026-10-29: its
+   `ApiKeyAuth` scheme is `type: apiKey`, `in: query`, `name: key`, and the v2
+   `/search` operation lists key-based access. The existing working protocol uses
+   `key` on the HTTPS API request URL. The key
    is therefore observable in browser network diagnostics/HARs and potentially
    provider/proxy/access logs or browser-generated network error messages.
    `cache: no-store` does not remove this exposure. tridiJump does not put that URL
    into navigation, model cards, fallback links or history. No API protocol was
-   changed by this audit.
+   changed by this audit. The same schema describes OAuth flows, but those are
+   registered-client/user authorization flows rather than documentation for sending
+   this API key in a header. The schema's operation-level security identifiers use
+   inconsistent casing/names (`key`/`oauth2` versus `ApiKeyAuth`/`OAuth2`), so it is
+   not treated as evidence for an undocumented header migration.
 
 ## Lifecycle by provider
 
@@ -105,6 +113,31 @@ No new registry architecture was added during this audit.
 | DOM attributes | Saved secret fields remain blank; masks do not encode length. No stored key is assigned to text, HTML, dataset, title, href or value attributes by the credential editor. |
 | Debugger / browser storage / network inspector | A user or software able to inspect the extension/browser profile can inspect local values and authenticated requests. This audit does not claim to protect credentials from that privileged access. |
 
+### MyMiniFactory policy resolution
+
+Evidence classification:
+
+- **OFFICIALLY DOCUMENTED:** production v2 origin, GET `/search`, query API-key
+  scheme named `key`, and separate OAuth 2 flows.
+- **OBSERVED WORKING:** the user-configured query key returns live aggregated
+  search results and preserved the manually verified 19 → 39 → 59 pagination run.
+- **UNVERIFIED:** an equivalent header carrying the same API key. No such header is
+  defined in the first-party schema.
+- **INFERRED:** the operation's `key` security reference intends the defined
+  `ApiKeyAuth` scheme despite the schema's inconsistent identifier naming.
+
+Decision: retain official query-parameter authentication with a narrow
+MyMiniFactory-only exception. OAuth would add an application registration and user
+authorization lifecycle and is not a drop-in transport change for the same locally
+entered API key. The credential-bearing URL is constructed inside the adapter from
+a literal HTTPS endpoint and fixed `key` name. `URLSearchParams` encodes both key
+and query; `redirect: 'error'` prevents forwarding; `credentials: 'omit'` excludes
+cookies; and `referrerPolicy: 'no-referrer'` prevents a referrer. The fetch URL is
+never returned or passed to UI/history/navigation. Network and JSON exceptions are
+replaced with fixed local messages, so no URL diagnostic redactor is needed or
+exposed as a general helper. Browser network tooling and upstream access logs can
+still observe the query key; users should not share raw request URLs or HAR files.
+
 These guarantees concern application-managed credentials. They do not prevent a
 user from pasting a secret into an ordinary search field (which can enter query
 URLs/history and provider search terms), a compromised recipient provider from
@@ -136,3 +169,17 @@ references; manifest permissions remain unchanged.
 
 Authenticated live requests and user browser-profile storage were not inspected;
 all automated checks use fake credentials and mocked HTTP/extension storage.
+
+### 2026-10-29 MyMiniFactory follow-up validation
+
+The follow-up changed policy documentation and added one focused adapter test. It
+did not change authentication, pagination, Expanded Search, permissions, runtime
+destinations or dependencies. The test supplies unmistakably fake adversarial key
+and query text and proves both remain single encoded parameters on the literal
+MyMiniFactory HTTPS search endpoint. It also proves the request carries no
+Authorization header and the normalized result contains no credential.
+
+Validation: **453 tests passed across 29 files**; typecheck and production build
+passed; `npm audit --audit-level=high` reported zero vulnerabilities; repository
+and generated-build secret scans found no non-fake credential candidate; and
+`git diff --check` passed.

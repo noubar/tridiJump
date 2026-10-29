@@ -85,8 +85,10 @@ and **Remove credentials** actions. Replacement starts with blank fields; remova
 returns the next enabled search to Setup required. Cults3D uses nickname + API key;
 MyMiniFactory uses API key; Thingiverse uses App Token. Official onboarding links
 are in Settings. Use only your own free API access; no developer credentials are
-bundled. MyMiniFactory's official protocol requires its key in the API request URL;
-keys are excluded from native-search links, errors and history.
+bundled. MyMiniFactory's official API schema defines its API-key scheme as the
+`key` query parameter; the working integration uses that provider-specific URL
+exception. Keys are excluded from native-search links, errors and history. OAuth
+is a separate registered-client/user flow, not an API-key header substitute.
 
 All settings, history and credentials use extension `storage.local`, never sync.
 Preferences and history from the older extension-origin `localStorage` are migrated

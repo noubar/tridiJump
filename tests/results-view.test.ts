@@ -34,7 +34,7 @@ function change(selector: string, value: string) {
 
 beforeEach(() => {
   vi.useFakeTimers();
-  document.body.innerHTML = html.match(/<body>([\s\S]*)<\/body>/)![1]!;
+  document.body.innerHTML = html.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
 });
 afterEach(() => {
   document.body.replaceChildren();

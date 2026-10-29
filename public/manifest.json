@@ -6,9 +6,21 @@
   "background": { "service_worker": "background.js", "type": "module" },
   "host_permissions": ["https://cults3d.com/*", "https://www.myminifactory.com/*", "https://api.thingiverse.com/*", "https://api.printables.com/*"],
   "description": "Search multiple 3D-model repositories in one progressive results grid.",
+  "icons": {
+    "16": "icons/tridijump-16.png",
+    "32": "icons/tridijump-32.png",
+    "48": "icons/tridijump-48.png",
+    "128": "icons/tridijump-128.png"
+  },
   "action": {
     "default_title": "Open tridiJump",
-    "default_popup": "src/popup/index.html"
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/tridijump-16.png",
+      "32": "icons/tridijump-32.png",
+      "48": "icons/tridijump-48.png",
+      "128": "icons/tridijump-128.png"
+    }
   },
   "options_ui": {
     "page": "src/settings/index.html",

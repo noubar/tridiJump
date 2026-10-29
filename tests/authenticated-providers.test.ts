@@ -177,6 +177,36 @@ describe.each(cases)('$id documented user-key API', (source) => {
   });
 });
 
+describe('MyMiniFactory query-key policy exception', () => {
+  it('encodes adversarial key/query text as single parameters on only the fixed HTTPS search endpoint', async () => {
+    mockExtensionStorage();
+    const apiKey = 'TEST_MMF_KEY_DO_NOT_USE &?#=/%';
+    const query = 'car&key=ATTACKER#https://evil.example/path?key=OTHER';
+    await saveCredentials('myminifactory', myMiniFactoryCredentialFields, { apiKey });
+    const fetchMock = vi.fn().mockResolvedValue(json({ items: [{
+      id: 1, name: 'Car', url: 'https://www.myminifactory.com/object/car-1',
+    }], total_count: 1 }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const results = await createMyMiniFactoryProvider().search(query);
+    const [endpoint, options] = fetchMock.mock.calls[0]!;
+    const request = new URL(endpoint);
+
+    expect(request.origin).toBe('https://www.myminifactory.com');
+    expect(request.pathname).toBe('/api/v2/search');
+    expect(request.username).toBe('');
+    expect(request.password).toBe('');
+    expect(request.searchParams.getAll('key')).toEqual([apiKey]);
+    expect(request.searchParams.getAll('q')).toEqual([query]);
+    expect(request.searchParams.get('page')).toBe('1');
+    expect(request.searchParams.get('per_page')).toBe('20');
+    expect(new Headers(options.headers).has('Authorization')).toBe(false);
+    expect(options).toMatchObject({ method: 'GET', credentials: 'omit', redirect: 'error', cache: 'no-store', referrerPolicy: 'no-referrer' });
+    expect(results).toEqual([{ id: '1', title: 'Car', url: 'https://www.myminifactory.com/object/car-1', providerId: 'myminifactory', query }]);
+    expect(JSON.stringify(results)).not.toContain(apiKey);
+  });
+});
+
 describe('provider-specific optional data', () => {
   it('uses reported MMF file extensions, omits publication as creation, and skips malformed fields', () => {
     const [result] = normalizeMyMiniFactoryResults(mmf, 'cap');

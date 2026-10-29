@@ -20,6 +20,19 @@ body {
   padding: 1.5rem;
 }
 
+/* Keep the thumbnail-heavy Results canvas neutral and softer in dark mode. */
+:root[data-theme="dark"] body.results {
+  min-height: 100vh;
+  background: #24262b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] body.results {
+    min-height: 100vh;
+    background: #24262b;
+  }
+}
+
 body.popup {
   width: 380px;
   padding: 1.25rem;

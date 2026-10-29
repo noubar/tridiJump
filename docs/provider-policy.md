@@ -56,11 +56,24 @@ Transmit a credential only to its associated provider and only through that
 provider's documented authentication mechanism. Keep authentication, endpoint
 selection, and response parsing inside the provider implementation. Do not share
 credentials across providers, attach them to fallback URLs, or bundle a developer
-secret. Never send credentials to tridiJump or GitHub. Never include credentials
-in URLs unless the provider's official authentication protocol absolutely requires
-it; this exception never applies to native-search fallback links. There is no
-credential proxy/backend. Restrict network destinations and
-request only storage/API permissions actually needed by an enabled feature.
+secret. Never send credentials to tridiJump or GitHub.
+
+Credentials are prohibited in request URLs by default. A packaged provider adapter
+may make a narrow exception only when the provider's first-party API specification
+defines query-parameter authentication. The exception must fix the HTTPS origin,
+endpoint and parameter name in bundled code; encode the value with `URL` /
+`URLSearchParams`; omit it from navigation, fallback links, UI, history, results,
+errors and logs; reject redirects; and document the unavoidable network-diagnostic
+and provider-log exposure. Registry data and user input must never select the
+credential destination or parameter name.
+
+V1 has one such exception: MyMiniFactory's official API schema defines an API-key
+security scheme in the query string named `key` for its v2 search API. Only
+`https://www.myminifactory.com/api/v2/search` receives that value. MyMiniFactory's
+separate OAuth flows are not treated as an undocumented API-key header substitute.
+The exception never applies to native-search fallback links. There is no credential
+proxy/backend. Restrict network destinations and request only storage/API
+permissions actually needed by an enabled feature.
 
 ## Declarative registry boundary
 
