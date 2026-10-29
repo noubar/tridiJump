@@ -38,11 +38,12 @@ function fail(message, fix) {
 
 function pass(message) { console.log(`✓ ${message}`); }
 
-function executable(name) { return process.platform === 'win32' && ['npm', 'npx'].includes(name) ? `${name}.cmd` : name; }
-
 function run(command, args, options = {}) {
   console.log(`\n> ${command} ${args.join(' ')}`);
-  const result = spawnSync(executable(command), args, {
+  const useNpmCli = command === 'npm' && process.env.npm_execpath;
+  const executable = useNpmCli ? process.execPath : command;
+  const commandArguments = useNpmCli ? [process.env.npm_execpath, ...args] : args;
+  const result = spawnSync(executable, commandArguments, {
     cwd: ROOT,
     encoding: 'utf8',
     stdio: options.capture ? 'pipe' : 'inherit',
