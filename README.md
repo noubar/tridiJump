@@ -1,6 +1,6 @@
 # tridiJump
 
-A free and open-source Chromium browser extension for searching multiple
+A free and open-source Chrome-compatible and Firefox Desktop browser extension for searching multiple
 3D-model repositories asynchronously and displaying models on one unified
 results page.
 
@@ -67,6 +67,10 @@ Development watches files and rebuilds `dist/`. In Chromium, open
 `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and
 select `dist/`. Reload the extension after rebuilding and refresh open pages.
 The extension uses packaged assets without a development server.
+
+For Firefox Desktop, run `npm run build:firefox`, open `about:debugging`, choose
+**This Firefox**, select **Load Temporary Add-on**, and open
+`dist-firefox/manifest.json`. Firefox Android is not part of this release.
 
 Enter a query in the toolbar popup and press Enter or Search to open results in
 a normal browser tab. The query and Expanded Search toggle travel as encoded
@@ -166,14 +170,16 @@ npm test             # Run Vitest checks
 npm run test:watch   # Watch tests
 npm run typecheck    # Strict TypeScript checks
 npm run build        # Type check and production build
+npm run build:firefox # Type check and Firefox Desktop production build
 npm run lexicon:build # Verify pinned sources and regenerate packaged indexes
 ```
 
 ## Creating a release
 
 1. Commit all intended source changes so the Git worktree is clean.
-2. Run `npm run release`.
-3. Extract and smoke-test the exact ZIP named by the command.
+2. Run `npm run release` to build Chrome and Firefox, or use
+   `npm run release:chrome` / `npm run release:firefox` for one target.
+3. Extract and smoke-test every exact ZIP named by the command.
 4. Tag and publish only after that verification succeeds.
 
 The command runs tests, type checking, two reproducible production builds,
@@ -182,7 +188,9 @@ verification, and SHA-256 generation. It writes the package and records under
 `release/`. Use `npm run release:check` to perform the validations without
 writing final release artifacts.
 
-Release automation intentionally does not commit, change versions, create tags,
+`npm run release:check` validates both targets without writing artifacts. The
+targeted release commands validate shared source once and build only their chosen
+browser. Release automation intentionally does not commit, change versions, create tags,
 push, publish, upload, or run `npm audit fix`. Those repository and store actions
 remain manual.
 
@@ -198,10 +206,11 @@ remain manual.
 - `lexical-source/`: pinned preferred-source archives, excluded from extension output
 - `public/lexical-data/`: generated packaged lookup chunks and provenance
 - `providers/`: reserved for provider definitions
-- `public/manifest.json`: Manifest V3 configuration, copied to `dist/`
+- `manifests/`: separate Chrome and Firefox Desktop MV3 source manifests
 - `tests/`: extension foundation checks
 
-Uses TypeScript, plain HTML/CSS, Vite, and Vitest. Happy DOM is a development-only
+Uses TypeScript, plain HTML/CSS, Vite, and Vitest for Chrome-compatible browsers
+and Firefox Desktop. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage and

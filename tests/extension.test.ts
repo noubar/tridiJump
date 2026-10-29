@@ -3,7 +3,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const root = new URL('../', import.meta.url);
-const manifest = JSON.parse(readFileSync(new URL('public/manifest.json', root), 'utf8'));
+const manifest = JSON.parse(readFileSync(new URL('manifests/chrome.json', root), 'utf8'));
+const firefoxManifest = JSON.parse(readFileSync(new URL('manifests/firefox.json', root), 'utf8'));
 const pkg = JSON.parse(readFileSync(new URL('package.json', root), 'utf8'));
 
 describe('extension foundation', () => {
@@ -22,6 +23,20 @@ describe('extension foundation', () => {
     expect(manifest.content_scripts ?? []).toEqual([]);
     expect(manifest.content_security_policy.extension_pages)
       .toBe("script-src 'self'; object-src 'self'");
+  });
+
+  it('keeps Firefox desktop metadata explicit and permissions equivalent', () => {
+    expect(firefoxManifest.manifest_version).toBe(3);
+    expect(firefoxManifest.version).toBe(pkg.version);
+    expect(firefoxManifest.permissions).toEqual(manifest.permissions);
+    expect(firefoxManifest.host_permissions).toEqual(manifest.host_permissions);
+    expect(firefoxManifest.background).toEqual({ scripts: ['background.js'], type: 'module' });
+    expect(firefoxManifest.background.service_worker).toBeUndefined();
+    expect(firefoxManifest.browser_specific_settings).toEqual({ gecko: {
+      id: 'tridijump@noubarprogram.extension', strict_min_version: '140.0',
+      data_collection_permissions: { required: ['searchTerms', 'authenticationInfo'] },
+    } });
+    expect(firefoxManifest.browser_specific_settings.gecko_android).toBeUndefined();
   });
 
   it('wires the toolbar and options menu to existing pages', () => {

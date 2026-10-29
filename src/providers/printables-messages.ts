@@ -40,5 +40,9 @@ export interface PrintablesRuntime {
   onMessage: { addListener(listener: MessageListener): void };
 }
 export function printablesRuntime(): PrintablesRuntime | undefined {
-  return (globalThis as typeof globalThis & { chrome?: { runtime?: PrintablesRuntime } }).chrome?.runtime;
+  const extension = globalThis as typeof globalThis & {
+    browser?: { runtime?: PrintablesRuntime };
+    chrome?: { runtime?: PrintablesRuntime };
+  };
+  return extension.browser?.runtime ?? extension.chrome?.runtime;
 }

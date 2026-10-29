@@ -17,9 +17,11 @@ function validChunk(value: unknown): value is LexiconChunk {
 
 function packagedUrl(kind: LexiconKind, bucket: string): string {
   const path = `lexical-data/${kind}/${bucket}.json`;
-  const runtime = (globalThis as typeof globalThis & {
+  const extension = globalThis as typeof globalThis & {
+    browser?: { runtime?: { getURL?: (path: string) => string } };
     chrome?: { runtime?: { getURL?: (path: string) => string } };
-  }).chrome?.runtime;
+  };
+  const runtime = extension.browser?.runtime ?? extension.chrome?.runtime;
   return runtime?.getURL ? runtime.getURL(path) : `/${path}`;
 }
 

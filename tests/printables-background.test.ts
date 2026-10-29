@@ -3,7 +3,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockPrintablesRuntime } from './helpers/printables-runtime';
 import { createPrintablesProvider } from '../src/providers/printables';
-import type { PrintablesReply } from '../src/providers/printables-messages';
+import { printablesRuntime, type PrintablesReply } from '../src/providers/printables-messages';
 import fixture from './fixtures/printables/search.json';
 
 let messaging: ReturnType<typeof mockPrintablesRuntime>;
@@ -12,6 +12,12 @@ beforeEach(() => { messaging = mockPrintablesRuntime(); });
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe('trusted Printables background boundary', () => {
+  it('prefers the Firefox promise-based browser runtime when available', () => {
+    const firefoxRuntime = { ...messaging.runtime, id: 'firefox-extension' };
+    vi.stubGlobal('browser', { runtime: firefoxRuntime });
+    expect(printablesRuntime()).toBe(firefoxRuntime);
+  });
+
   it('registers the actual worker entry synchronously and keeps asynchronous response channels open', async () => {
     messaging = mockPrintablesRuntime(false); vi.resetModules();
     await import('../src/background');

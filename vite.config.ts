@@ -1,11 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 
-export default defineConfig({
+function browserManifest(path: URL): Plugin {
+  return {
+    name: 'browser-manifest',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'manifest.json', source: readFileSync(path, 'utf8') });
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => ({
   base: './',
-  plugins: [{
+  plugins: [browserManifest(new URL(`./manifests/${mode === 'firefox' ? 'firefox' : 'chrome'}.json`, import.meta.url)), {
     name: 'package-license',
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'LICENSE', source: readFileSync(new URL('./LICENSE', import.meta.url), 'utf8') });
@@ -21,6 +30,7 @@ export default defineConfig({
     },
   }],
   build: {
+    outDir: mode === 'firefox' ? 'dist-firefox' : 'dist',
     // Keep bundled thumbnails as files; the renderer rejects untrusted data URLs.
     assetsInlineLimit: 0,
     target: 'es2022',
@@ -36,4 +46,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

@@ -26,6 +26,16 @@ provider. Disabling a repository retains its credentials. Local extension storag
 is not encrypted by tridiJump and is not an operating-system credential vault.
 tridiJump does not issue or proxy keys and has no server receiving them.
 
+## Firefox data declarations
+
+The Firefox Desktop manifest declares `searchTerms` and `authenticationInfo` as
+required transmitted-data categories. Search terms are sent to enabled model
+repositories for every aggregated search. Authentication information is sent
+only to the matching provider when the user enables and configures an
+authenticated provider. These declarations describe provider requests; no data
+is sent to tridiJump because tridiJump has no server. Firefox extension storage
+remains local and is not an encrypted credential vault.
+
 ## Production network destinations
 
 | Destination | Purpose and data | Authentication | When contacted |

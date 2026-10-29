@@ -275,7 +275,7 @@ percentage is used as a release argument.
 
 ## 11. Legitimate V1 limitations
 
-Chromium-first; undocumented Printables schema may change; provider terms/key
+Chrome and Firefox Desktop are packaged separately; undocumented Printables schema may change; provider terms/key
 issuance/quotas are external dependencies. Two native-only sources. Metadata can
 be absent; no universal relevance/currency conversion; loaded-data filtering.
 User-driven paging only. Worker fetch may finish after caller cancellation.
@@ -285,7 +285,7 @@ required expansion or unverified live continuation.
 
 ## 12. V2 backlog
 
-Firefox, arbitrary added sources, broader language coverage beyond required modest
+Firefox Android, arbitrary added sources, broader language coverage beyond required modest
 EN/DE, additional repositories, richer metadata and ranking. A dynamic declarative
 registry only if separately justified, with real validation/fallback tests. No
 backend, paid API dependency or remote executable logic is proposed.
@@ -304,7 +304,7 @@ backend, paid API dependency or remote executable logic is proposed.
 | `docs/provider-printables.md` | User-confirmed thumbnails; preserve remaining limits |
 | `docs/settings.md` | Cross-page lock behavior, missing expansion and privacy |
 | `docs/supported-repositories.md` | Current user-confirmed Printables support |
-| `public/manifest.json` | Accurate application description only |
+| `manifests/chrome.json` | Chrome-specific MV3 application manifest (moved after this historical audit) |
 | `src/popup/main.ts` | Anonymous readiness separated from credential count |
 | `src/providers/availability.ts` | Correct Printables evidence description |
 | `src/providers/cults3d.ts` | Explicit no-referrer policy |

@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "tridiJump",
+  "version": "1.0.0",
+  "permissions": ["storage"],
+  "background": { "scripts": ["background.js"], "type": "module" },
+  "host_permissions": ["https://cults3d.com/*", "https://www.myminifactory.com/*", "https://api.thingiverse.com/*", "https://api.printables.com/*"],
+  "description": "Search multiple 3D-model repositories in one progressive results grid.",
+  "icons": {
+    "16": "icons/tridijump-16.png",
+    "32": "icons/tridijump-32.png",
+    "48": "icons/tridijump-48.png",
+    "128": "icons/tridijump-128.png"
+  },
+  "action": {
+    "default_title": "Open tridiJump",
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/tridijump-16.png",
+      "32": "icons/tridijump-32.png",
+      "48": "icons/tridijump-48.png",
+      "128": "icons/tridijump-128.png"
+    }
+  },
+  "options_ui": {
+    "page": "src/settings/index.html",
+    "open_in_tab": true
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tridijump@noubarprogram.extension",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["searchTerms", "authenticationInfo"]
+      }
+    }
+  }
+}
