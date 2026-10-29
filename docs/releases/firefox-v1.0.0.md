@@ -19,9 +19,9 @@ for the complete network table and retention behavior.
 
 ## Firefox manifest decisions
 
-- Permanent Gecko ID: `tridijump@noubarprogram.extension`. Future Firefox
+- Permanent Gecko ID: `tridijump@noubar.extensions`. Future Firefox
   updates must keep this ID.
-- Firefox Desktop minimum: `140.0`, where Mozilla's built-in data-transmission
+- Firefox Desktop minimum: `142.0`, where Mozilla's built-in data-transmission
   consent system is available.
 - Required `searchTerms`: ordinary and expanded queries are transmitted to the
   enabled repository APIs to return results.

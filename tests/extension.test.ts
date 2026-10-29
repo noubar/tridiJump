@@ -33,7 +33,7 @@ describe('extension foundation', () => {
     expect(firefoxManifest.background).toEqual({ scripts: ['background.js'], type: 'module' });
     expect(firefoxManifest.background.service_worker).toBeUndefined();
     expect(firefoxManifest.browser_specific_settings).toEqual({ gecko: {
-      id: 'tridijump@noubarprogram.extension', strict_min_version: '140.0',
+      id: 'tridijump@noubar.extensions', strict_min_version: '142.0',
       data_collection_permissions: { required: ['searchTerms', 'authenticationInfo'] },
     } });
     expect(firefoxManifest.browser_specific_settings.gecko_android).toBeUndefined();

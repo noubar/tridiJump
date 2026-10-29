@@ -18,8 +18,8 @@ const APPROVED_HOST_PERMISSIONS = [
   'https://cults3d.com/*', 'https://www.myminifactory.com/*',
   'https://api.thingiverse.com/*', 'https://api.printables.com/*',
 ];
-const FIREFOX_ID = 'tridijump@noubarprogram.extension';
-const FIREFOX_MIN_VERSION = '140.0';
+const FIREFOX_ID = 'tridijump@noubar.extensions';
+const FIREFOX_MIN_VERSION = '142.0';
 const FIREFOX_DATA = ['searchTerms', 'authenticationInfo'];
 const TEXT_EXTENSIONS = new Set(['.css', '.html', '.js', '.json', '.md', '.txt', '.xml']);
 const TARGETS = {

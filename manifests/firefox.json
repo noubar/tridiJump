@@ -31,8 +31,8 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "tridijump@noubarprogram.extension",
-      "strict_min_version": "140.0",
+      "id": "tridijump@noubar.extensions",
+      "strict_min_version": "142.0",
       "data_collection_permissions": {
         "required": ["searchTerms", "authenticationInfo"]
       }
