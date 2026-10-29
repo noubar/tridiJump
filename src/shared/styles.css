@@ -7,7 +7,7 @@
   background: light-dark(#f7f8fa, #151a22);
   --border: light-dark(#c8cfda, #4b5668);
   --muted: light-dark(#526074, #b0bbcd);
-  --surface: light-dark(#ffffff, #202733);
+  --surface: light-dark(#ffffff, #141820);
 }
 
 :root[data-theme="light"] { color-scheme: light; }
@@ -23,13 +23,13 @@ body {
 /* Keep the thumbnail-heavy Results canvas neutral and softer in dark mode. */
 :root[data-theme="dark"] body.results {
   min-height: 100vh;
-  background: #24262b;
+  background: #13151a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root[data-theme="system"] body.results {
     min-height: 100vh;
-    background: #24262b;
+    background: #13151a;
   }
 }
 
