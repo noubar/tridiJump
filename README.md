@@ -34,6 +34,16 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 [Expanded Search](docs/expanded-search.md) and
 [privacy/network inventory](PRIVACY.md).
 
+## Firefox screenshots
+
+### Unified results
+
+![tridiJump Firefox results page showing six supported repositories](release/screenshots/firefox/01-supported-repositories-1280x800.png)
+
+| Search popup | Settings |
+| --- | --- |
+| ![tridiJump Firefox search popup](release/screenshots/firefox/02-popup-1280x800.png) | ![tridiJump Firefox settings page](release/screenshots/firefox/03-settings-1280x800.png) |
+
 ## Supported repositories
 
 | Availability | Repositories | How to use |

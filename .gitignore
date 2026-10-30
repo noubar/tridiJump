@@ -2,7 +2,12 @@ node_modules/
 dist/
 dist-firefox/
 dist-screenshots/
-release/
+release/*
+!release/screenshots/
+release/screenshots/*
+!release/screenshots/firefox/
+release/screenshots/firefox/*
+!release/screenshots/firefox/*.png
 coverage/
 *.tsbuildinfo
 *.log
