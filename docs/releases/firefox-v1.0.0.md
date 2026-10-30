@@ -47,6 +47,12 @@ npm run build:firefox
 npm run release:firefox
 ```
 
+This also creates `release/tridiJump-v1.0.0-source.zip` for AMO review. The
+source archive recursively collects approved source roots, rejects secrets and
+local/build artifacts, then proves completeness with a clean `npm ci` and
+`npm run build:firefox` rebuild whose output must match the release build.
+`npm run source:firefox` performs the source-package workflow independently.
+
 The development build is written to `dist-firefox/`. The verified upload package
 is `release/tridiJump-v1.0.0-firefox.zip`, with `manifest.json` at its root. The
 release command requires committed source and records the exact HEAD in

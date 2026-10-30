@@ -18,6 +18,7 @@
     "release:chrome": "node scripts/release.mjs chrome",
     "release:firefox": "node scripts/release.mjs firefox",
     "release:check": "node scripts/release.mjs all --check",
+    "source:firefox": "node scripts/source-firefox.mjs",
     "build:screenshots": "node scripts/screenshots.mjs all --build-only",
     "screenshots": "node scripts/screenshots.mjs all",
     "screenshots:chrome": "node scripts/screenshots.mjs chrome",

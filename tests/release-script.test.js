@@ -43,8 +43,8 @@ describe('release helpers', () => {
 
   it('detects strong secret indicators without rejecting normal auth code', () => {
     expect(detectSecretCategories('headers.Authorization = `Bearer ${token}`')).toEqual([]);
-    expect(detectSecretCategories('Authorization: Bearer abcdefghijklmnopqrstuvwxyz123456')).toContain('bearer token');
-    expect(detectSecretCategories('-----BEGIN PRIVATE KEY-----')).toContain('private key');
+    expect(detectSecretCategories(['Authorization: Bearer ', 'abcdefghijklmnopqrstuvwxyz123456'].join(''))).toContain('bearer token');
+    expect(detectSecretCategories(['-----BEGIN PRIVATE ', 'KEY-----'].join(''))).toContain('private key');
   });
 
   it('detects screenshot bootstrap markers without matching production UI text', () => {

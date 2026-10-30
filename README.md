@@ -188,6 +188,14 @@ verification, and SHA-256 generation. It writes the package and records under
 `release/`. Use `npm run release:check` to perform the validations without
 writing final release artifacts.
 
+Firefox releases also create `tridiJump-vX.Y.Z-source.zip` for AMO review. The
+source packager recursively includes every file under its approved source roots,
+applies global exclusions and secret scanning, then extracts the archive into a
+clean temporary directory. It runs `npm ci` and `npm run build:firefox` there and
+requires the result to match the release Firefox build byte for byte. Run
+`npm run source:firefox` to create and validate the source archive separately.
+See [README-AMO-BUILD.md](README-AMO-BUILD.md) for reviewer instructions.
+
 `npm run release:check` validates both targets without writing artifacts. The
 targeted release commands validate shared source once and build only their chosen
 browser. Release automation intentionally does not commit, change versions, create tags,

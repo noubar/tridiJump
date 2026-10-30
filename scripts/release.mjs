@@ -261,13 +261,25 @@ async function main() {
   pass('npm audit policy');
   const results = [];
   for (const target of selectedTargets) results.push(await buildTarget(target, version));
+  let sourceArchive;
+  if (selectedTargets.includes('firefox')) {
+    failedStep = 'Firefox AMO source archive';
+    run('npm', ['run', 'source:firefox', ...(CHECK_ONLY ? ['--', '--check'] : [])]);
+    if (!CHECK_ONLY) {
+      const archiveName = `tridiJump-v${version}-source.zip`;
+      const archive = await readFile(join(ROOT, 'release', archiveName));
+      sourceArchive = { archiveName, archive, hash: sha256(archive) };
+    }
+    pass('Firefox AMO source archive and clean rebuild');
+  }
   git(['diff', '--check']); pass('Final git diff --check');
   if (!CHECK_ONLY) {
     failedStep = 'Release records';
     const releaseDirectory = join(ROOT, 'release');
     await mkdir(releaseDirectory, { recursive: true });
     for (const result of results) await writeFile(join(releaseDirectory, result.archiveName), result.archive);
-    const checksums = results.map((result) => `${result.hash}  ${result.archiveName}`).join('\n');
+    const checksums = [...results.map((result) => `${result.hash}  ${result.archiveName}`),
+      ...(sourceArchive ? [`${sourceArchive.hash}  ${sourceArchive.archiveName}`] : [])].join('\n');
     await writeFile(join(releaseDirectory, 'SHA256SUMS'), `${checksums}\n`, 'utf8');
     await writeFile(join(releaseDirectory, 'SOURCE-COMMIT.txt'), `${commit}\n`, 'utf8');
     pass('Release packages, checksums, and source commit recorded');
@@ -279,6 +291,7 @@ async function main() {
     console.log(`\n${result.target}: manifest PASS; secret scan PASS; reproducibility PASS`);
     if (!CHECK_ONLY) console.log(`Release ZIP: release/${result.archiveName}\nSize: ${result.archive.length} bytes (${humanSize(result.archive.length)})\nSHA-256: ${result.hash}`);
   }
+  if (sourceArchive) console.log(`\nFirefox AMO source ZIP: release/${sourceArchive.archiveName}\nSize: ${sourceArchive.archive.length} bytes (${humanSize(sourceArchive.archive.length)})\nSHA-256: ${sourceArchive.hash}`);
   if (!CHECK_ONLY) console.log('\nSource record: release/SOURCE-COMMIT.txt\nChecksum record: release/SHA256SUMS');
   printManualSteps(selectedTargets, tag, commit);
   console.log('\nREADY FOR MANUAL SMOKE TEST');
