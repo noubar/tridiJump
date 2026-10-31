@@ -13,23 +13,25 @@ import { mockExtensionStorage } from './helpers/extension-storage';
 import { nextOffset, nextPage, pageNumber } from '../src/providers/pagination';
 
 const sources = providerAvailability.filter((source) => source.classification === 'B');
-const origins: Record<string, string> = { cults3d: 'https://cults3d.com', thingiverse: 'https://api.thingiverse.com', myminifactory: 'https://www.myminifactory.com' };
+const origins: Record<string, string> = { cults3d: 'https://cults3d.com', thingiverse: 'https://api.thingiverse.com', myminifactory: 'https://www.myminifactory.com', smithsonian: 'https://api.si.edu' };
 const fake = { nickname: 'pagination-test-user', apiKey: 'FAKE-PAGINATION-KEY', appToken: 'FAKE-PAGINATION-TOKEN' };
 const model = (id: string, number: number, query = 'cap'): ModelResult => ({ id: String(number), providerId: id, title: `${id} ${number}`, url: `https://example.test/${id}/${number}`, query });
+const uuid = (number: number) => `00000000-0000-4000-8000-${String(number).padStart(12, '0')}`;
 const body = (id: string, start: number, count: number, total?: number) => {
   const items = Array.from({ length: count }, (_, i) => {
     const n = start + i;
     if (id === 'cults3d') return { name: `Cap ${n}`, url: `https://cults3d.com/en/3d-model/tool/cap-${n}`, price: { cents: n % 20 < 8 ? 0 : 100 } };
     if (id === 'thingiverse') return { id: n, name: `Cap ${n}`, public_url: `https://www.thingiverse.com/thing:${n}` };
+    if (id === 'smithsonian') return { id: `edanmdm-${n}`, title: `Cap ${n}`, content: { descriptiveNonRepeating: { online_media: { media: [{ type: '3d_voyager', voyagerId: `3d_package:${uuid(n)}`, content: `https://3d-api.si.edu/voyager/3d_package:${uuid(n)}`, usage: { access: 'CC0' } }] } } } };
     return { id: n, name: `Cap ${n}`, url: `https://www.myminifactory.com/object/cap-${n}` };
   });
   return id === 'cults3d' ? { data: { creationsSearchBatch: { results: items, total } } }
-    : id === 'thingiverse' ? { hits: items, total } : { items, total_count: total };
+    : id === 'thingiverse' ? { hits: items, total } : id === 'smithsonian' ? { status: 200, response: { rows: items, rowCount: total } } : { items, total_count: total };
 };
 function requestPosition(endpoint: string, options?: RequestInit) {
   const url = new URL(endpoint);
   const id = sources.find((source) => origins[source.id] === url.origin)!.id;
-  return { id, offset: id === 'cults3d' ? Number(JSON.parse(options!.body as string).variables.offset ?? 0) : (Number(url.searchParams.get('page')) - 1) * 20 };
+  return { id, offset: id === 'cults3d' ? Number(JSON.parse(options!.body as string).variables.offset ?? 0) : id === 'smithsonian' ? Number(url.searchParams.get('start') ?? 0) : (Number(url.searchParams.get('page')) - 1) * 20 };
 }
 async function configure() {
   for (const source of sources) await saveCredentials(source.id, source.createProvider().credentialFields!, fake);
@@ -70,7 +72,7 @@ describe.each(sources)('$name incremental adapter', (source) => {
   it('uses raw counts despite malformed records, handles absent totals, and rejects URL-shaped cursors before fetch', async () => {
     await configure();
     const payload = body(source.id, 0, 20);
-    const records = 'items' in payload ? payload.items : 'hits' in payload ? payload.hits : payload.data.creationsSearchBatch.results;
+    const records = 'response' in payload ? payload.response!.rows : 'items' in payload ? payload.items : 'hits' in payload ? payload.hits : payload.data.creationsSearchBatch.results;
     records![0] = null as never;
     const request = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload)));
     vi.stubGlobal('fetch', request);
@@ -134,12 +136,12 @@ describe('incremental orchestration', () => {
     }));
     const { runner, latest } = setup(); runner.start('cap', sources.map((source) => source.createProvider()));
     await vi.advanceTimersByTimeAsync(0); runner.loadMore(); await vi.advanceTimersByTimeAsync(0);
-    expect(latest().results).toHaveLength(100);
+    expect(latest().results).toHaveLength(140);
     expect(latest().states.find((state) => state.providerId === 'thingiverse')?.status).toBe('failed');
-    expect(latest().states.filter((state) => state.status === 'success')).toHaveLength(2);
+    expect(latest().states.filter((state) => state.status === 'success')).toHaveLength(sources.length - 1);
     rejectSecond = false; runner.loadMore(); await vi.advanceTimersByTimeAsync(0);
-    expect(latest().results).toHaveLength(130);
-    runner.loadMore(); await vi.advanceTimersByTimeAsync(0); expect(latest().results).toHaveLength(135);
+    expect(latest().results).toHaveLength(175);
+    runner.loadMore(); await vi.advanceTimersByTimeAsync(0); expect(latest().results).toHaveLength(180);
     runner.cancel();
   });
   it('never dispatches disabled or setup-required providers during loading, including newly disabled sources', async () => {
@@ -237,17 +239,17 @@ describe('loaded-result filters and counts', () => {
     }));
     const view = createResultsView(document.querySelector('main')!, sources.map((source) => ({ name: source.name, provider: source.createProvider() })));
     view.search('cap'); await vi.advanceTimersByTimeAsync(0);
-    expect(document.querySelectorAll('.model-card')).toHaveLength(60);
+    expect(document.querySelectorAll('.model-card')).toHaveLength(80);
     const free = document.querySelector<HTMLSelectElement>('#price')!; free.value = 'free'; free.dispatchEvent(new Event('change'));
-    expect(document.querySelectorAll('.model-card')).toHaveLength(28);
-    expect(document.querySelector('#result-count')!.textContent).toContain('28 results');
-    expect(document.querySelector('#result-count')!.textContent).toContain('60 loaded');
+    expect(document.querySelectorAll('.model-card')).toHaveLength(48);
+    expect(document.querySelector('#result-count')!.textContent).toContain('48 results');
+    expect(document.querySelector('#result-count')!.textContent).toContain('80 loaded');
     const first = document.querySelector('.model-card'); const button = document.querySelector<HTMLButtonElement>('#load-more')!;
     expect(button.hidden).toBe(false); button.click(); await vi.advanceTimersByTimeAsync(0);
-    expect(document.querySelectorAll('.model-card')).toHaveLength(56);
+    expect(document.querySelectorAll('.model-card')).toHaveLength(96);
     expect(document.querySelector('.model-card')).toBe(first);
-    expect(document.querySelector('#result-count')!.textContent).toContain('120 loaded');
-    expect(button.hidden).toBe(true); expect(fetch).toHaveBeenCalledTimes(6); view.cancel();
+    expect(document.querySelector('#result-count')!.textContent).toContain('160 loaded');
+    expect(button.hidden).toBe(true); expect(fetch).toHaveBeenCalledTimes(8); view.cancel();
   });
 });
 

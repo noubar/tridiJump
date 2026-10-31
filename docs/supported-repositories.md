@@ -10,6 +10,7 @@ Native **Search directly** links remain available for every enabled repository.
 | Cults3D | **Requires free provider setup** | Your Cults3D nickname and a read-only API key. |
 | MyMiniFactory | **Requires free provider setup** | Your application's MyMiniFactory API key. |
 | Thingiverse | **Requires free provider setup** | Your application's Thingiverse App Token. |
+| Smithsonian 3D | **Requires free provider setup** | Your api.data.gov key. Specialist museum and cultural-heritage 3D search through the official Smithsonian Open Access API. |
 | MakerWorld | **Direct-search fallback** | Opens native search; no aggregation interface has been verified for this implementation. |
 | Thangs | **Direct-search fallback** | Opens native search; no appropriate public catalog interface has been established and the investigation records scraping restrictions. |
 
@@ -22,6 +23,7 @@ not require a paid API subscription. Model purchases are separate from API acces
 See the [evidence and limitations](live-provider-enablement.md) and
 [Printables verification record](provider-printables.md).
 See also the [Sketchfab integration and verification record](provider-sketchfab.md).
+See also the [Smithsonian integration and verification record](provider-smithsonian.md).
 
 ## Why some providers require credentials
 
@@ -93,6 +95,25 @@ authenticate search requests, rather than a website login session.
 The token is sent only to Thingiverse's API in its Authorization header over
 HTTPS, never in a native-search URL. If the provider changes or removes its
 enrollment route, consult the official guide; native search remains available.
+
+### Smithsonian 3D
+
+The [official Smithsonian developer tools page](https://www.si.edu/openaccess/devtools)
+documents the Open Access API and links to
+[api.data.gov signup](https://api.data.gov/signup/) for an API key.
+
+1. Request your own api.data.gov key through the official signup route.
+2. In tridiJump **Settings → Provider setup / credentials → Smithsonian 3D**,
+   enter the API key and choose **Save credentials**.
+3. Enable the Smithsonian 3D repository switch. It starts disabled on a new
+   installation because a key is required.
+
+Smithsonian's documented API protocol puts the key in the `api_key` query
+parameter of the fixed `api.si.edu` HTTPS endpoint. It is never included in the
+native search link, application history, logs or UI errors, but it may be visible
+in browser network diagnostics and provider request logs. Do not share an
+authenticated request URL. Smithsonian object rights vary; tridiJump labels only
+explicit CC0 records FREE and otherwise preserves the returned usage statement.
 
 ## Storage, replacement and removal
 

@@ -15,7 +15,7 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
   it('saves user configuration, searches cap, appends real-adapter cards progressively and retains native destinations', async () => {
     const { data, local, sync } = mockExtensionStorage();
     // This scenario isolates the two configured authenticated sources.
-    data['tridijump.repositories'] = { printables: false, sketchfab: false };
+    data['tridijump.repositories'] = { printables: false, sketchfab: false, smithsonian: false };
     const fetchMock = vi.fn((endpoint: string) => {
       const url = new URL(endpoint);
       if (url.origin === 'https://www.myminifactory.com') {

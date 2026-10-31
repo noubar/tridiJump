@@ -134,6 +134,10 @@ summary { cursor: pointer; font-weight: 600; padding-block: 0.5rem; }
 .filter-group:last-child { margin-bottom: 0; }
 .filter-group legend { padding: 0; margin-bottom: 0.7rem; font-size: 1rem; }
 .repository-filters .check { padding-block: 0.18rem; }
+.disabled-repositories { margin-top: 0.7rem; }
+.disabled-repositories summary { color: var(--muted); }
+.disabled-repositories .check { opacity: 0.72; }
+.disabled-repositories .hint { margin: 0.45rem 0 0; }
 .filter-group label:not(.check) { margin-top: 0.7rem; font-size: 0.9rem; }
 .filter-group .hint { margin-bottom: 0.5rem; font-size: 0.78rem; line-height: 1.4; }
 .results-content { min-width: 0; }

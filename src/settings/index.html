@@ -36,6 +36,12 @@
           <p>Thingiverse's developer API uses an application App Token. Sign in, open <a href="https://www.thingiverse.com/developers/my-apps" target="_blank" rel="noopener noreferrer">My Apps</a>, create an application and copy its App Token. Do not use its client secret or a browser session token.
             <a href="https://www.thingiverse.com/developers/getting-started" target="_blank" rel="noopener noreferrer">Official developer guide</a></p>
         </section>
+        <section id="provider-smithsonian" aria-labelledby="smithsonian-heading">
+          <h3 id="smithsonian-heading">Smithsonian 3D</h3>
+          <p>The official Smithsonian Open Access API requires your own free api.data.gov API key. <a href="https://api.data.gov/signup/" target="_blank" rel="noopener noreferrer">Register for an API key</a> and enter that key below. tridiJump sends it only to <code>api.si.edu</code> using the API's documented query parameter.
+            <a href="https://www.si.edu/openaccess/devtools" target="_blank" rel="noopener noreferrer">Official developer tools</a></p>
+          <p class="hint">Because Smithsonian's official protocol places the key in the API request URL, it can appear in browser network diagnostics and Smithsonian/API gateway logs. It is never used in native-search links, history, result URLs or errors.</p>
+        </section>
       </section>
       <form id="settings-form">
         <fieldset>

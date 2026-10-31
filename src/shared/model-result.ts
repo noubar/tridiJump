@@ -11,6 +11,9 @@ export interface ModelResult {
   /** Absolute HTTP(S) image URL. */
   thumbnail?: string;
   creator?: string;
+  description?: string;
+  collection?: string;
+  museum?: string;
   /** Amount in major currency units, with an ISO 4217 currency code. */
   price?: { amount: number; currency: string };
   /** Reliable API or bundled provider semantics; missing numeric price alone does not imply free. */

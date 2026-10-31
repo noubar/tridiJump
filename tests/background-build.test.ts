@@ -47,7 +47,7 @@ it('production build emits the registered module worker and all its local static
   expect(code).toContain('onMessage.addListener'); expect(code).toContain('https://api.printables.com/graphql/');
   expect(code).toContain('printables.search'); expect(code).toContain('credentials: "omit"');
   expect(code).not.toContain('document.'); expect(code).not.toContain('storage.local');
-  expect(manifest.host_permissions).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*', 'https://api.sketchfab.com/*']);
+  expect(manifest.host_permissions).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*', 'https://api.sketchfab.com/*', 'https://api.si.edu/*']);
   expect(manifest.permissions).toEqual(['storage']);
 });
 

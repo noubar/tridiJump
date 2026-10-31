@@ -45,16 +45,18 @@ remains local and is not an encrypted credential vault.
 | `https://cults3d.com/graphql` | Search text, batch size, optional offset, English locale | That user's Cults nickname/key in HTTP Basic | Enabled and configured search / Load more |
 | `https://api.thingiverse.com/search/...` | Encoded search text, page and batch size | That user's App Token in Bearer header | Enabled and configured search / Load more |
 | `https://www.myminifactory.com/api/v2/search` | Search text, page and batch size | That user's API key in the documented `key` query parameter | Enabled and configured search / Load more |
+| `https://api.si.edu/openaccess/api/v1.0/search` | Search text with a fixed 3D-model filter, offset and batch size | That user's api.data.gov key in the documented `api_key` query parameter | Enabled and configured Smithsonian search / Load more |
 | `https://media.printables.com/...` | Cover image path returned by Printables | No application API credentials | Optional lazy cover display |
 | `https://media.sketchfab.com/...` | Public thumbnail URL returned by Sketchfab | None | Optional lazy cover display |
+| `https://3d-api.si.edu/content/...` | Public thumbnail URL returned by Smithsonian | None | Optional lazy cover display |
 | API-returned HTTPS image hosts | Other providers' cover images | No application API credentials | Optional lazy cover display |
-| Seven repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
+| Eight repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
 | Original model pages on their respective repository hosts | Model URL | No application API credentials | Only when the user opens a card |
 | Official provider documentation / account setup pages | Ordinary navigation | No application API credentials | Only when the user follows a Settings/documentation link |
 
 Native search destinations are `www.printables.com`, `makerworld.com`,
 `www.thingiverse.com`, `thangs.com`, `www.myminifactory.com`, `cults3d.com` and
-`sketchfab.com`.
+`sketchfab.com` and `3d.si.edu`.
 Model adapters restrict model links to their own expected repository hostnames.
 Authenticated adapters accept safe HTTPS thumbnail URLs returned by their API;
 their image hosts are not a finite bundled allowlist. Images can redirect and
@@ -76,6 +78,11 @@ provider-protocol exception adopted for V1. The destination and parameter are
 fixed in bundled code; no alternative authentication mechanism is substituted
 without provider documentation. See the
 [credential security audit](docs/credential-security-audit.md).
+
+**Smithsonian exception:** the official Open Access API likewise documents the
+user key as the HTTPS `api_key` query parameter. It can be visible in DevTools and
+provider-side request logs. The endpoint and parameter are fixed in bundled code;
+registry metadata cannot redirect it. Do not share authenticated request URLs.
 
 ## Verification limits
 

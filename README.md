@@ -8,7 +8,7 @@ The V1 application includes a search popup, progressive results grid, and settin
 Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
 using your own local credentials. Unconfigured providers show Setup required;
 configured providers send actual searches and append normalized cards. Native
-search remains available for all seven repositories. See the
+search remains available for all eight repositories. See the
 [live enablement review](docs/live-provider-enablement.md) for each access path,
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
@@ -32,6 +32,11 @@ Sketchfab uses its official public model-search endpoint, needs no account or
 credential, and supports cursor-based Load more. Downloadability is kept separate
 from price and 3D-printability; unknown metadata remains unknown.
 
+V2 also adds [Smithsonian 3D](docs/provider-smithsonian.md) as a specialist
+cultural-heritage source through the official Open Access API. It requires the
+user's own free api.data.gov API key in Settings. Search results open official 3D
+Voyager pages; tridiJump does not download Smithsonian model files.
+
 The V1 release blockers recorded by the historical audit were subsequently
 resolved: Expanded Search is implemented, live pagination acceptance is complete,
 and the MyMiniFactory credential policy records its narrow documented URL-key
@@ -54,7 +59,7 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 | Availability | Repositories | How to use |
 | --- | --- | --- |
 | **Works immediately** | Printables, Sketchfab | Enable and search; no credentials. Sketchfab uses its official public Data API v3. |
-| **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse | Obtain your own free provider credentials and save them in Settings. |
+| **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse, Smithsonian 3D | Obtain your own free provider credentials and save them in Settings. Smithsonian is a specialist museum/cultural-heritage source. |
 | **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
 
 See [supported repositories and credential setup](docs/supported-repositories.md)
@@ -104,11 +109,12 @@ Changes save automatically; credential forms have an explicit **Save credentials
 button. Each configured provider shows a fixed secret mask with **Replace credentials**
 and **Remove credentials** actions. Replacement starts with blank fields; removal
 returns the next enabled search to Setup required. Cults3D uses nickname + API key;
-MyMiniFactory uses API key; Thingiverse uses App Token. Official onboarding links
+MyMiniFactory and Smithsonian use API keys; Thingiverse uses App Token. Official onboarding links
 are in Settings. Use only your own free API access; no developer credentials are
 bundled. MyMiniFactory's official API schema defines its API-key scheme as the
 `key` query parameter; the working integration uses that provider-specific URL
-exception. Keys are excluded from native-search links, errors and history. OAuth
+exception. Smithsonian's official API similarly requires `api_key` in its fixed
+HTTPS search URL. Keys are excluded from native-search links, errors and history. OAuth
 is a separate registered-client/user flow, not an API-key header substitute.
 
 All settings, history and credentials use extension `storage.local`, never sync.
@@ -186,6 +192,7 @@ npm run test:watch   # Watch tests
 npm run typecheck    # Strict TypeScript checks
 npm run build        # Type check and production build
 npm run build:firefox # Type check and Firefox Desktop production build
+npm run test:live:smithsonian # Opt-in; requires your own environment API key
 npm run lexicon:build # Verify pinned sources and regenerate packaged indexes
 ```
 
@@ -264,8 +271,8 @@ and Firefox Desktop. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage and
-the five precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
-api.printables.com, and api.sketchfab.com. The Printables origin permits the anonymous undocumented GraphQL interface from
+the six precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
+api.printables.com, api.sketchfab.com, and api.si.edu. The Printables origin permits the anonymous undocumented GraphQL interface from
 the packaged Printables worker; it grants no cookies or website scripting access.
 The Sketchfab origin permits anonymous official Data API model search only.
 The manifest registers `background.js` as a module service worker. No additional
@@ -350,7 +357,7 @@ only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled IDs appear as `disabled` without invoking the
 adapter or reading its credentials. The results
-page supplies three authenticated providers and the anonymous Printables and Sketchfab providers.
+page supplies four authenticated providers and the anonymous Printables and Sketchfab providers.
 Credential loading is covered by
 cancellation and provider timeout; a superseded or timed-out read cannot launch
 a request. MakerWorld and Thangs use native fallback, with their

@@ -175,7 +175,7 @@ export function createSketchfabProvider(): Provider {
     return normalizeSketchfabPage(payload, query);
   }
   return {
-    id: 'sketchfab', mode: 'remote-api',
+    id: 'sketchfab', mode: 'remote-api', tier: 'general',
     search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
     searchPage,
   };

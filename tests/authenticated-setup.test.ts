@@ -8,11 +8,12 @@ import { readHistory, savePreferences } from '../src/shared/preferences';
 import cults from './fixtures/cults3d/search.json';
 import thingiverse from './fixtures/thingiverse/search.json';
 import mmf from './fixtures/myminifactory/search.json';
+import smithsonian from './fixtures/smithsonian/search.json';
 import { mockExtensionStorage } from './helpers/extension-storage';
 const sources = providerAvailability.filter((source) => source.classification === 'B');
-const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
-const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse };
-const secrets: Record<string, string> = { cults3d: 'FAKE-SETUP-CULTS', myminifactory: 'FAKE-SETUP-MMF', thingiverse: 'FAKE-SETUP-THING' };
+const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com', smithsonian: 'https://api.si.edu' };
+const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse, smithsonian };
+const secrets: Record<string, string> = { cults3d: 'FAKE-SETUP-CULTS', myminifactory: 'FAKE-SETUP-MMF', thingiverse: 'FAKE-SETUP-THING', smithsonian: 'FAKE-SETUP-SMITHSONIAN' };
 const basic = btoa(`setup-matrix-user:${secrets.cults3d}`);
 let storage: ReturnType<typeof mockExtensionStorage>;
 async function configure(id: string) {
@@ -30,7 +31,8 @@ function mockRequests(rejectId?: string, status = 401) {
     const auth = new Headers(options.headers).get('Authorization');
     if (id === 'cults3d') expect(auth).toBe(`Basic ${basic}`);
     else if (id === 'thingiverse') expect(auth).toBe(`Bearer ${secrets.thingiverse}`);
-    else { expect(auth).toBeNull(); expect(url.searchParams.get('key')).toBe(secrets.myminifactory); }
+    else if (id === 'myminifactory') { expect(auth).toBeNull(); expect(url.searchParams.get('key')).toBe(secrets.myminifactory); }
+    else { expect(auth).toBeNull(); expect(url.searchParams.get('api_key')).toBe(secrets.smithsonian); }
     expect(options).toMatchObject({ credentials: 'omit', redirect: 'error' });
     return new Response(JSON.stringify(id === rejectId ? { errors: [{ message: Object.values(secrets).join(' ') + basic }] } : fixtures[id]), { status: id === rejectId ? status : 200 });
   });
@@ -46,7 +48,7 @@ async function start(expanded = false) {
 function status(id: string) {
   return [...document.querySelectorAll('#provider-status li')].find((item) => item.textContent?.startsWith(`${sources.find((source) => source.id === id)!.name}:`))!.getAttribute('data-status');
 }
-beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { printables: false, sketchfab: false }; });
+beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { printables: false, sketchfab: false, smithsonian: true }; });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); vi.clearAllTimers(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); document.body.replaceChildren(); });
 
 describe.each(sources)('$name complete credential/setup flow', (source) => {
@@ -69,8 +71,8 @@ describe.each(sources)('$name complete credential/setup flow', (source) => {
     await start();
     expect(status(source.id)).toBe('failed');
     for (const other of sources.filter((other) => other.id !== source.id)) expect(status(other.id)).toBe('success');
-    expect(document.querySelectorAll('.model-card')).toHaveLength(4);
-    expect(request).toHaveBeenCalledTimes(3);
+    expect(document.querySelectorAll('.model-card')).toHaveLength((sources.length - 1) * 2);
+    expect(request).toHaveBeenCalledTimes(sources.length);
     expect(document.querySelector('#provider-status')!.textContent).toContain('Check your');
     safe(document.body.innerHTML); safe(window.location.href);
     expect(await readHistory()).toEqual(['cap']); safe(await readHistory()); safe(providerAvailability);
@@ -95,17 +97,17 @@ describe.each(sources)('$name complete credential/setup flow', (source) => {
     await start(true);
     expect(document.querySelector<HTMLInputElement>('#expanded')!.checked).toBe(true);
     expect(status(source.id)).toBe('setup-required');
-    expect(providerRequests(request)).toHaveLength(2);
+    expect(providerRequests(request)).toHaveLength(sources.length - 1);
     expect(providerRequests(request).every(([url]) => new URL(url).origin !== origins[source.id])).toBe(true);
     const reads = () => storage.local.get.mock.calls.filter(([key]) => key === `tridijump.credentials.${source.id}`).length;
     expect(reads()).toBe(1);
     document.querySelector<HTMLSelectElement>('#price')!.dispatchEvent(new Event('change'));
     await vi.advanceTimersByTimeAsync(30_000);
-    expect(reads()).toBe(1); expect(providerRequests(request)).toHaveLength(2);
-    expect(document.querySelectorAll('.model-card')).toHaveLength(4);
+    expect(reads()).toBe(1); expect(providerRequests(request)).toHaveLength(sources.length - 1);
+    expect(document.querySelectorAll('.model-card')).toHaveLength((sources.length - 1) * 2);
     // Configuration becomes usable on a new explicit search, without page reload.
     await configure(source.id); submit(); await vi.advanceTimersByTimeAsync(0);
-    expect(status(source.id)).toBe('success'); expect(providerRequests(request)).toHaveLength(5);
-    expect(document.querySelectorAll('.model-card')).toHaveLength(6);
+    expect(status(source.id)).toBe('success'); expect(providerRequests(request)).toHaveLength((sources.length - 1) + sources.length);
+    expect(document.querySelectorAll('.model-card')).toHaveLength(sources.length * 2);
   });
 });

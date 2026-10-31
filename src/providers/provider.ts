@@ -3,6 +3,7 @@ import type { ModelResult } from '../shared/model-result';
 import type { CredentialField } from './credentials';
 
 export type ProviderMode = 'remote-api' | 'local-catalog' | 'direct-search';
+export type ProviderTier = 'general' | 'specialist';
 
 export interface ResultPage {
   results: ModelResult[];
@@ -15,6 +16,8 @@ export interface Provider {
   id: string;
   /** Retrieval mode metadata; packaged adapters use remote-api. */
   mode?: ProviderMode;
+  /** Descriptive packaged grouping only; does not affect search execution. */
+  tier?: ProviderTier;
   /** Required configuration fields only; never credential values. Omit for anonymous providers. */
   credentialFields?: readonly CredentialField[];
   /**

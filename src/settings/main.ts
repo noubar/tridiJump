@@ -68,7 +68,7 @@ async function loadRepositories() {
   await Promise.all(providerAvailability.map(async (source) => {
     const input = repositoryInputs.get(source.id)!;
     input.checked = repositoryEnabled(source, choices);
-    input.disabled = !repositoryEnabled(source, {});
+    input.disabled = 'available' in source && source.available === false;
     const enabled = input.checked;
     const configured = 'createProvider' in source && source.createProvider().credentialFields?.length
       ? await credentialsConfigured(source.id, source.createProvider().credentialFields!) : undefined;

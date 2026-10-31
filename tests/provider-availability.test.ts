@@ -14,7 +14,8 @@ describe('provider classification and native fallbacks', () => {
     for (const source of providerAvailability) {
       // No auth payload, header, user identity or credential values belong here.
       expect(Object.keys(source).sort()).toEqual([
-        'id', 'name', 'classification', 'mode', 'reason', 'searchUrl',
+        'id', 'name', 'classification', 'mode', 'tier', 'reason', 'searchUrl',
+        ...(source.id === 'smithsonian' ? ['defaultEnabled'] : []),
         ...('createProvider' in source ? ['createProvider'] : []),
       ].sort());
       if (!('createProvider' in source)) continue;
@@ -48,13 +49,15 @@ describe('provider classification and native fallbacks', () => {
     }
   });
 
-  it('connects two anonymous and three user-key APIs, retaining two fallbacks', () => {
+  it('connects two anonymous and four user-key APIs, retaining two fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
-      'cults3d', 'makerworld', 'myminifactory', 'printables', 'sketchfab', 'thangs', 'thingiverse',
+      'cults3d', 'makerworld', 'myminifactory', 'printables', 'sketchfab', 'smithsonian', 'thangs', 'thingiverse',
     ]);
     for (const source of providerAvailability) {
-      expect(source.classification).toBe(['printables', 'sketchfab'].includes(source.id) ? 'A' : ['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
+      expect(source.classification).toBe(['printables', 'sketchfab'].includes(source.id) ? 'A' : ['cults3d', 'myminifactory', 'thingiverse', 'smithsonian'].includes(source.id) ? 'B' : 'D');
       expect(source.mode).toBe(source.classification === 'D' ? 'direct-search' : 'remote-api');
+      expect(source.tier).toBe(source.id === 'smithsonian' ? 'specialist' : 'general');
+      expect('defaultEnabled' in source ? source.defaultEnabled : true).toBe(source.id !== 'smithsonian');
       if ('createProvider' in source) {
         expect(source.createProvider().id).toBe(source.id);
         if (source.classification === 'B') expect(source.createProvider().credentialFields?.length).toBeGreaterThan(0);
@@ -75,7 +78,7 @@ describe('provider classification and native fallbacks', () => {
       expect(decodeURIComponent(url.pathname.slice('/search/'.length))).toBe(query);
       expect(url.searchParams.get('scope')).toBe('thangs');
     } else {
-      const parameter = source.id === 'myminifactory' ? 'query' : source.id === 'makerworld' ? 'keyword' : 'q';
+      const parameter = source.id === 'myminifactory' ? 'query' : source.id === 'makerworld' ? 'keyword' : source.id === 'smithsonian' ? 'edan_q' : 'q';
       expect(url.searchParams.get(parameter)).toBe(query);
     }
     for (const parameter of ['apiKey', 'key', 'token', 'access_token', 'password']) expect(url.searchParams.has(parameter)).toBe(false);

@@ -7,6 +7,7 @@ import popupHtml from '../src/popup/index.html?raw';
 import cults from './fixtures/cults3d/search.json';
 import mmf from './fixtures/myminifactory/search.json';
 import thingiverse from './fixtures/thingiverse/search.json';
+import smithsonian from './fixtures/smithsonian/search.json';
 import { providerAvailability } from '../src/providers/availability';
 import { credentialDisplay, loadCredentials, saveCredentials, clearCredentials } from '../src/providers/credentials';
 import { readHistory, readPreferences, savePreferences, rememberSearch, readRepositories, repositoryEnabled, setRepositoryEnabled } from '../src/shared/preferences';
@@ -15,8 +16,8 @@ import type { SearchSnapshot } from '../src/search/orchestrator';
 import { mockExtensionStorage } from './helpers/extension-storage';
 const authenticated = providerAvailability.filter((source) => source.classification === 'B');
 const fakeValues = { nickname: 'fixture-user', apiKey: 'FAKE-SETTINGS-KEY', appToken: 'FAKE-SETTINGS-TOKEN' };
-const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse };
-const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
+const fixtures: Record<string, unknown> = { cults3d: cults, myminifactory: mmf, thingiverse, smithsonian };
+const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com', smithsonian: 'https://api.si.edu' };
 function page(html: string) { document.body.innerHTML = html.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!; }
 const element = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 function change(selector: string, value: boolean | string) {
@@ -29,6 +30,7 @@ afterEach(() => { window.dispatchEvent(new Event('pagehide')); document.body.rep
 
 describe('credential-independent repository enablement', () => {
   it.each(authenticated)('$name searches only when enabled and configured, and retains credentials while disabled', async (source) => {
+    await setRepositoryEnabled(source.id, true);
     const provider = source.createProvider();
     const request = vi.fn().mockImplementation(async () => new Response(JSON.stringify(fixtures[source.id])));
     vi.stubGlobal('fetch', request);
@@ -83,6 +85,7 @@ describe('credential display and bundled authentication boundary', () => {
     if (source.id === 'cults3d') expect((init as RequestInit).headers).toHaveProperty('Authorization', `Basic ${btoa(`${fakeValues.nickname}:${fakeValues.apiKey}`)}`);
     if (source.id === 'thingiverse') expect((init as RequestInit).headers).toHaveProperty('Authorization', `Bearer ${fakeValues.appToken}`);
     if (source.id === 'myminifactory') expect(new URL(endpoint as string).searchParams.get('key')).toBe(fakeValues.apiKey);
+    if (source.id === 'smithsonian') expect(new URL(endpoint as string).searchParams.get('api_key')).toBe(fakeValues.apiKey);
     expect(JSON.stringify(display)).not.toMatch(/FAKE-SETTINGS/);
     expect(JSON.stringify(providerAvailability)).not.toMatch(/FAKE-SETTINGS|fixture-user/);
     expect(await readHistory()).toEqual([]);
@@ -96,6 +99,8 @@ describe('production Settings and entry pages', () => {
     await import('../src/settings/main');
     await vi.waitFor(() => expect(element<HTMLInputElement>('#repository-cults3d').disabled).toBe(false));
     expect(element<HTMLInputElement>('#repository-sketchfab').checked).toBe(false);
+    expect(element<HTMLInputElement>('#repository-smithsonian').checked).toBe(false);
+    expect(element<HTMLInputElement>('#repository-smithsonian').disabled).toBe(false);
     expect(document.querySelector('[id^="credential-sketchfab"]')).toBeNull();
     change('#repository-sketchfab', true);
     change('#repository-cults3d', false);
@@ -160,6 +165,7 @@ describe('production Settings and entry pages', () => {
     expect(element('#history-list').textContent).toBe('');
   });
   it('uses changed repository choices and credential removal on subsequent searches in the same Results tab', async () => {
+    await setRepositoryEnabled('smithsonian', false);
     for (const source of authenticated) await saveCredentials(source.id, source.createProvider().credentialFields!, fakeValues);
     await setRepositoryEnabled('thingiverse', false);
     const request = vi.fn(async (endpoint: string) => {

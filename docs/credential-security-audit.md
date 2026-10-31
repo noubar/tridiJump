@@ -1,6 +1,7 @@
 # Credential security audit
 
-Initial audit: 2026-10-28. MyMiniFactory policy follow-up: 2026-10-29. Scope:
+Initial audit: 2026-10-28. MyMiniFactory policy follow-up: 2026-10-29.
+Smithsonian query-key follow-up: 2026-10-31. Scope:
 current application, tests, fixtures, documentation, generated extension, local
 Git configuration, all local Git blobs and available history. The initial audit's
 starting checkout was clean, at `f31c133`.
@@ -57,6 +58,7 @@ text but is never merged into provider metadata.
 | Cults3D | nickname + apiKey / `tridijump.credentials.cults3d` | Reads its own fields for each search; POST `https://cults3d.com/graphql`, `Authorization: Basic base64(nickname:key)` | Remove deletes only this key; next enabled search is setup-required |
 | MyMiniFactory | apiKey / `tridijump.credentials.myminifactory` | Reads its own fields for each search; GET `https://www.myminifactory.com/api/v2/search`, documented `key` query parameter | Same behavior, scoped to MyMiniFactory |
 | Thingiverse | appToken / `tridijump.credentials.thingiverse` | Reads its own fields for each search; GET `https://api.thingiverse.com/search/{encoded-query}`, `Authorization: Bearer token` | Same behavior, scoped to Thingiverse |
+| Smithsonian 3D | apiKey / `tridijump.credentials.smithsonian` | Reads its own field for each search; GET `https://api.si.edu/openaccess/api/v1.0/search`, documented `api_key` query parameter | Same behavior, scoped to Smithsonian |
 
 Storage/retrieval/removal are in `src/providers/credentials.ts` through extension
 `storage.local` only, never web storage or sync. Normalization accepts only declared
@@ -79,14 +81,15 @@ as a parameter or path segment, never interpreted as a destination. All authenti
 requests omit cookies and use `redirect: error`, preventing redirect-based credential
 forwarding. There is no shared global Authorization header or auth interceptor.
 Only Cults and Thingiverse send Authorization, to their own fixed HTTPS origins.
-MMF sends no Authorization header. Only its own fixed origin receives its query key.
+MMF and Smithsonian send no Authorization header. Only each adapter's own fixed
+origin receives its query key.
 
 There is **no remote registry loader** in this checkout. The bundled
 `src/providers/availability.ts` imports packaged factories. Remote descriptor data
 is not fetched, passed as adapter options, or interpreted as executable code.
 Tests attach conflicting origin/header/credential-mapping descriptions and confirm
 the packaged factories still use their fixed official destinations and fields.
-Simultaneous requests with three distinct fake credentials also verify that one
+Simultaneous requests with four distinct fake credentials also verify that one
 provider never receives another provider's key. A URL-looking query cannot redirect
 an authenticated request.
 
@@ -101,14 +104,14 @@ No new registry architecture was added during this audit.
 | --- | --- |
 | Application console/debug logs | No production console logging, request dumping, debug global or credential diagnostic object found; runtime spies exercise success/error flows. |
 | Thrown errors and error UI | Adapter storage/network/JSON/auth failures use fixed messages or numeric HTTP status; server error bodies and raw exceptions are not forwarded. Existing orchestrator displays adapter messages, so adapters must retain this discipline; it is not a global secret redactor. |
-| API query strings | MMF exception described above. Cults/Thingiverse secrets are headers, absent from URL/body query data. |
+| API query strings | MMF and Smithsonian use documented query-key exceptions. Cults/Thingiverse secrets are headers, absent from URL/body query data. |
 | Browser history/page URLs | Credential editor has no navigation submission; API fetches are not page navigations. Results URLs contain search query and toggle only. |
 | Search history | Configuration never calls history recording; it records only original user search input. Saves, replacements and removals do not copy credential records into history. |
 | Results/cards/images | New adapter guard rejects known authentication echoes in normalized metadata before results reach the orchestrator or UI. Generic HTML/HTTP(S) safety checks remain in place. |
 | Registry/provider descriptions | Packaged descriptors and field definitions contain no stored values; factories load secrets independently. |
 | Git | No real credential identified in tracked files, local object database or local config. `.env`, `.env.*`, logs, dist and dependencies are ignored; ignore rules alone are not secret detection. |
 | Fixtures/examples/screenshots | Fixtures are declared original synthetic records. Test secrets are fake. Repository graphics are three SVG demo assets; no captured screenshots, HARs or binary credential examples found. |
-| Analytics/telemetry | No implementation, dependency, event reporting or remote sink found. Production fetch sites are the three provider requests. |
+| Analytics/telemetry | No implementation, dependency, event reporting or remote sink found. Production fetch sites are the enabled provider requests only. |
 | Exported settings | No settings-export feature exists. Preferences are a whitelist of three non-secret fields, separate from credential records. TypeScript exports are code APIs, not an export of stored settings. |
 | DOM attributes | Saved secret fields remain blank; masks do not encode length. No stored key is assigned to text, HTML, dataset, title, href or value attributes by the credential editor. |
 | Debugger / browser storage / network inspector | A user or software able to inspect the extension/browser profile can inspect local values and authenticated requests. This audit does not claim to protect credentials from that privileged access. |

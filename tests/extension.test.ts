@@ -14,9 +14,9 @@ describe('extension foundation', () => {
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('grants only extension storage and the five implemented API origins', () => {
+  it('grants only extension storage and the six implemented API origins', () => {
     expect(manifest.permissions ?? []).toEqual(['storage']);
-    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*', 'https://api.sketchfab.com/*']);
+    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*', 'https://api.sketchfab.com/*', 'https://api.si.edu/*']);
     expect(manifest.optional_permissions ?? []).toEqual([]);
     expect(manifest.optional_host_permissions ?? []).toEqual([]);
     expect(manifest.background).toEqual({ service_worker: 'background.js', type: 'module' });
@@ -79,7 +79,7 @@ describe('extension foundation', () => {
       for (const [, href] of links) {
         const destination = new URL(href!, page);
         if (destination.protocol === 'file:') expect(existsSync(destination)).toBe(true);
-        else expect(['https://cults3d.com', 'https://www.myminifactory.com', 'https://www.thingiverse.com']).toContain(destination.origin);
+        else expect(['https://cults3d.com', 'https://www.myminifactory.com', 'https://www.thingiverse.com', 'https://api.data.gov', 'https://www.si.edu']).toContain(destination.origin);
       }
     }
   });

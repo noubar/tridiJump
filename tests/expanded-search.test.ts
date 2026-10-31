@@ -63,7 +63,7 @@ async function more() {
 }
 beforeEach(() => {
   vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); requests.length = 0; lexicalRequests.length = 0;
-  storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { sketchfab: false }; mockPrintablesRuntime();
+  storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { sketchfab: false, smithsonian: true }; mockPrintablesRuntime();
   document.body.innerHTML = html.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
 });
 afterEach(() => {
@@ -100,18 +100,18 @@ it('ON progressively inserts bounded variants, deduplicates cards, retains origi
   expect(document.querySelector<HTMLElement>('#expanded-terms')!.hidden).toBe(false);
   expect(document.querySelector('#expanded-terms')!.textContent).toBe(`Additional search terms: ${queries.slice(1).join(' · ')}`);
   expect(storage.data['tridijump.history']).toEqual(['gear']);
-  for (const id of ['cults3d', 'thingiverse', 'myminifactory']) {
+  for (const id of ['cults3d', 'thingiverse', 'myminifactory', 'smithsonian']) {
     expect(storage.local.get.mock.calls.filter(([key]) => key === `tridijump.credentials.${id}`)).toHaveLength(1);
   }
-  expect(document.querySelectorAll('[data-status="setup-required"]')).toHaveLength(3);
+  expect(document.querySelectorAll('[data-status="setup-required"]')).toHaveLength(4);
   const links = [...document.querySelectorAll<HTMLAnchorElement>('#native-searches a')];
-  expect(links).toHaveLength(6);
+  expect(links).toHaveLength(7);
   expect(links.every((link) => decodeURIComponent(link.href).includes('gear'))).toBe(true);
   expect(document.querySelector('#fallback-status')!.textContent).toContain('MakerWorld: direct search only');
   expect(document.querySelector('#fallback-status')!.textContent).toContain('Thangs: direct search only');
   await more();
   expect(requests).toHaveLength(5); // Exactly one continuation, not four.
-  for (const id of ['cults3d', 'thingiverse', 'myminifactory']) {
+  for (const id of ['cults3d', 'thingiverse', 'myminifactory', 'smithsonian']) {
     expect(storage.local.get.mock.calls.filter(([key]) => key === `tridijump.credentials.${id}`)).toHaveLength(1);
   }
 });
@@ -131,7 +131,7 @@ it('does not execute disabled providers or check their credentials even with act
   storage.data['tridijump.repositories'] = { printables: false, sketchfab: false, thingiverse: false };
   installFetch(); await start();
   expect(requests).toHaveLength(0);
-  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(3);
+  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(4);
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.thingiverse')).toBe(false);
   expect(document.querySelector('#native-searches a[data-provider-id="printables"]')).toBeNull();
 });

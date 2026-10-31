@@ -173,7 +173,7 @@ export function createCultsProvider(
     return { results, nextCursor: nextOffset(offset, (batch.results as unknown[]).length, batch.total) };
   }
   return {
-    id: 'cults3d', mode: 'remote-api', credentialFields: cultsCredentialFields,
+    id: 'cults3d', mode: 'remote-api', tier: 'general', credentialFields: cultsCredentialFields,
     search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
     searchPage,
   };

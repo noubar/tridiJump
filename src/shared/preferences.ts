@@ -70,9 +70,9 @@ export async function readRepositories(): Promise<Record<string, boolean>> {
   return value && typeof value === 'object' && !Array.isArray(value)
     ? Object.fromEntries(Object.entries(value).filter(([id, enabled]) => /^[a-z0-9][a-z0-9-]{0,63}$/.test(id) && typeof enabled === 'boolean')) : {};
 }
-/** Availability comes exclusively from packaged metadata. Missing IDs default on. */
-export function repositoryEnabled(source: { id: string; available?: boolean }, choices: Record<string, boolean>): boolean {
-  return source.available !== false && (!Object.hasOwn(choices, source.id) || choices[source.id] === true);
+/** Availability and first-install defaults come exclusively from packaged metadata. */
+export function repositoryEnabled(source: { id: string; available?: boolean; defaultEnabled?: boolean }, choices: Record<string, boolean>): boolean {
+  return source.available !== false && (Object.hasOwn(choices, source.id) ? choices[source.id] === true : source.defaultEnabled !== false);
 }
 let repositoryWrites: Promise<void> = Promise.resolve();
 export function setRepositoryEnabled(id: string, enabled: boolean): Promise<void> {

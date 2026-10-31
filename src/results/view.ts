@@ -28,6 +28,8 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const format = root.querySelector<HTMLSelectElement>('#format')!;
   const price = root.querySelector<HTMLSelectElement>('#price')!;
   const repositories = root.querySelector<HTMLElement>('#repository-options')!;
+  const disabledRepositorySection = root.querySelector<HTMLDetailsElement>('#disabled-repository-section')!;
+  const disabledRepositories = root.querySelector<HTMLElement>('#disabled-repository-options')!;
   const statuses = root.querySelector<HTMLElement>('#provider-status')!;
   const loadMore = root.querySelector<HTMLButtonElement>('#load-more')!;
   const paginationHelp = root.querySelector<HTMLElement>('#pagination-help')!;
@@ -36,6 +38,9 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const names = new Map(sources.map((source) => [source.provider.id, source.name]));
   const selected = new Set(names.keys());
   const statusItems = new Map<string, HTMLLIElement>();
+  const repositoryLabels = new Map<string, HTMLLabelElement>();
+  const repositoryCheckboxes = new Map<string, HTMLInputElement>();
+  let disabledIds = new Set<string>();
   const renderedStates = new Map<string, ProviderSearchState>();
   const nativeSearches = new Map(sources.map((source) => [source.provider.id, source.searchUrl]));
   const cards = new Map<ModelResult, HTMLElement>();
@@ -56,6 +61,8 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     });
     label.append(checkbox, document.createTextNode(source.name));
     repositories.append(label);
+    repositoryLabels.set(source.provider.id, label);
+    repositoryCheckboxes.set(source.provider.id, checkbox);
     const item = document.createElement('li');
     item.dataset.status = 'idle';
     item.textContent = `${source.name}: idle`;
@@ -63,6 +70,32 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     statusItems.set(source.provider.id, item);
   }
   for (const [value, label] of SORTS) sort.add(option(label, value));
+
+  function syncRepositoryGroups(disabledProviderIds: ReadonlySet<string> = new Set()) {
+    const previouslyDisabled = disabledIds;
+    disabledIds = new Set(disabledProviderIds);
+    for (const source of sources) {
+      const id = source.provider.id;
+      const label = repositoryLabels.get(id)!;
+      const checkbox = repositoryCheckboxes.get(id)!;
+      if (disabledIds.has(id)) {
+        selected.delete(id);
+        checkbox.checked = false;
+        checkbox.disabled = true;
+        disabledRepositories.append(label);
+      } else {
+        if (previouslyDisabled.has(id)) {
+          selected.add(id);
+          checkbox.checked = true;
+        }
+        checkbox.disabled = false;
+        repositories.append(label);
+      }
+    }
+    const count = disabledIds.size;
+    disabledRepositorySection.hidden = count === 0;
+    disabledRepositorySection.querySelector('summary')!.textContent = `Disabled repositories (${count})`;
+  }
 
   function render() {
     const available = [...new Set(snapshot.results.flatMap((result) => result.formats ?? []))].sort();
@@ -163,7 +196,10 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     const current = version;
     loadMore.disabled = true;
     void (options.readDisabledProviders?.() ?? Promise.resolve(undefined)).then((disabled) => {
-      if (current === version) runner.loadMore(disabled);
+      if (current === version) {
+        if (disabled) syncRepositoryGroups(disabled);
+        runner.loadMore(disabled);
+      }
     }, () => {
       if (current === version) paginationHelp.textContent = 'Repository settings could not be read. No additional requests were started.';
     }).finally(() => { if (current === version) loadMore.disabled = snapshot.pages?.some((page) => page.loading) ?? false; });
@@ -173,9 +209,10 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     search(query: string, disabledProviderIds?: ReadonlySet<string>, expandedQueries?: readonly string[]) {
       version++;
       cards.clear();
+      syncRepositoryGroups(disabledProviderIds);
       runner.start(query, sources.map((source) => source.provider), { disabledProviderIds, expandedQueries });
     },
-    loadMore(disabledProviderIds?: ReadonlySet<string>) { runner.loadMore(disabledProviderIds); },
+    loadMore(disabledProviderIds?: ReadonlySet<string>) { if (disabledProviderIds) syncRepositoryGroups(disabledProviderIds); runner.loadMore(disabledProviderIds); },
     cancel() { version++; runner.cancel(); },
   };
 }

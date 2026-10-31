@@ -117,7 +117,7 @@ export function createPrintablesProvider(): Provider {
     });
   }
   return {
-    id: 'printables', mode: 'remote-api',
+    id: 'printables', mode: 'remote-api', tier: 'general',
     search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
     searchPage,
   };

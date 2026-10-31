@@ -8,8 +8,8 @@ import { readHistory, savePreferences } from '../src/shared/preferences';
 import { createResultsView } from '../src/results/view';
 import { mockExtensionStorage } from './helpers/extension-storage';
 const sources = providerAvailability.filter((source) => source.classification === 'B');
-const secrets: Record<string, string> = { cults3d: 'FAKE-AUDIT-CULTS-KEY', myminifactory: 'FAKE-AUDIT-MMF-KEY', thingiverse: 'FAKE-AUDIT-THING-TOKEN' };
-const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com' };
+const secrets: Record<string, string> = { cults3d: 'FAKE-AUDIT-CULTS-KEY', myminifactory: 'FAKE-AUDIT-MMF-KEY', thingiverse: 'FAKE-AUDIT-THING-TOKEN', smithsonian: 'FAKE-AUDIT-SMITHSONIAN-KEY' };
+const origins: Record<string, string> = { cults3d: 'https://cults3d.com', myminifactory: 'https://www.myminifactory.com', thingiverse: 'https://api.thingiverse.com', smithsonian: 'https://api.si.edu' };
 const encodedCults = btoa(`audit-test-user:${secrets.cults3d}`);
 function assertNoSecrets(value: unknown) {
   const text = typeof value === 'string' ? value : JSON.stringify(value);
@@ -39,20 +39,23 @@ describe('credential audit regressions', () => {
       } else if (id === 'thingiverse') {
         expect(authorization).toBe(`Bearer ${secrets.thingiverse}`);
         assertNoSecrets(endpoint);
-      } else {
+      } else if (id === 'myminifactory') {
         expect(authorization).toBeNull();
         expect(url.searchParams.get('key')).toBe(secrets.myminifactory);
+      } else {
+        expect(authorization).toBeNull();
+        expect(url.searchParams.get('api_key')).toBe(secrets.smithsonian);
       }
       for (const [other, secret] of Object.entries(secrets)) {
         if (other !== id) expect(JSON.stringify([endpoint, options])).not.toContain(secret);
       }
       return new Response(JSON.stringify(id === 'cults3d' ? { data: { creationsSearchBatch: { results: [] } } }
-        : id === 'thingiverse' ? { hits: [] } : { items: [] }));
+        : id === 'thingiverse' ? { hits: [] } : id === 'smithsonian' ? { status: 200, response: { rows: [], rowCount: 0 } } : { items: [] }));
     });
     vi.stubGlobal('fetch', request);
     const query = 'https://evil.example/redirect?destination=elsewhere';
     await Promise.all(sources.map((source) => source.createProvider().search(query)));
-    expect(request).toHaveBeenCalledTimes(3);
+    expect(request).toHaveBeenCalledTimes(4);
     for (const source of providerAvailability) assertNoSecrets(source.searchUrl(query));
   });
 
@@ -93,9 +96,11 @@ describe('credential audit regressions', () => {
       ? { name: 'Cap', url: 'https://cults3d.com/en/3d-model/tool/cap', illustrationImageUrl: thumbnail }
       : source.id === 'thingiverse'
         ? { name: 'Cap', public_url: 'https://www.thingiverse.com/thing:1', thumbnail }
-        : { name: 'Cap', url: 'https://www.myminifactory.com/object/cap', images: [{ thumbnail: { url: thumbnail } }] };
+        : source.id === 'smithsonian'
+          ? { id: 'edanmdm-test', title: 'Cap', url: 'https://3d-api.si.edu/voyager/3d_package:test', content: { descriptiveNonRepeating: { online_media: { media: [{ type: '3d_voyager', voyagerId: '3d_package:test', content: 'https://3d-api.si.edu/voyager/3d_package:test', thumbnail }] } } } }
+          : { name: 'Cap', url: 'https://www.myminifactory.com/object/cap', images: [{ thumbnail: { url: thumbnail } }] };
     const payload = source.id === 'cults3d' ? { data: { creationsSearchBatch: { results: [record] } } }
-      : source.id === 'thingiverse' ? { hits: [record] } : { items: [record] };
+      : source.id === 'thingiverse' ? { hits: [record] } : source.id === 'smithsonian' ? { status: 200, response: { rows: [record], rowCount: 1 } } : { items: [record] };
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(payload))));
     const view = createResultsView(document.querySelector('main')!, [{ name: source.name, provider: source.createProvider() }]);
     view.search('cap');

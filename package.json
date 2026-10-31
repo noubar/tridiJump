@@ -26,6 +26,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:live:sketchfab": "vitest run tests/sketchfab-live.test.ts --mode live",
+    "test:live:smithsonian": "vitest run tests/smithsonian-live.test.ts --mode live",
     "test:watch": "vitest"
   },
   "devDependencies": {
