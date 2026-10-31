@@ -47,3 +47,14 @@ it('all repositories disabled gives an actionable empty state without nonexisten
   expect(document.querySelectorAll('#native-searches a')).toHaveLength(0);
   expect(request).not.toHaveBeenCalled();
 });
+
+it('keeps direct-search navigation unavailable until an original query exists', async () => {
+  mockExtensionStorage();
+  const request = vi.fn(); vi.stubGlobal('fetch', request);
+  document.body.innerHTML = results.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
+  window.history.replaceState(null, '', '/src/results/index.html');
+  await import('../src/results/main');
+  await vi.waitFor(() => expect(document.querySelector('#empty-state')!.textContent).toContain('Enter a query'));
+  expect(document.querySelector<HTMLElement>('#direct-search-section')!.hidden).toBe(true);
+  expect(request).not.toHaveBeenCalled();
+});

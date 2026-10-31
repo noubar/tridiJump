@@ -138,8 +138,9 @@ describe('progressive results UI', () => {
     expect([...setupLinks].filter((link) => link.textContent === 'Search directly')).toHaveLength(3);
     expect(query('#provider-status').textContent).not.toContain('failed');
     expect(query('#fallback-status').textContent).toContain('Thangs: direct search only');
+    expect(query('#fallback-status').textContent).toContain('CGTrader: direct search only');
     expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
-    expect(document.querySelectorAll('#native-searches a')).toHaveLength(5);
+    expect(document.querySelectorAll('#native-searches a')).toHaveLength(6);
     expect(new URL(query<HTMLAnchorElement>('[data-provider-id="cults3d"]').href).searchParams.get('q')).toBe('gear');
     expect(document.querySelector('#api-key')).toBeNull();
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';

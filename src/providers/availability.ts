@@ -59,6 +59,9 @@ export const providerAvailability = [
       target.searchParams.set('view', 'grid');
       return target.href;
     } },
+  { id: 'cgtrader', name: 'CGTrader', classification: 'D', mode: 'direct-search', tier: 'general',
+    reason: 'Aggregation unavailable pending approved API access suitable for a public browser extension.',
+    searchUrl: (query: string) => `https://www.cgtrader.com/search?keywords=${encodeURIComponent(normalizeQuery(query))}` },
   { id: 'myminifactory', name: 'MyMiniFactory', classification: 'B', mode: 'remote-api', tier: 'general',
     reason: 'Official API search with your API key.',
     createProvider: createMyMiniFactoryProvider,

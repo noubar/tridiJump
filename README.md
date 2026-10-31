@@ -8,7 +8,7 @@ The V1 application includes a search popup, progressive results grid, and settin
 Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
 using your own local credentials. Unconfigured providers show Setup required;
 configured providers send actual searches and append normalized cards. Native
-search remains available for all nine repositories. See the
+search remains available for all ten repositories. See the
 [live enablement review](docs/live-provider-enablement.md) for each access path,
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
@@ -67,12 +67,15 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 | --- | --- | --- |
 | **Works immediately** | Printables, Sketchfab, NASA 3D | Enable and search; no credentials. NASA is a bundled local specialist catalog and starts disabled by default; Sketchfab uses its official public Data API v3. |
 | **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse, Smithsonian 3D | Obtain your own free provider credentials and save them in Settings. Smithsonian is a specialist museum/cultural-heritage source. |
-| **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
+| **Direct-search fallback** | MakerWorld, Thangs, CGTrader | Use the native Search directly link; models from these sources are not aggregated. CGTrader is **Direct Search** while official API access is investigated separately. |
 
 See [supported repositories and credential setup](docs/supported-repositories.md)
 for official onboarding links, fields and verification limits. Use only free API
 access; current new-account key issuance is not independently confirmed for every
 provider. If API access requires payment, use native search instead.
+
+**CGTrader — Direct Search:** tridiJump opens CGTrader's normal search page with
+the original query. It does not call the CGTrader API or aggregate CGTrader cards.
 
 Authenticated APIs require their own account/application credentials even when
 native website search is public. tridiJump does not provide or proxy credentials
@@ -367,7 +370,7 @@ adapter or reading its credentials. The results
 page supplies four authenticated providers and the anonymous Printables and Sketchfab providers.
 Credential loading is covered by
 cancellation and provider timeout; a superseded or timed-out read cannot launch
-a request. MakerWorld and Thangs use native fallback, with their
+a request. MakerWorld, Thangs and CGTrader use native fallback, with their
 limitations documented separately. They are not counted as successful API searches.
 
 See the [credential security audit](docs/credential-security-audit.md) for the

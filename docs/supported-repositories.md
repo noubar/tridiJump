@@ -14,6 +14,12 @@ Native **Search directly** links remain available for every enabled repository.
 | Smithsonian 3D | **Requires free provider setup** | Your api.data.gov key. Specialist museum and cultural-heritage 3D search through the official Smithsonian Open Access API. |
 | MakerWorld | **Direct-search fallback** | Opens native search; no aggregation interface has been verified for this implementation. |
 | Thangs | **Direct-search fallback** | Opens native search; no appropriate public catalog interface has been established and the investigation records scraping restrictions. |
+| CGTrader | **Direct-search fallback** | Opens CGTrader's native search with the original query. Official API aggregation remains blocked pending approved public-client access. |
+
+CGTrader's direct-search link is included in the production provider list, but
+it does not produce aggregated cards. Its official API requires authenticated access, describes API
+keys as privileged secrets, and does not document a secretless public-client or
+PKCE flow for browser extensions. See the [CGTrader feasibility report](providers/cgtrader.md).
 
 “Requires free provider setup” means tridiJump supports your own free API access;
 it does not supply keys or guarantee that every new account can obtain one today.

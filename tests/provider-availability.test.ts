@@ -49,9 +49,9 @@ describe('provider classification and native fallbacks', () => {
     }
   });
 
-  it('connects two anonymous APIs, one local catalog and four user-key APIs, retaining two fallbacks', () => {
+  it('connects two anonymous APIs, one local catalog and four user-key APIs, retaining three fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
-      'cults3d', 'makerworld', 'myminifactory', 'nasa', 'printables', 'sketchfab', 'smithsonian', 'thangs', 'thingiverse',
+      'cgtrader', 'cults3d', 'makerworld', 'myminifactory', 'nasa', 'printables', 'sketchfab', 'smithsonian', 'thangs', 'thingiverse',
     ]);
     for (const source of providerAvailability) {
       expect(source.classification).toBe(['printables', 'sketchfab', 'nasa'].includes(source.id) ? 'A' : ['cults3d', 'myminifactory', 'thingiverse', 'smithsonian'].includes(source.id) ? 'B' : 'D');
@@ -78,9 +78,25 @@ describe('provider classification and native fallbacks', () => {
       expect(decodeURIComponent(url.pathname.slice('/search/'.length))).toBe(query);
       expect(url.searchParams.get('scope')).toBe('thangs');
     } else {
-      const parameter = source.id === 'myminifactory' ? 'query' : source.id === 'makerworld' ? 'keyword' : source.id === 'smithsonian' ? 'edan_q' : 'q';
+      const parameter = source.id === 'myminifactory' ? 'query' : source.id === 'makerworld' ? 'keyword'
+        : source.id === 'smithsonian' ? 'edan_q' : source.id === 'cgtrader' ? 'keywords' : 'q';
       expect(url.searchParams.get(parameter)).toBe(query);
     }
     for (const parameter of ['apiKey', 'key', 'token', 'access_token', 'password']) expect(url.searchParams.has(parameter)).toBe(false);
+  });
+
+  it('keeps CGTrader direct-only and builds its exact safely encoded native URL', () => {
+    const source = providerAvailability.find((value) => value.id === 'cgtrader')!;
+    expect(source).toMatchObject({ id: 'cgtrader', name: 'CGTrader', classification: 'D', mode: 'direct-search', tier: 'general' });
+    expect('createProvider' in source).toBe(false);
+    expect(source.searchUrl('car door')).toBe('https://www.cgtrader.com/search?keywords=car%20door');
+    expect(source.searchUrl('gear & wheel/axle?')).toBe('https://www.cgtrader.com/search?keywords=gear%20%26%20wheel%2Faxle%3F');
+  });
+
+  it('does not change the existing MakerWorld and Thangs direct-search URLs', () => {
+    const makerworld = providerAvailability.find((value) => value.id === 'makerworld')!;
+    const thangs = providerAvailability.find((value) => value.id === 'thangs')!;
+    expect(makerworld.searchUrl('car door')).toBe('https://makerworld.com/en/search/models?keyword=car+door');
+    expect(thangs.searchUrl('car door')).toBe('https://thangs.com/search/car%20door?scope=thangs&view=grid');
   });
 });

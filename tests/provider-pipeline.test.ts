@@ -69,6 +69,6 @@ describe('actual Settings and Results entries (only extension storage and HTTP m
     for (const link of links) { expect(link.target).toBe('_blank'); expect(link.rel).toBe('noopener noreferrer'); }
     expect(document.body.innerHTML).not.toContain('FAKE-PIPELINE');
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(document.querySelectorAll('#native-searches a')).toHaveLength(5);
+    expect(document.querySelectorAll('#native-searches a')).toHaveLength(6);
   });
 });

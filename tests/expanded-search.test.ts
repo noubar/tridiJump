@@ -105,10 +105,13 @@ it('ON progressively inserts bounded variants, deduplicates cards, retains origi
   }
   expect(document.querySelectorAll('[data-status="setup-required"]')).toHaveLength(4);
   const links = [...document.querySelectorAll<HTMLAnchorElement>('#native-searches a')];
-  expect(links).toHaveLength(7);
+  expect(links).toHaveLength(8);
   expect(links.every((link) => decodeURIComponent(link.href).includes('gear'))).toBe(true);
   expect(document.querySelector('#fallback-status')!.textContent).toContain('MakerWorld: direct search only');
   expect(document.querySelector('#fallback-status')!.textContent).toContain('Thangs: direct search only');
+  expect(document.querySelector('#fallback-status')!.textContent).toContain('CGTrader: direct search only');
+  expect(document.querySelector<HTMLAnchorElement>('[data-provider-id="cgtrader"]')!.href)
+    .toBe('https://www.cgtrader.com/search?keywords=gear');
   await more();
   expect(requests).toHaveLength(5); // Exactly one continuation, not four.
   for (const id of ['cults3d', 'thingiverse', 'myminifactory', 'smithsonian']) {

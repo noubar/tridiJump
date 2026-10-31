@@ -53,13 +53,13 @@ remains local and is not an encrypted credential vault.
 | `https://3d-api.si.edu/content/...` | Public thumbnail URL returned by Smithsonian | None | Optional lazy cover display |
 | Packaged NASA catalog | Search text remains inside the extension | None | Enabled NASA search / Load more; no network request |
 | API-returned HTTPS image hosts | Other providers' cover images | No application API credentials | Optional lazy cover display |
-| Nine repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
+| Ten repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
 | Original model pages on their respective repository hosts | Model URL | No application API credentials | Only when the user opens a card |
 | Official provider documentation / account setup pages | Ordinary navigation | No application API credentials | Only when the user follows a Settings/documentation link |
 
 Native search destinations are `www.printables.com`, `makerworld.com`,
 `www.thingiverse.com`, `thangs.com`, `www.myminifactory.com`, `cults3d.com` and
-`sketchfab.com`, `3d.si.edu` and NASA's official GitHub repository.
+`sketchfab.com`, `3d.si.edu`, `www.cgtrader.com` and NASA's official GitHub repository.
 Model adapters restrict model links to their own expected repository hostnames.
 Authenticated adapters accept safe HTTPS thumbnail URLs returned by their API;
 their image hosts are not a finite bundled allowlist. Images can redirect and

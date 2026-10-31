@@ -112,7 +112,7 @@ The existing orchestrator searches each enabled provider independently. Within
 one provider it searches the original and then remaining variant first pages
 sequentially, appending results progressively. Setup-required stops that provider
 after one credential check, so expanded variants never multiply its requests.
-Disabled providers do not execute. MakerWorld and Thangs remain direct-search
+Disabled providers do not execute. MakerWorld, Thangs and CGTrader remain direct-search
 fallbacks and receive only the original query in their links.
 
 Each variant retains independent continuation state. Load more remains
