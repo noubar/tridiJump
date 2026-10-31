@@ -71,16 +71,20 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   }
   for (const [value, label] of SORTS) sort.add(option(label, value));
 
-  function syncRepositoryGroups(disabledProviderIds: ReadonlySet<string> = new Set()) {
+  function syncRepositoryGroups(disabledProviderIds: ReadonlySet<string> = new Set(), preserveLoadedSelection = false) {
     const previouslyDisabled = disabledIds;
     disabledIds = new Set(disabledProviderIds);
+    let count = 0;
     for (const source of sources) {
       const id = source.provider.id;
       const label = repositoryLabels.get(id)!;
       const checkbox = repositoryCheckboxes.get(id)!;
       if (disabledIds.has(id)) {
-        selected.delete(id);
-        checkbox.checked = false;
+        count++;
+        if (!preserveLoadedSelection) {
+          selected.delete(id);
+          checkbox.checked = false;
+        }
         checkbox.disabled = true;
         disabledRepositories.append(label);
       } else {
@@ -92,7 +96,6 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
         repositories.append(label);
       }
     }
-    const count = disabledIds.size;
     disabledRepositorySection.hidden = count === 0;
     disabledRepositorySection.querySelector('summary')!.textContent = `Disabled repositories (${count})`;
   }
@@ -197,7 +200,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
     loadMore.disabled = true;
     void (options.readDisabledProviders?.() ?? Promise.resolve(undefined)).then((disabled) => {
       if (current === version) {
-        if (disabled) syncRepositoryGroups(disabled);
+        if (disabled) syncRepositoryGroups(disabled, true);
         runner.loadMore(disabled);
       }
     }, () => {
@@ -212,7 +215,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       syncRepositoryGroups(disabledProviderIds);
       runner.start(query, sources.map((source) => source.provider), { disabledProviderIds, expandedQueries });
     },
-    loadMore(disabledProviderIds?: ReadonlySet<string>) { if (disabledProviderIds) syncRepositoryGroups(disabledProviderIds); runner.loadMore(disabledProviderIds); },
+    loadMore(disabledProviderIds?: ReadonlySet<string>) { if (disabledProviderIds) syncRepositoryGroups(disabledProviderIds, true); runner.loadMore(disabledProviderIds); },
     cancel() { version++; runner.cancel(); },
   };
 }

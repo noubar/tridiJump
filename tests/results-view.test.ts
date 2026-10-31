@@ -249,6 +249,33 @@ describe('progressive results UI', () => {
     expect(titles()).toEqual(['A', 'B']);
   });
 
+  it('moves search-disabled providers into a collapsed section and restores them after Settings enables them', async () => {
+    const view = createResultsView(query('main'), [
+      { name: 'A', provider: provider('a', 10, [model('A')]) },
+      { name: 'B', provider: provider('b', 10, [model('B', 'b')]) },
+    ]);
+    view.search('gear', new Set(['b']));
+    await vi.advanceTimersByTimeAsync(10);
+    expect(document.querySelectorAll('#repository-options input')).toHaveLength(1);
+    const section = query<HTMLDetailsElement>('#disabled-repository-section');
+    expect(section.hidden).toBe(false);
+    expect(section.open).toBe(false);
+    expect(section.querySelector('summary')!.textContent).toBe('Disabled repositories (1)');
+    const disabled = query<HTMLInputElement>('#disabled-repository-options input[value="b"]');
+    expect(disabled.disabled).toBe(true);
+    expect(disabled.checked).toBe(false);
+    expect(query('#provider-status').textContent).toContain('B: disabled');
+    expect(titles()).toEqual(['A']);
+
+    view.search('gear', new Set());
+    expect(section.hidden).toBe(true);
+    const restored = query<HTMLInputElement>('#repository-options input[value="b"]');
+    expect(restored.disabled).toBe(false);
+    expect(restored.checked).toBe(true);
+    await vi.advanceTimersByTimeAsync(10);
+    expect(titles()).toEqual(['A', 'B']);
+  });
+
   it('filters free/paid and available formats, excluding unknown values only when filtered', async () => {
     const view = createResultsView(query('main'), [{ name: 'A', provider: provider('a', 10, [
       model('Free', 'a', { isFree: true, formats: ['stl'] }),
