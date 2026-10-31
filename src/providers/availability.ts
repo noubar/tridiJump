@@ -6,6 +6,7 @@ import { createThingiverseProvider } from './thingiverse';
 import { createPrintablesProvider } from './printables';
 import { createSketchfabProvider } from './sketchfab';
 import { createSmithsonianProvider } from './smithsonian';
+import { createNasaProvider } from './nasa';
 
 // Current V1 disposition, not a claim that these services have no APIs at all.
 // Packaged composition only, never a remote/declarative authentication registry.
@@ -29,6 +30,16 @@ export const providerAvailability = [
     reason: 'Official Open Access API 3D search with your free api.data.gov API key.',
     createProvider: createSmithsonianProvider,
     searchUrl: (query: string) => queryUrl('https://3d.si.edu/search', 'edan_q', query) },
+  { id: 'nasa', name: 'NASA 3D', classification: 'A', mode: 'local-catalog', tier: 'specialist',
+    defaultEnabled: false,
+    reason: 'Bundled catalog generated from the pinned official NASA 3D Resources repository; searches stay local.',
+    createProvider: createNasaProvider,
+    searchUrl: (query: string) => {
+      const target = new URL('https://github.com/nasa/NASA-3D-Resources/search');
+      target.searchParams.set('q', normalizeQuery(query));
+      target.searchParams.set('type', 'code');
+      return target.href;
+    } },
   { id: 'makerworld', name: 'MakerWorld', classification: 'D', mode: 'direct-search', tier: 'general',
     reason: 'Aggregation unavailable: no supported public search interface verified.',
     searchUrl: (query: string) => queryUrl('https://makerworld.com/en/search/models', 'keyword', query) },

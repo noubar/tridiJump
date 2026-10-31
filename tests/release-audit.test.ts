@@ -26,7 +26,7 @@ it.each(['cap\ud800 lid', '\udc00 holder'])('repairs malformed Unicode instead o
   for (const source of providerAvailability) expect(() => source.searchUrl(query)).not.toThrow();
 });
 
-it('first-run popup counts anonymous providers as ready without reading nonexistent credentials', async () => {
+it('first-run popup counts anonymous and local providers as ready without reading nonexistent credentials', async () => {
   const storage = mockExtensionStorage();
   document.body.innerHTML = popup.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
   await import('../src/popup/main');

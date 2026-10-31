@@ -131,7 +131,7 @@ it('does not execute disabled providers or check their credentials even with act
   storage.data['tridijump.repositories'] = { printables: false, sketchfab: false, thingiverse: false };
   installFetch(); await start();
   expect(requests).toHaveLength(0);
-  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(4);
+  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(5);
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.thingiverse')).toBe(false);
   expect(document.querySelector('#native-searches a[data-provider-id="printables"]')).toBeNull();
 });

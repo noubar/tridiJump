@@ -166,6 +166,7 @@ describe('production Settings and entry pages', () => {
   });
   it('uses changed repository choices and credential removal on subsequent searches in the same Results tab', async () => {
     await setRepositoryEnabled('smithsonian', false);
+    await setRepositoryEnabled('nasa', false);
     for (const source of authenticated) await saveCredentials(source.id, source.createProvider().credentialFields!, fakeValues);
     await setRepositoryEnabled('thingiverse', false);
     const request = vi.fn(async (endpoint: string) => {

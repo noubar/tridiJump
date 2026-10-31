@@ -8,7 +8,7 @@ The V1 application includes a search popup, progressive results grid, and settin
 Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
 using your own local credentials. Unconfigured providers show Setup required;
 configured providers send actual searches and append normalized cards. Native
-search remains available for all eight repositories. See the
+search remains available for all nine repositories. See the
 [live enablement review](docs/live-provider-enablement.md) for each access path,
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
@@ -37,6 +37,13 @@ cultural-heritage source through the official Open Access API. It requires the
 user's own free api.data.gov API key in Settings. Search results open official 3D
 Voyager pages; tridiJump does not download Smithsonian model files.
 
+V2 also adds [NASA 3D](docs/providers/nasa.md) as a credential-free specialist
+source. Search runs entirely against a bundled catalog generated from NASA's
+official 3D Resources repository at a pinned commit. NASA searches therefore
+make no network request; opening a card navigates to its official NASA resource
+directory. Only records from NASA's official `3D Printing` collection are marked
+3D-printable, while records from `3D Models` retain unknown printability.
+
 The V1 release blockers recorded by the historical audit were subsequently
 resolved: Expanded Search is implemented, live pagination acceptance is complete,
 and the MyMiniFactory credential policy records its narrow documented URL-key
@@ -58,7 +65,7 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 
 | Availability | Repositories | How to use |
 | --- | --- | --- |
-| **Works immediately** | Printables, Sketchfab | Enable and search; no credentials. Sketchfab uses its official public Data API v3. |
+| **Works immediately** | Printables, Sketchfab, NASA 3D | Enable and search; no credentials. NASA is a bundled local specialist catalog and starts disabled by default; Sketchfab uses its official public Data API v3. |
 | **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse, Smithsonian 3D | Obtain your own free provider credentials and save them in Settings. Smithsonian is a specialist museum/cultural-heritage source. |
 | **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
 

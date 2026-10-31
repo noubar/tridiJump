@@ -1,9 +1,26 @@
-# Third-party lexical data notices
+# Third-party data notices
 
 tridiJump is GPL-3.0-or-later software. The following bundled lexical data keeps
 its own license and attribution. tridiJump converts the sources into compact,
 chunked lookup indexes; it does not claim authorship of the underlying lexical
 records.
+
+## NASA 3D Resources metadata
+
+- Project: NASA 3D Resources
+- Official source: <https://github.com/nasa/NASA-3D-Resources>
+- Pinned commit: `11ebb4ee043715aefbba6aeec8a61746fad67fa7`
+- Snapshot date: 2026-10-31
+- Usage guidance: <https://www.nasa.gov/nasa-brand-center/images-and-media/>
+
+tridiJump bundles a derived metadata catalog containing resource titles,
+classification, formats found in official file names, official resource links,
+and a small number of official readme descriptions. It does not bundle NASA 3D
+models, textures, thumbnails, insignia, logotypes or other model assets. Result
+cards retain NASA attribution and link to the pinned official resource directory.
+NASA notes that its media is generally not subject to copyright in the United
+States, but third-party material and NASA identifiers can have separate
+restrictions; the official usage guidance remains authoritative.
 
 ## Open English WordNet 2025 core
 

@@ -32,6 +32,12 @@ export interface ModelResult {
   views?: number;
   comments?: number;
   isDownloadable?: boolean;
+  /** True only when the provider explicitly classifies the asset for 3D printing. */
+  is3DPrintable?: boolean;
+  /** Provider-local asset classification, when explicitly supplied. */
+  assetType?: string;
+  /** Source credit retained from official metadata. */
+  attribution?: string;
   /** Provider-supplied license label or identifier. */
   license?: string;
   /** Exact search term that found this result, including an expanded term. */

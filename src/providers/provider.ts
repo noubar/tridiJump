@@ -14,7 +14,7 @@ export interface ResultPage {
 export interface Provider {
   /** Stable identifier matching providerId on every returned result. */
   id: string;
-  /** Retrieval mode metadata; packaged adapters use remote-api. */
+  /** Retrieval mode metadata for remote adapters and bundled local catalogs. */
   mode?: ProviderMode;
   /** Descriptive packaged grouping only; does not affect search execution. */
   tier?: ProviderTier;

@@ -7,6 +7,7 @@ Native **Search directly** links remain available for every enabled repository.
 | --- | --- | --- |
 | Printables | **Works immediately** | Enable the repository and search. No account or API credential is required by tridiJump. Anonymous search/cards, a tested model link and cover images were live verified by the user. |
 | Sketchfab | **Works immediately** | Official Data API v3 public model search. No account or API credential is required. Anonymous search and cursor pagination were agent-live-verified on 2026-10-31. |
+| NASA 3D | **Works immediately once enabled** | Bundled specialist catalog generated from the official NASA 3D Resources repository. It starts disabled by default; search is local and requires no credential or runtime request. |
 | Cults3D | **Requires free provider setup** | Your Cults3D nickname and a read-only API key. |
 | MyMiniFactory | **Requires free provider setup** | Your application's MyMiniFactory API key. |
 | Thingiverse | **Requires free provider setup** | Your application's Thingiverse App Token. |
@@ -24,6 +25,7 @@ See the [evidence and limitations](live-provider-enablement.md) and
 [Printables verification record](provider-printables.md).
 See also the [Sketchfab integration and verification record](provider-sketchfab.md).
 See also the [Smithsonian integration and verification record](provider-smithsonian.md).
+See also the [NASA local-catalog integration record](providers/nasa.md).
 
 ## Why some providers require credentials
 

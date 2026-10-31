@@ -9,6 +9,8 @@ queries entirely locally, retaining the original. Those variants are sent only
 to the same enabled, configured model repositories as ordinary search requests.
 No translation data goes to another service. Application history and native
 fallback links retain only the original query. See [Expanded Search](docs/expanded-search.md).
+NASA 3D searches are evaluated locally against packaged metadata, including all
+Expanded Search variants. No NASA query is transmitted while searching.
 
 ## Local data
 
@@ -49,14 +51,15 @@ remains local and is not an encrypted credential vault.
 | `https://media.printables.com/...` | Cover image path returned by Printables | No application API credentials | Optional lazy cover display |
 | `https://media.sketchfab.com/...` | Public thumbnail URL returned by Sketchfab | None | Optional lazy cover display |
 | `https://3d-api.si.edu/content/...` | Public thumbnail URL returned by Smithsonian | None | Optional lazy cover display |
+| Packaged NASA catalog | Search text remains inside the extension | None | Enabled NASA search / Load more; no network request |
 | API-returned HTTPS image hosts | Other providers' cover images | No application API credentials | Optional lazy cover display |
-| Eight repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
+| Nine repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
 | Original model pages on their respective repository hosts | Model URL | No application API credentials | Only when the user opens a card |
 | Official provider documentation / account setup pages | Ordinary navigation | No application API credentials | Only when the user follows a Settings/documentation link |
 
 Native search destinations are `www.printables.com`, `makerworld.com`,
 `www.thingiverse.com`, `thangs.com`, `www.myminifactory.com`, `cults3d.com` and
-`sketchfab.com` and `3d.si.edu`.
+`sketchfab.com`, `3d.si.edu` and NASA's official GitHub repository.
 Model adapters restrict model links to their own expected repository hostnames.
 Authenticated adapters accept safe HTTPS thumbnail URLs returned by their API;
 their image hosts are not a finite bundled allowlist. Images can redirect and

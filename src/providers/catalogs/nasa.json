@@ -1,0 +1,4756 @@
+{
+  "metadata": {
+    "provider": "nasa",
+    "schemaVersion": 1,
+    "source": "https://github.com/nasa/NASA-3D-Resources",
+    "sourceCommit": "11ebb4ee043715aefbba6aeec8a61746fad67fa7",
+    "snapshotDate": "2026-10-31",
+    "sourceSha256": "2994cff5d62aa83c97141b8a67eb194975eb976314a0898706edbf482cf5af68",
+    "sourceRecordCount": 333,
+    "recordCount": 333
+  },
+  "records": [
+    {
+      "id": "model:1999-rq36-asteroid",
+      "title": "1999 RQ36 asteroid",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/1999%20RQ36%20asteroid",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:70-meter-dish",
+      "title": "70-meter Dish",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/70-meter%20Dish",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:active-cavity-irradiance-monitor-satellite-acrimsat-a",
+      "title": "Active Cavity Irradiance Monitor Satellite (AcrimSAT) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Active%20Cavity%20Irradiance%20Monitor%20Satellite%20(AcrimSAT)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:active-cavity-irradiance-monitor-satellite-acrimsat-b",
+      "title": "Active Cavity Irradiance Monitor Satellite (AcrimSAT) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Active%20Cavity%20Irradiance%20Monitor%20Satellite%20(AcrimSAT)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:advanced-composition-explorer",
+      "title": "Advanced Composition Explorer",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Advanced%20Composition%20Explorer",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:advanced-crew-escape-suit",
+      "title": "Advanced Crew Escape Suit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Advanced%20Crew%20Escape%20Suit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:advanced-technology-large-aperture-space-telescope-atlast",
+      "title": "Advanced Technology Large-Aperture Space Telescope (ATLAST)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Advanced%20Technology%20Large-Aperture%20Space%20Telescope%20(ATLAST)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aeronomy-of-ice-in-the-mesosphere",
+      "title": "Aeronomy of Ice in the Mesosphere",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aeronomy%20of%20Ice%20in%20the%20Mesosphere",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:agena-target-vehicle",
+      "title": "Agena Target Vehicle",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Agena%20Target%20Vehicle",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-11-landing-site",
+      "title": "Apollo 11 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2011%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-12-landing-site",
+      "title": "Apollo 12 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2012%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-14-landing-site",
+      "title": "Apollo 14 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2014%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-15-landing-site",
+      "title": "Apollo 15 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2015%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-16-landing-site",
+      "title": "Apollo 16 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2016%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:apollo-17-landing-site",
+      "title": "Apollo 17 - Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Apollo%2017%20-%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:apollo-lunar-module",
+      "title": "Apollo Lunar Module",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Lunar%20Module",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:apollo-soyuz",
+      "title": "Apollo Soyuz",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Soyuz",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aqua-a",
+      "title": "Aqua (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aqua%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aqua-b",
+      "title": "Aqua (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aqua%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aqua-c",
+      "title": "Aqua (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aqua%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aquarius-a",
+      "title": "Aquarius (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aquarius%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aquarius-b",
+      "title": "Aquarius (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aquarius%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ares-1-a",
+      "title": "Ares 1 (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ares%201%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ares-1-b",
+      "title": "Ares 1 (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ares%201%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:argo",
+      "title": "Argo",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Argo",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-101955-bennu",
+      "title": "Asteroid 101955 Bennu",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%20101955%20Bennu",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-1620-geographos",
+      "title": "Asteroid 1620 Geographos",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%201620%20Geographos",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-216-kleopatra",
+      "title": "Asteroid 216 Kleopatra",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%20216%20Kleopatra",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-25143-itokawa",
+      "title": "Asteroid 25143 Itokawa",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%2025143%20Itokawa",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-4-vesta-a",
+      "title": "Asteroid 4 Vesta (A)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%204%20Vesta%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-4-vesta-b",
+      "title": "Asteroid 4 Vesta (B)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%204%20Vesta%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-4179-toutatis",
+      "title": "Asteroid 4179 Toutatis",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%204179%20Toutatis",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-433-eros",
+      "title": "Asteroid 433 Eros",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%20433%20Eros",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-4486-mithra",
+      "title": "Asteroid 4486 Mithra",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%204486%20Mithra",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-6489-golevka",
+      "title": "Asteroid 6489 Golevka",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%206489%20Golevka",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:asteroid-8567-1996-hw1",
+      "title": "Asteroid 8567 1996 HW1",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Asteroid%208567%201996%20HW1",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:astronaut",
+      "title": "Astronaut",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Astronaut",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:astronaut-glove",
+      "title": "Astronaut Glove",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Astronaut%20Glove",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:atlas-6-friendship-7",
+      "title": "Atlas 6 (Friendship 7)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Atlas%206%20(Friendship%207)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:atlas-7-aurora-7",
+      "title": "Atlas 7 (Aurora 7)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Atlas%207%20(Aurora%207)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:atlas-9-faith-7",
+      "title": "Atlas 9 (Faith 7)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Atlas%209%20(Faith%207)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:atmosphere-space-transition-region-explorer-astre",
+      "title": "Atmosphere-Space Transition Region Explorer (ASTRE)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Atmosphere-Space%20Transition%20Region%20Explorer%20(ASTRE)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aura-a",
+      "title": "Aura (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aura%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aura-b",
+      "title": "Aura (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aura%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aura-c",
+      "title": "Aura (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aura%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:aura-d",
+      "title": "Aura (D)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Aura%20(D)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:base-station",
+      "title": "Base Station",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Base%20Station",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:beam-waveguide-deep-space-station-antenna",
+      "title": "Beam Waveguide Deep Space Station Antenna",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Beam%20Waveguide%20Deep%20Space%20Station%20Antenna",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ben-franklin",
+      "title": "Ben Franklin",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb",
+        "lwo"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ben%20Franklin",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:block-island",
+      "title": "Block Island",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Block%20Island",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:bp-tauri",
+      "title": "BP Tauri",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/BP%20Tauri",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:cassini",
+      "title": "Cassini",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Cassini",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassini-assembly",
+      "title": "Cassini Assembly",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassini%20Assembly",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassini-huygens-a",
+      "title": "Cassini-Huygens (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassini-Huygens%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassini-huygens-b",
+      "title": "Cassini-Huygens (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassini-Huygens%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassiopeia-a-supernova",
+      "title": "Cassiopeia A Supernova",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassiopeia%20A%20Supernova",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassiopeia-a-supernova-b-2023",
+      "title": "Cassiopeia A Supernova (B) (2023)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassiopeia%20A%20Supernova%20(B)%20(2023)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cassiopeia-a-supernova-c-2025",
+      "title": "Cassiopeia A Supernova (C) (2025)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassiopeia%20A%20Supernova%20(C)%20(2025)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:chandra-x-ray-observatory",
+      "title": "Chandra X-ray Observatory",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Chandra%20X-ray%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:chandra-x-ray-observatory",
+      "title": "Chandra X-ray Observatory",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Chandra%20X-ray%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:clementine",
+      "title": "Clementine",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Clementine",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cloud-aerosol-lidar-and-infrared-pathfinder-satellite-calipso",
+      "title": "Cloud-Aerosol Lidar and Infrared Pathfinder Satellite (CALIPSO)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cloud-Aerosol%20Lidar%20and%20Infrared%20Pathfinder%20Satellite%20(CALIPSO)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cloudsat-a",
+      "title": "CloudSat (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CloudSat%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cloudsat-b",
+      "title": "CloudSat (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CloudSat%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cloudsat-c",
+      "title": "CloudSat (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CloudSat%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cluster",
+      "title": "Cluster",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cluster",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cluster-ii",
+      "title": "Cluster II",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cluster%20II",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:communication-and-navigation-outage-forecast-system-cnofs",
+      "title": "Communication and Navigation Outage Forecast System (CNOFS)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Communication%20and%20Navigation%20Outage%20Forecast%20System%20(CNOFS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:constellation-x",
+      "title": "Constellation-X",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Constellation-X",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cosmic-origins-spectrograph",
+      "title": "Cosmic Origins Spectrograph",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cosmic%20Origins%20Spectrograph",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:crab-nebula",
+      "title": "Crab Nebula",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "glb",
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Crab%20Nebula",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:crawler",
+      "title": "Crawler",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Crawler",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:crew-lock-bag",
+      "title": "Crew Lock Bag",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Crew%20Lock%20Bag",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:cubesat",
+      "title": "CubeSat",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/CubeSat",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cubesat-1-ru-generic",
+      "title": "CubeSat - 1 RU Generic",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CubeSat%20-%201%20RU%20Generic",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cubesat-2-ru-generic",
+      "title": "CubeSat - 2 RU Generic",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CubeSat%20-%202%20RU%20Generic",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cubesat-icecube",
+      "title": "CubeSat - ICECube",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CubeSat%20-%20ICECube",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cubesat-mirata",
+      "title": "CubeSat - MiRaTa",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/CubeSat%20-%20MiRaTa",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:curiosity-landing-site",
+      "title": "Curiosity Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Curiosity%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:curiosity-rover-detailed",
+      "title": "Curiosity Rover (Detailed)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Curiosity%20Rover%20(Detailed)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:curiosity-rover-msl",
+      "title": "Curiosity Rover (MSL)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Curiosity%20Rover%20(MSL)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:curiosity-rover-simplified",
+      "title": "Curiosity Rover (Simplified)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Curiosity%20Rover%20(Simplified)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:curiosity-rover-path",
+      "title": "Curiosity Rover Path",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Curiosity%20Rover%20Path",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:curiosity-scarecrow-test-rover",
+      "title": "Curiosity Scarecrow Test Rover",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Curiosity%20Scarecrow%20Test%20Rover",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cyclone-global-navigation-satellite-system-cygnss",
+      "title": "Cyclone Global Navigation Satellite System (CYGNSS)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cyclone%20Global%20Navigation%20Satellite%20System%20(CYGNSS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:cyclone-global-navigation-satellite-system-cygnss",
+      "title": "Cyclone Global Navigation Satellite System (CYGNSS)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Cyclone%20Global%20Navigation%20Satellite%20System%20(CYGNSS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:cygnus-loop-supernova",
+      "title": "Cygnus Loop Supernova",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cygnus%20Loop%20Supernova",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:dawn",
+      "title": "Dawn",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Dawn",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deep-impact-epoxi",
+      "title": "Deep Impact (EPOXI)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deep%20Impact%20(EPOXI)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deep-space-1",
+      "title": "Deep Space 1",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deep%20Space%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deep-space-climate-observatory-dscovr-triana",
+      "title": "Deep Space Climate Observatory (DSCOVR) (Triana)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deep%20Space%20Climate%20Observatory%20(DSCOVR)%20(Triana)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deep-space-network-34-meter",
+      "title": "Deep Space Network 34-meter",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deep%20Space%20Network%2034-meter",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deep-space-network-70-meter",
+      "title": "Deep Space Network 70-meter",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deep%20Space%20Network%2070-meter",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:deformation-ecosystem-structure-and-dynamics-of-ice-desdyni",
+      "title": "Deformation, Ecosystem Structure, and Dynamics of Ice (DESDynI)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Deformation%2C%20Ecosystem%20Structure%2C%20and%20Dynamics%20of%20Ice%20(DESDynI)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:dg-tau",
+      "title": "DG Tau",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/DG%20Tau",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:double-asteroid-redirection-test-dart",
+      "title": "Double Asteroid Redirection Test (DART)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Double%20Asteroid%20Redirection%20Test%20(DART)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:earth",
+      "title": "Earth",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Earth",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:earth-observing-1-eo-1",
+      "title": "Earth Observing-1 (EO-1)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Earth%20Observing-1%20(EO-1)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:eclipse-2017",
+      "title": "Eclipse 2017",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Eclipse%202017",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:esas-crew-module",
+      "title": "ESAS Crew Module",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/ESAS%20Crew%20Module",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:eta-carinae-homunculus-nebula",
+      "title": "Eta Carinae Homunculus Nebula",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Eta%20Carinae%20Homunculus%20Nebula",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:eta-carinae-homunculus-nebula-high-mass-loss-rate",
+      "title": "Eta Carinae Homunculus Nebula (High Mass-Loss Rate)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Eta%20Carinae%20Homunculus%20Nebula%20(High%20Mass-Loss%20Rate)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:eta-carinae-homunculus-nebula-low-mass-loss-rate",
+      "title": "Eta Carinae Homunculus Nebula (Low Mass-Loss Rate)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Eta%20Carinae%20Homunculus%20Nebula%20(Low%20Mass-Loss%20Rate)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:europa-orbiter",
+      "title": "Europa Orbiter",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Europa%20Orbiter",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:explorer-1",
+      "title": "Explorer 1",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Explorer%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:explorer-jupiter-c-rocket",
+      "title": "Explorer Jupiter-C Rocket",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Explorer%20Jupiter-C%20Rocket",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:extravehicular-mobility-unit",
+      "title": "Extravehicular Mobility Unit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Extravehicular%20Mobility%20Unit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:fablab",
+      "title": "Fablab",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Fablab",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:far-ultraviolet-spectroscopic-explorer",
+      "title": "Far Ultraviolet Spectroscopic Explorer",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Far%20Ultraviolet%20Spectroscopic%20Explorer",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:fermi-gamma-ray-large-area-space-telescope",
+      "title": "Fermi Gamma-ray Large Area Space Telescope",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Fermi%20Gamma-ray%20Large%20Area%20Space%20Telescope",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:firefly",
+      "title": "Firefly",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Firefly",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:flight-system-support",
+      "title": "Flight System Support",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Flight%20System%20Support",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:g292-0-1-8-supernova-remnant",
+      "title": "G292.0+1.8 Supernova Remnant",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/G292.0%2B1.8%20Supernova%20Remnant",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:gale-crater",
+      "title": "Gale Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Gale%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:galileo",
+      "title": "Galileo",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Galileo",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:galileo",
+      "title": "Galileo",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Galileo",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gamma-ray-observatory",
+      "title": "Gamma Ray Observatory",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gamma%20Ray%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gantry",
+      "title": "Gantry",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gantry",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gateway",
+      "title": "Gateway",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gateway",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gemini",
+      "title": "Gemini",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gemini",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gemini-spacesuit",
+      "title": "Gemini Spacesuit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gemini%20Spacesuit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:geostationary-operational-environmental-satellites",
+      "title": "Geostationary Operational Environmental Satellites",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Geostationary%20Operational%20Environmental%20Satellites",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:geotailsat",
+      "title": "GeoTailSAT",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/GeoTailSAT",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:global-hawk",
+      "title": "Global Hawk",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Global%20Hawk",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:global-precipitation-measurement",
+      "title": "Global Precipitation Measurement",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Global%20Precipitation%20Measurement",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gravity-recovery-and-climate-experiment-grace-a",
+      "title": "Gravity Recovery and Climate Experiment (GRACE) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gravity%20Recovery%20and%20Climate%20Experiment%20(GRACE)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:gravity-recovery-and-climate-experiment-grace-b",
+      "title": "Gravity Recovery and Climate Experiment (GRACE) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gravity%20Recovery%20and%20Climate%20Experiment%20(GRACE)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:grease-gun",
+      "title": "Grease Gun",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Grease%20Gun",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:habitat-demonstration-unit",
+      "title": "Habitat Demonstration Unit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Habitat%20Demonstration%20Unit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hammer",
+      "title": "Hammer",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hammer",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:headquarters-building",
+      "title": "Headquarters Building",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Headquarters%20Building",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:helmet",
+      "title": "Helmet",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Helmet",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hessi-rhessi",
+      "title": "HESSI-RHESSI",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/HESSI-RHESSI",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:high-energy-transient-explorer",
+      "title": "High Energy Transient Explorer",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/High%20Energy%20Transient%20Explorer",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hinode-solar-b",
+      "title": "Hinode (Solar-B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hinode%20(Solar-B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hubble-25th-anniversary-medallion",
+      "title": "Hubble 25th Anniversary Medallion",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hubble%2025th%20Anniversary%20Medallion",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hubble-25th-anniversary-model",
+      "title": "Hubble 25th Anniversary Model",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hubble%2025th%20Anniversary%20Model",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hubble-sm4-carriers",
+      "title": "Hubble SM4 Carriers",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "3ds"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hubble%20SM4%20Carriers",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hubble-space-telescope",
+      "title": "Hubble Space Telescope",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hubble%20Space%20Telescope",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hubble-space-telescope-a",
+      "title": "Hubble Space Telescope (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hubble%20Space%20Telescope%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:hubble-space-telescope-b",
+      "title": "Hubble Space Telescope (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hubble%20Space%20Telescope%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hurricane-julio",
+      "title": "Hurricane Julio",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hurricane%20Julio",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hurricane-katrina",
+      "title": "Hurricane Katrina",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hurricane%20Katrina",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:hurricane-sandy",
+      "title": "Hurricane Sandy",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Hurricane%20Sandy",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:ic-443-jellyfish-nebula",
+      "title": "IC 443 (Jellyfish Nebula)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/IC%20443%20(Jellyfish%20Nebula)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ice-clouds-and-land-elevation-satellite-icesat-a",
+      "title": "Ice, Clouds, and Land Elevation Satellite (ICESat) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ice%2C%20Clouds%2C%20and%20Land%20Elevation%20Satellite%20(ICESat)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ice-clouds-and-land-elevation-satellite-icesat-b",
+      "title": "Ice, Clouds, and Land Elevation Satellite (ICESat) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ice%2C%20Clouds%2C%20and%20Land%20Elevation%20Satellite%20(ICESat)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ice-clouds-and-land-elevation-satellite-2-icesat-2-a",
+      "title": "Ice, Clouds, and Land Elevation Satellite-2 (ICESat-2) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ice%2C%20Clouds%2C%20and%20Land%20Elevation%20Satellite-2%20(ICESat-2)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ice-clouds-and-land-elevation-satellite-2-icesat-2-b",
+      "title": "Ice, Clouds, and Land Elevation Satellite-2 (ICESat-2) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ice%2C%20Clouds%2C%20and%20Land%20Elevation%20Satellite-2%20(ICESat-2)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ice-clouds-and-land-elevation-satellite-2-icesat-2-c",
+      "title": "Ice, Clouds, and Land Elevation Satellite-2 (ICESat-2) (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ice%2C%20Clouds%2C%20and%20Land%20Elevation%20Satellite-2%20(ICESat-2)%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:infrared-camera",
+      "title": "Infrared Camera",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Infrared%20Camera",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ingenuity-mars-helicopter",
+      "title": "Ingenuity Mars Helicopter",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ingenuity%20Mars%20Helicopter",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:insight-cruise-lander",
+      "title": "InSight Cruise Lander",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/InSight%20Cruise%20Lander",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:insight-cruise-stage",
+      "title": "InSight Cruise Stage",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/InSight%20Cruise%20Stage",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-space-station-iss-a",
+      "title": "International Space Station (ISS) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-space-station-iss-b",
+      "title": "International Space Station (ISS) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-space-station-iss-c-high-res",
+      "title": "International Space Station (ISS) (C) (High Res)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(C)%20(High%20Res)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-space-station-iss-d-igoal",
+      "title": "International Space Station (ISS) (D) (IGOAL)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(D)%20(IGOAL)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-space-station-iss-e-internal",
+      "title": "International Space Station (ISS) (E) (Internal)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(E)%20(Internal)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:international-space-station-tools",
+      "title": "International Space Station Tools",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/International%20Space%20Station%20Tools",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:international-sun-earth-explorer-3",
+      "title": "International Sun-Earth Explorer-3",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/International%20Sun-Earth%20Explorer-3",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:international-x-ray-observatory",
+      "title": "International X-ray Observatory",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20X-ray%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:interstellar-boundary-explorer-ibex",
+      "title": "Interstellar Boundary Explorer (IBEX)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Interstellar%20Boundary%20Explorer%20(IBEX)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ionospheric-connection-explorer-icon",
+      "title": "Ionospheric Connection Explorer (ICON)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ionospheric%20Connection%20Explorer%20(ICON)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:james-webb-space-telescope",
+      "title": "James Webb Space Telescope",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/James%20Webb%20Space%20Telescope",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:james-webb-space-telescope-a",
+      "title": "James Webb Space Telescope (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/James%20Webb%20Space%20Telescope%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:james-webb-space-telescope-b",
+      "title": "James Webb Space Telescope (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/James%20Webb%20Space%20Telescope%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:james-webb-space-telescope-mirror",
+      "title": "James Webb Space Telescope (Mirror)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/James%20Webb%20Space%20Telescope%20(Mirror)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:jason-1",
+      "title": "Jason 1",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Jason%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:jason-continuity-of-service-sentinel-6",
+      "title": "Jason Continuity of Service (Sentinel-6)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Jason%20Continuity%20of%20Service%20(Sentinel-6)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:jsc-mission-control-room",
+      "title": "JSC Mission Control Room",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/JSC%20Mission%20Control%20Room",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:juno-a",
+      "title": "Juno (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Juno%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:juno-b",
+      "title": "Juno (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Juno%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:ka-band-satellite-beacon-receiver",
+      "title": "Ka-Band Satellite Beacon Receiver",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "description": "Assembly Instructions – 1. Attach the bottom of the Post to the display Base using glue (super glue will work). Display base is optional for added stability. 2. Attach the Positioner Arm to the Positioner Body to create the antenna positioning unit (do not use glue yet -- this joint sets antenna elevation). 3. Attach the Positioner Body to the top of the Post (do not use glue yet – this joint sets antenna azimuth). 4. Attach the Ka-Band Reflector Mount to the Positioner Arm using the two pegs on the bottom of the Reflector Mount and the two holes centered on the top of the Positioner Arm (glue required). 5. Insert the Antenna Feed through the front of the Ka-Band Reflector, and then through the center hole on the front of the Ka-Band Reflector Mount to attach the reflector to the mount (glue not required). 6. Attach the RF Electronics Box to the back of the Antenna Feed on top of the Ka-Band Reflector Mount (glue optional). a. Note: the RF Electronics box has a finned heatsink on the b",
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Ka-Band%20Satellite%20Beacon%20Receiver",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:kepler-a",
+      "title": "Kepler (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Kepler%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:kepler-b",
+      "title": "Kepler (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Kepler%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:kepler-1-33-scale",
+      "title": "Kepler 1-33 scale",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "description": "The Kepler Mission, NASA Discovery mission #10, is specifically designed to survey a portion of our region of the Milky Way galaxy to discover dozens of Earth-size planets in or near the habitable zone and determine how many of the billions of stars in our galaxy have such planets. Printable files are of Kepler spacecraft in a configuration which they may be assembled. This model was created for educational purposes, and as such files are scaled for durability where appropriate. The overall assembly is roughly at 1/33 scale Recommended print settings: -Solid print density -Soluble support structure -Existing file orientation (printer varying) Reference files can be found at: http://kepler.nasa.gov/images/3d/ The following software was used to create the printable files: -Blender 2.77 -NetFabb Private 5.2 Credits -Kepler team -Charlie Sobeck -Wendy Stenzel -NASA Ames SpaceShop Rapid Prototyping Facility -Randall Ticknor -Alex Mazhari",
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Kepler%201-33%20scale",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:landsat-1-2-and-3",
+      "title": "Landsat 1, 2, and 3",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Landsat%201%2C%202%2C%20and%203",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:landsat-4-and-5",
+      "title": "Landsat 4 and 5",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Landsat%204%20and%205",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:landsat-7",
+      "title": "Landsat 7",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Landsat%207",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:landsat-8",
+      "title": "Landsat 8",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Landsat%208",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:landsat-9",
+      "title": "Landsat 9",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Landsat%209",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:laser-interferometer-space-antenna-lisa",
+      "title": "Laser Interferometer Space Antenna (LISA)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Laser%20Interferometer%20Space%20Antenna%20(LISA)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:laser-interferometer-space-antenna-lisa-2006",
+      "title": "Laser Interferometer Space Antenna (LISA) (2006)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Laser%20Interferometer%20Space%20Antenna%20(LISA)%20(2006)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:linne-crater",
+      "title": "Linne Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Linne%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:lunar-atmosphere-and-dust-environment-explorer-ladee",
+      "title": "Lunar Atmosphere and Dust Environment Explorer (LADEE)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Lunar%20Atmosphere%20and%20Dust%20Environment%20Explorer%20(LADEE)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:lunar-laser-communications-demonstration-llcd",
+      "title": "Lunar Laser Communications Demonstration (LLCD)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Lunar%20Laser%20Communications%20Demonstration%20(LLCD)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:lunar-reconnaissance-orbiter-a",
+      "title": "Lunar Reconnaissance Orbiter (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Lunar%20Reconnaissance%20Orbiter%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:lunar-reconnaissance-orbiter-b",
+      "title": "Lunar Reconnaissance Orbiter (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Lunar%20Reconnaissance%20Orbiter%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:magellan",
+      "title": "Magellan",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Magellan",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:magnetospheric-multiscale-mms-a",
+      "title": "Magnetospheric Multiscale (MMS) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Magnetospheric%20Multiscale%20(MMS)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:magnetospheric-multiscale-mms-b",
+      "title": "Magnetospheric Multiscale (MMS) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Magnetospheric%20Multiscale%20(MMS)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mark-iii-spacesuit",
+      "title": "Mark III Spacesuit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mark%20III%20Spacesuit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-gale-crater",
+      "title": "Mars - Gale Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Gale%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-pahrump-hills",
+      "title": "Mars - Pahrump Hills",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Pahrump%20Hills",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-spirit-landing-site",
+      "title": "Mars - Spirit Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Spirit%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-spirit-rover-path",
+      "title": "Mars - Spirit Rover Path",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Spirit%20Rover%20Path",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-tharsis",
+      "title": "Mars - Tharsis",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Tharsis",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-valles-marineris",
+      "title": "Mars - Valles Marineris",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Valles%20Marineris",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-valles-marineris-b",
+      "title": "Mars - Valles Marineris (B)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Valles%20Marineris%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-valles-marineris-c",
+      "title": "Mars - Valles Marineris (C)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Valles%20Marineris%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-victoria-crater",
+      "title": "Mars - Victoria Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20-%20Victoria%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-2020-5-inch-wheel",
+      "title": "Mars 2020 5 inch wheel",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%202020%205%20inch%20wheel",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-2020-perseverance-rover",
+      "title": "Mars 2020 Perseverance Rover",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%202020%20Perseverance%20Rover",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-2020-perseverance-rover",
+      "title": "Mars 2020 Perseverance Rover",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%202020%20Perseverance%20Rover",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-2020-sample-tube",
+      "title": "Mars 2020 sample tube",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%202020%20sample%20tube",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-atmosphere-and-volatile-evolution-maven-a",
+      "title": "Mars Atmosphere and Volatile EvolutioN (MAVEN) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Atmosphere%20and%20Volatile%20EvolutioN%20(MAVEN)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-atmosphere-and-volatile-evolution-maven-b",
+      "title": "Mars Atmosphere and Volatile EvolutioN (MAVEN) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Atmosphere%20and%20Volatile%20EvolutioN%20(MAVEN)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-exploration-rover-opportunity-mer-b",
+      "title": "Mars Exploration Rover - Opportunity (MER-B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Exploration%20Rover%20-%20Opportunity%20(MER-B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-exploration-rover-spirit-and-opportunity",
+      "title": "Mars Exploration Rover - Spirit and Opportunity",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Exploration%20Rover%20-%20Spirit%20and%20Opportunity",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-global-surveyor",
+      "title": "Mars Global Surveyor",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Global%20Surveyor",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-odyssey",
+      "title": "Mars Odyssey",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Odyssey",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:mars-reconnaissance-orbiter",
+      "title": "Mars Reconnaissance Orbiter",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Mars%20Reconnaissance%20Orbiter",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-reconnaissance-orbiter-mro-a",
+      "title": "Mars Reconnaissance Orbiter (MRO) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Reconnaissance%20Orbiter%20(MRO)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-reconnaissance-orbiter-mro-b",
+      "title": "Mars Reconnaissance Orbiter (MRO) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Reconnaissance%20Orbiter%20(MRO)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mars-reconnaissance-orbiter-mro-c",
+      "title": "Mars Reconnaissance Orbiter (MRO) (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mars%20Reconnaissance%20Orbiter%20(MRO)%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mercury-spacesuit",
+      "title": "Mercury Spacesuit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mercury%20Spacesuit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mercury-surface-space-environment-geochemistry-and-ranging-messenger",
+      "title": "MErcury Surface, Space ENvironment, GEochemistry, and Ranging (MESSENGER)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/MErcury%20Surface%2C%20Space%20ENvironment%2C%20GEochemistry%2C%20and%20Ranging%20(MESSENGER)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mir",
+      "title": "Mir",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mir",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:mobile-launcher",
+      "title": "Mobile Launcher",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Mobile%20Launcher",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon",
+      "title": "Moon",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon-aristarchus-region",
+      "title": "Moon - Aristarchus Region",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon%20-%20Aristarchus%20Region",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon-copernicus-crater",
+      "title": "Moon - Copernicus Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon%20-%20Copernicus%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon-gassendi-crater",
+      "title": "Moon - Gassendi Crater",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon%20-%20Gassendi%20Crater",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon-mount-hadley",
+      "title": "Moon - Mount Hadley",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon%20-%20Mount%20Hadley",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:moon-tycho",
+      "title": "Moon - Tycho",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Moon%20-%20Tycho",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:multi-purpose-precision-maintenance-tool",
+      "title": "Multi-Purpose Precision Maintenance Tool",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Multi-Purpose%20Precision%20Maintenance%20Tool",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:nancy-grace-roman-space-telescope",
+      "title": "Nancy Grace Roman Space Telescope",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Nancy%20Grace%20Roman%20Space%20Telescope",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:nancy-grace-roman-space-telescope-a",
+      "title": "Nancy Grace Roman Space Telescope (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Nancy%20Grace%20Roman%20Space%20Telescope%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:nancy-grace-roman-space-telescope-b",
+      "title": "Nancy Grace Roman Space Telescope (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Nancy%20Grace%20Roman%20Space%20Telescope%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:nasa-insignia",
+      "title": "NASA Insignia",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/NASA%20Insignia",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:near-shoemaker",
+      "title": "NEAR Shoemaker",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/NEAR%20Shoemaker",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:new-horizons",
+      "title": "New Horizons",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/New%20Horizons",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:ngc1566",
+      "title": "NGC1566",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/NGC1566",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:ngc3344",
+      "title": "NGC3344",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/NGC3344",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:ngc602",
+      "title": "NGC602",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/NGC602",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:niac-titan-sub",
+      "title": "NIAC Titan Sub",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/NIAC%20Titan%20Sub",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ocean-surface-topography-mission-ostm-jason-2",
+      "title": "Ocean Surface Topography Mission (OSTM Jason-2)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ocean%20Surface%20Topography%20Mission%20(OSTM%20Jason-2)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:opportunity-landing-site",
+      "title": "Opportunity Landing Site",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Opportunity%20Landing%20Site",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:orbital-replacement-unit",
+      "title": "Orbital Replacement Unit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Orbital%20Replacement%20Unit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:orbiting-carbon-observatory-oco-2",
+      "title": "Orbiting Carbon Observatory (OCO) 2",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Orbiting%20Carbon%20Observatory%20(OCO)%202",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:origins-spectral-interpretation-resource-identification-and-security-regolith-explorer-osiris-rex",
+      "title": "Origins, Spectral Interpretation, Resource Identification, and Security - Regolith Explorer (OSIRIS-REx)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Origins%2C%20Spectral%20Interpretation%2C%20Resource%20Identification%2C%20and%20Security%20-%20Regolith%20Explorer%20(OSIRIS-REx)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:orion-capsule",
+      "title": "Orion Capsule",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Orion%20Capsule",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:parker-solar-probe",
+      "title": "Parker Solar Probe",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Parker%20Solar%20Probe",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:pillars-of-creation",
+      "title": "Pillars of Creation",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Pillars%20of%20Creation",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:pioneer-10",
+      "title": "Pioneer 10",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Pioneer%2010",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:pistol-grip-tool",
+      "title": "Pistol Grip Tool",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Pistol%20Grip%20Tool",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:polar",
+      "title": "Polar",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Polar",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:polar-operational-environmental-satellite-poes",
+      "title": "Polar Operational Environmental Satellite (POES)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Polar%20Operational%20Environmental%20Satellite%20(POES)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:quick-scatterometer-quikscat",
+      "title": "Quick Scatterometer (QuikSCAT)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Quick%20Scatterometer%20(QuikSCAT)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:radar-satellite-1-radarsat-1",
+      "title": "Radar Satellite-1 (RADARSAT-1)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Radar%20Satellite-1%20(RADARSAT-1)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:radome",
+      "title": "Radome",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Radome",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ratchet",
+      "title": "Ratchet",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ratchet",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:redstone-3-freedom-7",
+      "title": "Redstone 3 (Freedom 7)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Redstone%203%20(Freedom%207)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:regolith-advanced-surface-systems-operations-robot-rassor",
+      "title": "Regolith Advanced Surface Systems Operations Robot (RASSOR)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Regolith%20Advanced%20Surface%20Systems%20Operations%20Robot%20(RASSOR)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:robonaut-2",
+      "title": "Robonaut 2",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Robonaut%202",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:rosetta",
+      "title": "Rosetta",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Rosetta",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:satellite-for-scientific-applications-sac-c",
+      "title": "Satellite for Scientific Applications (SAC-C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Satellite%20for%20Scientific%20Applications%20(SAC-C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:satellite-kit",
+      "title": "Satellite Kit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Satellite%20Kit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:saturn-v",
+      "title": "Saturn V",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Saturn%20V",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:saturn-v-stage-1",
+      "title": "Saturn V - Stage 1",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Saturn%20V%20-%20Stage%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:saturn-v-stage-2",
+      "title": "Saturn V - Stage 2",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Saturn%20V%20-%20Stage%202",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:saturn-v-rocket",
+      "title": "Saturn V Rocket",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Saturn%20V%20Rocket",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:seastar",
+      "title": "SeaStar",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/SeaStar",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:skylab",
+      "title": "Skylab",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Skylab",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:sn-1006",
+      "title": "SN 1006",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/SN%201006",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:sn-1987a",
+      "title": "SN 1987A",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/SN%201987A",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:sofia",
+      "title": "SOFIA",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/SOFIA",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:solar-and-heliospheric-observatory",
+      "title": "Solar and Heliospheric Observatory",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Solar%20and%20Heliospheric%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:solar-and-heliospheric-observatory-soho",
+      "title": "Solar and Heliospheric Observatory (SOHO)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "description": "SOHO 3d print suggestions • No support required • STL files have been test printed at both 0.2mm and 0.1mm layer height • (Optional) For added print quality use support material for SOHO_Part3 • ABS and PLA plastic filament have been tested successfully Assembly 1. Remove printed parts from print bed 2. Clean up parts as necessary. Some printers may deposit extra material for the first layer that may need to be removed. 3. Press fit SOHO_Part2 and SOHO_Part3. Use the two pins on the top of SOHO_Part2 as guides. Note, this should be a snug fit. 4. If available, find a small segment of extra 1.75mm filament. Else skip to Step 9. 5. Cut the 1.75mm filament into 4 small pieces around 10mm long. 6. Press these segments into each of the 4 holes on the bottom surface of SOHO_Part1. 7. Take SOHO_Part2 and match up the holes with the protruding filament in SOHO_Part1. 8. Press fit SOHO_Part1 and SOHO_Part2 together. 9. For extra support a dab of super glue can be used between SOHO_Part1 and SOH",
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Solar%20and%20Heliospheric%20Observatory%20(SOHO)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:solar-dynamics-observatory",
+      "title": "Solar Dynamics Observatory",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Solar%20Dynamics%20Observatory",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:solar-radiation-and-climate-experiment-sorce",
+      "title": "Solar Radiation and Climate Experiment (SORCE)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Solar%20Radiation%20and%20Climate%20Experiment%20(SORCE)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:solar-sail-concept",
+      "title": "Solar Sail Concept",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Solar%20Sail%20Concept",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:solar-terrestrial-relations-observatory-stereo",
+      "title": "Solar TErrestrial RElations Observatory (STEREO)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Solar%20TErrestrial%20RElations%20Observatory%20(STEREO)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-exploration-vehicle",
+      "title": "Space Exploration Vehicle",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Exploration%20Vehicle",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:space-launch-system-sls",
+      "title": "Space Launch System (SLS)",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "description": "Note from the Author: Depending on 3d printer software used, the model may come out laying flat instead of standing up. Would highly recommend printing with model standing up and with supports on for the base. Depending on what scale the model is printed at, lower SRB to Core Stage struts might be underprinted, and same can happen with the LAS. May do something about that in the future, but for now I was trying to maintain original features.",
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Space%20Launch%20System%20(SLS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:space-launch-system-sls-block-1",
+      "title": "Space Launch System (SLS) Block 1",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Space%20Launch%20System%20(SLS)%20Block%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-launch-system-block-1",
+      "title": "Space Launch System Block 1",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Launch%20System%20Block%201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-a",
+      "title": "Space Shuttle (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-b",
+      "title": "Space Shuttle (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-c",
+      "title": "Space Shuttle (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-d",
+      "title": "Space Shuttle (D)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20(D)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-parts",
+      "title": "Space Shuttle Parts",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20Parts",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-shuttle-remote-manipulator-system-canadarm",
+      "title": "Space Shuttle Remote Manipulator System (Canadarm)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Shuttle%20Remote%20Manipulator%20System%20(Canadarm)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:space-systems-loral-ssl-1300",
+      "title": "Space Systems Loral (SSL-1300)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Space%20Systems%20Loral%20(SSL-1300)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:spartan-201",
+      "title": "Spartan 201",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Spartan%20201",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:spitzer-space-telescope",
+      "title": "Spitzer Space Telescope",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Spitzer%20Space%20Telescope",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:stardust",
+      "title": "Stardust",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Stardust",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:station-explorer-for-x-ray-timing-and-navigation-sextant",
+      "title": "Station Explorer for X-Ray Timing and Navigation (SEXTANT)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Station%20Explorer%20for%20X-Ray%20Timing%20and%20Navigation%20(SEXTANT)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:submillimeter-wave-astronomy-satellite-swas",
+      "title": "Submillimeter Wave Astronomy Satellite (SWAS)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Submillimeter%20Wave%20Astronomy%20Satellite%20(SWAS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:suomi-national-polar-orbiting-partnership-suomi-npp",
+      "title": "Suomi National Polar-orbiting Partnership (Suomi NPP)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Suomi%20National%20Polar-orbiting%20Partnership%20(Suomi%20NPP)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:super-lightweight-interchangeable",
+      "title": "Super Lightweight Interchangeable",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Super%20Lightweight%20Interchangeable",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:suzaku",
+      "title": "Suzaku",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Suzaku",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:swift",
+      "title": "Swift",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Swift",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tall-dish",
+      "title": "Tall Dish",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tall%20Dish",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:terra",
+      "title": "Terra",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "fbx",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Terra",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tether",
+      "title": "Tether",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "fbx",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tether",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:time-history-of-events-and-macroscale-interactions-during-substorms-themis",
+      "title": "Time History of Events and Macroscale Interactions During Substorms (THEMIS)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Time%20History%20of%20Events%20and%20Macroscale%20Interactions%20During%20Substorms%20(THEMIS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:topex-poseidon",
+      "title": "TOPEX-Poseidon",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb",
+        "lwo"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/TOPEX-Poseidon",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:total-ozone-mapping-spectrometer-toms",
+      "title": "Total Ozone Mapping Spectrometer (TOMS)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb",
+        "lwo"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Total%20Ozone%20Mapping%20Spectrometer%20(TOMS)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tracking-and-data-relay-satellites-tdrs-a",
+      "title": "Tracking and Data Relay Satellites (TDRS) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20(TDRS)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tracking-and-data-relay-satellites-tdrs-b",
+      "title": "Tracking and Data Relay Satellites (TDRS) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20(TDRS)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tracking-and-data-relay-satellites-tdrs-c",
+      "title": "Tracking and Data Relay Satellites (TDRS) (C)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20(TDRS)%20(C)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tracking-and-data-relay-satellites-tdrs-d",
+      "title": "Tracking and Data Relay Satellites (TDRS) (D)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20(TDRS)%20(D)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tracking-and-data-relay-satellites-trds-e",
+      "title": "Tracking and Data Relay Satellites (TRDS) (E)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb",
+        "lwo"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20(TRDS)%20(E)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:transiting-exoplanet-survey-satellite-tess-a",
+      "title": "Transiting Exoplanet Survey Satellite (TESS) (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Transiting%20Exoplanet%20Survey%20Satellite%20(TESS)%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:transiting-exoplanet-survey-satellite-tess-b",
+      "title": "Transiting Exoplanet Survey Satellite (TESS) (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "blend",
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Transiting%20Exoplanet%20Survey%20Satellite%20(TESS)%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tropical-rainfall-measuring-mission-trmm",
+      "title": "Tropical Rainfall Measuring Mission (TRMM)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tropical%20Rainfall%20Measuring%20Mission%20(TRMM)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:tselina-2",
+      "title": "Tselina-2",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Tselina-2",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:tycho-supernova-remnant",
+      "title": "Tycho Supernova Remnant",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Tycho%20Supernova%20Remnant",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:u-scorpii",
+      "title": "U Scorpii",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/U%20Scorpii",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:ulysses",
+      "title": "Ulysses",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Ulysses",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:van-allen-probes",
+      "title": "Van Allen Probes",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Van%20Allen%20Probes",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:vehicle-assembly-building-vab",
+      "title": "Vehicle Assembly Building (VAB)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Vehicle%20Assembly%20Building%20(VAB)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:vesta-numisia",
+      "title": "Vesta - Numisia",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Vesta%20-%20Numisia",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:vesta-rheasilvia",
+      "title": "Vesta - Rheasilvia",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Vesta%20-%20Rheasilvia",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:vesta-snowman-craters",
+      "title": "Vesta - Snowman Craters",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Vesta%20-%20Snowman%20Craters",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:viking-40th-anniversary-emblem",
+      "title": "Viking 40th Anniversary Emblem",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Viking%2040th%20Anniversary%20Emblem",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:viking-lander",
+      "title": "Viking Lander",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Viking%20Lander",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:viking-lander",
+      "title": "Viking Lander",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Viking%20Lander",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:voyager",
+      "title": "Voyager",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Voyager",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:voyager-probe-a",
+      "title": "Voyager Probe (A)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Voyager%20Probe%20(A)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:voyager-probe-b",
+      "title": "Voyager Probe (B)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Voyager%20Probe%20(B)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:westerlund-2",
+      "title": "Westerlund 2",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Westerlund%202",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:whirlpool-galaxy",
+      "title": "Whirlpool Galaxy",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Whirlpool%20Galaxy",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:wide-field-planetary-camera",
+      "title": "Wide Field Planetary Camera",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Wide%20Field%20Planetary%20Camera",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:wide-field-infrared-explorer-wire",
+      "title": "Wide-Field Infrared Explorer (WIRE)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Wide-Field%20Infrared%20Explorer%20(WIRE)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:wilkinson-microwave-anisotropy-probe-wmap",
+      "title": "Wilkinson Microwave Anisotropy Probe (WMAP)",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Wilkinson%20Microwave%20Anisotropy%20Probe%20(WMAP)",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:wind",
+      "title": "Wind",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Wind",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:wrench",
+      "title": "Wrench",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Wrench",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "printable:wrench",
+      "title": "Wrench",
+      "assetType": "3d-printable",
+      "tags": [
+        "3D Printing"
+      ],
+      "is3DPrintable": true,
+      "formats": [
+        "stl"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Printing/Wrench",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:x-57",
+      "title": "X-57",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb",
+        "openvsp"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/X-57",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    },
+    {
+      "id": "model:z2-spacesuit",
+      "title": "Z2 Spacesuit",
+      "assetType": "3d-model",
+      "tags": [
+        "3D Models"
+      ],
+      "formats": [
+        "glb"
+      ],
+      "canonicalUrl": "https://github.com/nasa/NASA-3D-Resources/tree/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Z2%20Spacesuit",
+      "license": "NASA Images and Media Usage Guidelines",
+      "attribution": "NASA"
+    }
+  ]
+}

@@ -25,6 +25,12 @@ by the extension build. Its preferred-source archives are under
 `npm run lexicon:build` only when intentionally regenerating that checked-in
 data.
 
+`providers/nasa/source.json` is the checked-in official-source metadata snapshot
+used to generate `src/providers/catalogs/nasa.json`. Ordinary builds use the
+checked-in catalog and require no network. `npm run catalog:nasa:build`
+deterministically rebuilds it from the snapshot. `npm run catalog:nasa:refresh`
+is a maintainer-only network step pinned to the documented NASA source commit.
+
 `SOURCE-ARCHIVE-MANIFEST.json` records the exact Git commit, recursive source
 roots, root-file rules, exclusions, and archive statistics. Store screenshot
 artwork is excluded because it is release tooling and is not used by

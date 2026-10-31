@@ -43,6 +43,18 @@ describe('future-proof AMO source collection', () => {
     expect((await collectSourceFiles(root)).map((file) => file.path)).toContain('src/providers/future-test-provider/example.ts');
   });
 
+  it('includes the checked-in NASA source snapshot and generated runtime catalog', async () => {
+    const root = await repository({
+      'providers/nasa/source.json': '{}\n',
+      'src/providers/catalogs/nasa.json': '{}\n',
+      'scripts/nasa/catalog.ts': 'export {};\n',
+    });
+    const paths = (await collectSourceFiles(root)).map((file) => file.path);
+    expect(paths).toContain('providers/nasa/source.json');
+    expect(paths).toContain('src/providers/catalogs/nasa.json');
+    expect(paths).toContain('scripts/nasa/catalog.ts');
+  });
+
   it('applies exclusions recursively at any depth', async () => {
     const root = await repository({
       'src/feature/keep.ts': 'export {};\n',
