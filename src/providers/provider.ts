@@ -2,6 +2,8 @@
 import type { ModelResult } from '../shared/model-result';
 import type { CredentialField } from './credentials';
 
+export type ProviderMode = 'remote-api' | 'local-catalog' | 'direct-search';
+
 export interface ResultPage {
   results: ModelResult[];
   /** Opaque continuation owned by the adapter, never a remotely supplied URL. */
@@ -11,6 +13,8 @@ export interface ResultPage {
 export interface Provider {
   /** Stable identifier matching providerId on every returned result. */
   id: string;
+  /** Retrieval mode metadata; packaged adapters use remote-api. */
+  mode?: ProviderMode;
   /** Required configuration fields only; never credential values. Omit for anonymous providers. */
   credentialFields?: readonly CredentialField[];
   /**

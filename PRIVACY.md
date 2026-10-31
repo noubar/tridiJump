@@ -41,17 +41,20 @@ remains local and is not an encrypted credential vault.
 | Destination | Purpose and data | Authentication | When contacted |
 | --- | --- | --- | --- |
 | `https://api.printables.com/graphql/` | Search text, limit and numeric offset | None | Enabled anonymous search and user-requested next page, via packaged worker |
+| `https://api.sketchfab.com/v3/search` | Search text, model type and opaque cursor | None | Enabled anonymous search and user-requested next page |
 | `https://cults3d.com/graphql` | Search text, batch size, optional offset, English locale | That user's Cults nickname/key in HTTP Basic | Enabled and configured search / Load more |
 | `https://api.thingiverse.com/search/...` | Encoded search text, page and batch size | That user's App Token in Bearer header | Enabled and configured search / Load more |
 | `https://www.myminifactory.com/api/v2/search` | Search text, page and batch size | That user's API key in the documented `key` query parameter | Enabled and configured search / Load more |
 | `https://media.printables.com/...` | Cover image path returned by Printables | No application API credentials | Optional lazy cover display |
+| `https://media.sketchfab.com/...` | Public thumbnail URL returned by Sketchfab | None | Optional lazy cover display |
 | API-returned HTTPS image hosts | Other providers' cover images | No application API credentials | Optional lazy cover display |
-| Six repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
+| Seven repositories' native search pages | Original query | No application API credentials | Only when the user follows Search directly |
 | Original model pages on their respective repository hosts | Model URL | No application API credentials | Only when the user opens a card |
 | Official provider documentation / account setup pages | Ordinary navigation | No application API credentials | Only when the user follows a Settings/documentation link |
 
 Native search destinations are `www.printables.com`, `makerworld.com`,
-`www.thingiverse.com`, `thangs.com`, `www.myminifactory.com` and `cults3d.com`.
+`www.thingiverse.com`, `thangs.com`, `www.myminifactory.com`, `cults3d.com` and
+`sketchfab.com`.
 Model adapters restrict model links to their own expected repository hostnames.
 Authenticated adapters accept safe HTTPS thumbnail URLs returned by their API;
 their image hosts are not a finite bundled allowlist. Images can redirect and

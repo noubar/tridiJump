@@ -44,7 +44,11 @@ export function filterResults(results: readonly ModelResult[], filters: ResultFi
 function sortValue(result: ModelResult, order: SortOrder): number | undefined {
   let value: number | undefined;
   switch (order) {
-    case 'latest': value = result.createdAt ? Date.parse(result.createdAt) : undefined; break;
+    case 'latest': {
+      const date = result.publishedAt ?? result.createdAt;
+      value = date ? Date.parse(date) : undefined;
+      break;
+    }
     case 'popularity': value = result.popularity; break;
     case 'downloads': value = result.downloads; break;
     case 'rating': value = result.rating; break;

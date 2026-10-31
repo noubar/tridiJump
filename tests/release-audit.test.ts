@@ -26,13 +26,14 @@ it.each(['cap\ud800 lid', '\udc00 holder'])('repairs malformed Unicode instead o
   for (const source of providerAvailability) expect(() => source.searchUrl(query)).not.toThrow();
 });
 
-it('first-run popup counts anonymous Printables as ready without reading nonexistent credentials', async () => {
+it('first-run popup counts anonymous providers as ready without reading nonexistent credentials', async () => {
   const storage = mockExtensionStorage();
   document.body.innerHTML = popup.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
   await import('../src/popup/main');
-  await vi.waitFor(() => expect(document.querySelector('#repository-count')!.textContent).toContain('1 ready without setup'));
+  await vi.waitFor(() => expect(document.querySelector('#repository-count')!.textContent).toContain('2 ready without setup'));
   expect(document.querySelector('#repository-count')!.textContent).toContain('0 of 3 API repositories configured');
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.printables')).toBe(false);
+  expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.sketchfab')).toBe(false);
 });
 
 it('all repositories disabled gives an actionable empty state without nonexistent native links or requests', async () => {

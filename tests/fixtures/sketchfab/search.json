@@ -1,0 +1,29 @@
+{
+  "next": "https://api.sketchfab.com/v3/search?type=models&q=benchy&cursor=24&count=24",
+  "previous": null,
+  "cursors": { "next": "24", "previous": null },
+  "results": [
+    {
+      "uid": "11111111111111111111111111111111",
+      "name": "Fixture Benchy",
+      "viewerUrl": "https://sketchfab.com/3d-models/fixture-benchy-11111111111111111111111111111111",
+      "publishedAt": "2026-01-02T03:04:05.000Z",
+      "likeCount": 17,
+      "viewCount": 230,
+      "commentCount": 4,
+      "isDownloadable": true,
+      "user": { "username": "fixture-creator" },
+      "license": { "uid": "cc-by", "label": "CC Attribution" },
+      "thumbnails": { "images": [
+        { "url": "https://media.sketchfab.com/models/fixture/200.jpeg", "width": 200, "height": 112, "size": 9000 },
+        { "url": "https://media.sketchfab.com/models/fixture/640.jpeg", "width": 640, "height": 360, "size": 28000 },
+        { "url": "https://media.sketchfab.com/models/fixture/448.jpeg", "width": 448, "height": 252, "size": 21000 }
+      ] }
+    },
+    {
+      "uid": "22222222222222222222222222222222",
+      "name": "Fixture Minimal Model",
+      "viewerUrl": "https://sketchfab.com/3d-models/fixture-minimal-22222222222222222222222222222222"
+    }
+  ]
+}

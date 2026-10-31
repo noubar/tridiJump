@@ -19,11 +19,18 @@ export interface ModelResult {
   formats?: string[];
   /** ISO 8601 creation date, retaining only the precision the provider knows. */
   createdAt?: string;
+  /** ISO 8601 publication date when distinct from creation. */
+  publishedAt?: string;
   /** Provider-specific numeric score; not comparable across repositories. */
   popularity?: number;
   downloads?: number;
   /** Rating normalized to a 0–5 scale when the source scale is known. */
   rating?: number;
+  views?: number;
+  comments?: number;
+  isDownloadable?: boolean;
+  /** Provider-supplied license label or identifier. */
+  license?: string;
   /** Exact search term that found this result, including an expanded term. */
   query?: string;
 }

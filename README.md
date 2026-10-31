@@ -8,7 +8,7 @@ The V1 application includes a search popup, progressive results grid, and settin
 Production connects the official Cults3D, MyMiniFactory and Thingiverse APIs
 using your own local credentials. Unconfigured providers show Setup required;
 configured providers send actual searches and append normalized cards. Native
-search remains available for all six repositories. See the
+search remains available for all seven repositories. See the
 [live enablement review](docs/live-provider-enablement.md) for each access path,
 source, restriction and limitation. The user has manually verified all three API
 integrations live. This Settings update is verified with fixtures and mocked
@@ -26,6 +26,11 @@ provider-dependent. The user completed live multi-page acceptance for all four
 aggregated providers on 2026-10-29. Cancellation discards late replies immediately, while an
 already-started worker request may finish. See the report for the earlier CORS
 finding, new thumbnail checklist and query-only rollback if the image field fails.
+
+V2 adds anonymous [Sketchfab Data API v3 search](docs/provider-sketchfab.md).
+Sketchfab uses its official public model-search endpoint, needs no account or
+credential, and supports cursor-based Load more. Downloadability is kept separate
+from price and 3D-printability; unknown metadata remains unknown.
 
 The V1 release blockers recorded by the historical audit were subsequently
 resolved: Expanded Search is implemented, live pagination acceptance is complete,
@@ -48,7 +53,7 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 
 | Availability | Repositories | How to use |
 | --- | --- | --- |
-| **Works immediately** | Printables | Enable and search; no credentials. Search and thumbnails user-live-verified. |
+| **Works immediately** | Printables, Sketchfab | Enable and search; no credentials. Sketchfab uses its official public Data API v3. |
 | **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse | Obtain your own free provider credentials and save them in Settings. |
 | **Direct-search fallback** | MakerWorld, Thangs | Use the native Search directly link; models from these sources are not aggregated. |
 
@@ -162,8 +167,8 @@ Earlier investigation notes describe development-time verification limits; the u
 has since confirmed all three current API adapters working live.
 
 The grid mixes sources on one page and appends results as each source completes.
-Cards show only a thumbnail (or placeholder), title, source, and known price/free
-status. Open a card to visit its original HTTP(S) URL in a new tab.
+Cards show only a thumbnail (or placeholder), title, source, creator when supplied,
+and known price/free status. Open a card to visit its original HTTP(S) URL in a new tab.
 
 Repository checkboxes filter the view without restarting searches. Free/Paid and
 file-format filters exclude unknown metadata only when selected. The format
@@ -244,7 +249,7 @@ bootstrap modules in both the built directory and the extracted ZIP.
 - `src/results/`: safe card rendering, filter/sort helpers, and progressive view
 - `src/shared/`: normalized model result type, preferences, theme, and styles
 - `src/search/`: query parsing, native form setup, search states, and orchestration
-- `src/providers/`: small provider contract, local credentials, three official API adapters and anonymous Printables search
+- `src/providers/`: small provider contract, local credentials, official API adapters, and anonymous Printables/Sketchfab search
 - `src/synonyms/`: lazy offline lexical lookup, ranking, phrases and compounds
 - `scripts/lexicon/`: deterministic OEWN/Ding source converters
 - `src/screenshots/`: build-time-only store screenshot entries and local fixture rendering
@@ -259,9 +264,10 @@ and Firefox Desktop. Happy DOM is a development-only
 dependency for DOM rendering and progressive UI tests. No runtime dependencies,
 framework, backend, tridiJump accounts, analytics, telemetry, cloud storage, AI
 APIs, or remote executable code. The manifest requests only extension storage and
-the four precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
-and api.printables.com. The last permits the anonymous undocumented GraphQL interface from
+the five precise API origins: Cults3D, www.myminifactory.com, api.thingiverse.com,
+api.printables.com, and api.sketchfab.com. The Printables origin permits the anonymous undocumented GraphQL interface from
 the packaged Printables worker; it grants no cookies or website scripting access.
+The Sketchfab origin permits anonymous official Data API model search only.
 The manifest registers `background.js` as a module service worker. No additional
 permission is needed for that registration; no tabs, scripting, cookies or staging
 API permission is requested. The other three providers keep their existing transport.
@@ -344,7 +350,7 @@ only once per run (first occurrence wins). Explicitly starting again is a fresh
 search, allowing refreshes without a persistent query cache. Blank queries do
 not execute providers. Disabled IDs appear as `disabled` without invoking the
 adapter or reading its credentials. The results
-page supplies three authenticated providers and the anonymous Printables candidate.
+page supplies three authenticated providers and the anonymous Printables and Sketchfab providers.
 Credential loading is covered by
 cancellation and provider timeout; a superseded or timed-out read cannot launch
 a request. MakerWorld and Thangs use native fallback, with their

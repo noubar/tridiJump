@@ -167,6 +167,7 @@ a.model-card-content:hover h3 { text-decoration: underline; }
 .model-preview img { display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 .model-card h3 { margin: 0.85rem 1rem 0.3rem; line-height: 1.35; overflow-wrap: anywhere; }
 .model-source { color: var(--muted); font-size: 0.85rem; margin: 0 1rem 0.75rem; overflow-wrap: anywhere; }
+.model-creator { color: var(--muted); font-size: 0.8rem; margin: -0.55rem 1rem 0.75rem; overflow-wrap: anywhere; }
 .price-badge { display: inline-block; margin-inline: 1rem; padding: 0.15rem 0.5rem; border-radius: 0.25rem; background: light-dark(#e6efea, #2c4539); color: light-dark(#285c3a, #c1e6cd); font-size: 0.8rem; font-weight: 600; }
 .model-card .hint { margin-inline: 1rem; }
 #provider-status { padding-left: 1.25rem; overflow-wrap: anywhere; }

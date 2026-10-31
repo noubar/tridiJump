@@ -1,11 +1,12 @@
 # Supported repositories and provider credentials
 
-Updated 2026-10-28. These categories describe searching inside tridiJump's grid.
+Updated 2026-10-31. These categories describe searching inside tridiJump's grid.
 Native **Search directly** links remain available for every enabled repository.
 
 | Repository | Availability | What you need |
 | --- | --- | --- |
 | Printables | **Works immediately** | Enable the repository and search. No account or API credential is required by tridiJump. Anonymous search/cards, a tested model link and cover images were live verified by the user. |
+| Sketchfab | **Works immediately** | Official Data API v3 public model search. No account or API credential is required. Anonymous search and cursor pagination were agent-live-verified on 2026-10-31. |
 | Cults3D | **Requires free provider setup** | Your Cults3D nickname and a read-only API key. |
 | MyMiniFactory | **Requires free provider setup** | Your application's MyMiniFactory API key. |
 | Thingiverse | **Requires free provider setup** | Your application's Thingiverse App Token. |
@@ -20,6 +21,7 @@ payment specifically for API access, use native search instead: tridiJump V1 doe
 not require a paid API subscription. Model purchases are separate from API access.
 See the [evidence and limitations](live-provider-enablement.md) and
 [Printables verification record](provider-printables.md).
+See also the [Sketchfab integration and verification record](provider-sketchfab.md).
 
 ## Why some providers require credentials
 

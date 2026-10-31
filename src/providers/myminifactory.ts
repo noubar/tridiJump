@@ -114,7 +114,7 @@ export function createMyMiniFactoryProvider(): Provider {
     return { results, nextCursor: nextPage(page, (envelope.items as unknown[]).length, envelope.total_count) };
   }
   return {
-    id: 'myminifactory', credentialFields: myMiniFactoryCredentialFields,
+    id: 'myminifactory', mode: 'remote-api', credentialFields: myMiniFactoryCredentialFields,
     search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
     searchPage,
   };

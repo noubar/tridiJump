@@ -252,6 +252,7 @@ describe('Printables through the existing orchestrator and extension entries', (
   });
 
   it('production Results renders safe cards progressively and loads a second batch without credentials', async () => {
+    storage.data['tridijump.repositories'] = { sketchfab: false };
     let resolve!: (response: Response) => void;
     const request = vi.fn().mockImplementationOnce(() => new Promise<Response>((done) => { resolve = done; }))
       .mockImplementationOnce(async () => json(batch([item(2)], 2)));
@@ -272,6 +273,7 @@ describe('Printables through the existing orchestrator and extension entries', (
     expect(document.querySelector('#native-searches [data-provider-id="printables"]')).not.toBeNull();
   });
   it.each(['http', 'graphql'])('production Results isolates a Printables %s rejection while all three authenticated adapters return cards', async (kind) => {
+    storage.data['tridijump.repositories'] = { sketchfab: false };
     for (const source of providerAvailability.filter((source) => source.classification === 'B')) await saveCredentials(source.id, source.createProvider().credentialFields!, { nickname: 'test', apiKey: 'FAKE-ISOLATION-KEY', appToken: 'FAKE-ISOLATION-TOKEN' });
     vi.stubGlobal('fetch', vi.fn(async (endpoint: string) => {
       const origin = new URL(endpoint).origin;

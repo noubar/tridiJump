@@ -14,7 +14,7 @@ describe('provider classification and native fallbacks', () => {
     for (const source of providerAvailability) {
       // No auth payload, header, user identity or credential values belong here.
       expect(Object.keys(source).sort()).toEqual([
-        'id', 'name', 'classification', 'reason', 'searchUrl',
+        'id', 'name', 'classification', 'mode', 'reason', 'searchUrl',
         ...('createProvider' in source ? ['createProvider'] : []),
       ].sort());
       if (!('createProvider' in source)) continue;
@@ -48,12 +48,13 @@ describe('provider classification and native fallbacks', () => {
     }
   });
 
-  it('connects an anonymous candidate and three user-key APIs, retaining two fallbacks', () => {
+  it('connects two anonymous and three user-key APIs, retaining two fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
-      'cults3d', 'makerworld', 'myminifactory', 'printables', 'thangs', 'thingiverse',
+      'cults3d', 'makerworld', 'myminifactory', 'printables', 'sketchfab', 'thangs', 'thingiverse',
     ]);
     for (const source of providerAvailability) {
-      expect(source.classification).toBe(source.id === 'printables' ? 'A' : ['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
+      expect(source.classification).toBe(['printables', 'sketchfab'].includes(source.id) ? 'A' : ['cults3d', 'myminifactory', 'thingiverse'].includes(source.id) ? 'B' : 'D');
+      expect(source.mode).toBe(source.classification === 'D' ? 'direct-search' : 'remote-api');
       if ('createProvider' in source) {
         expect(source.createProvider().id).toBe(source.id);
         if (source.classification === 'B') expect(source.createProvider().credentialFields?.length).toBeGreaterThan(0);

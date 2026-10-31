@@ -63,7 +63,7 @@ async function more() {
 }
 beforeEach(() => {
   vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); requests.length = 0; lexicalRequests.length = 0;
-  storage = mockExtensionStorage(); mockPrintablesRuntime();
+  storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { sketchfab: false }; mockPrintablesRuntime();
   document.body.innerHTML = html.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
 });
 afterEach(() => {
@@ -128,10 +128,10 @@ it('keeps each variant cursor independent and loads at most one continuation per
 });
 
 it('does not execute disabled providers or check their credentials even with actual useful variants', async () => {
-  storage.data['tridijump.repositories'] = { printables: false, thingiverse: false };
+  storage.data['tridijump.repositories'] = { printables: false, sketchfab: false, thingiverse: false };
   installFetch(); await start();
   expect(requests).toHaveLength(0);
-  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(2);
+  expect(document.querySelectorAll('[data-status="disabled"]')).toHaveLength(3);
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.thingiverse')).toBe(false);
   expect(document.querySelector('#native-searches a[data-provider-id="printables"]')).toBeNull();
 });

@@ -121,7 +121,7 @@ describe('progressive results UI', () => {
     vi.stubGlobal('fetch', fetchMock);
     const { data, local } = mockExtensionStorage();
     // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
-    data['tridijump.repositories'] = { printables: false };
+    data['tridijump.repositories'] = { printables: false, sketchfab: false };
     const credentialKeys = ['tridijump.credentials.cults3d', 'tridijump.credentials.myminifactory', 'tridijump.credentials.thingiverse'];
     window.history.replaceState(null, '', `/src/results/index.html?q=gear${expandedMode ? '&expanded=1' : ''}`);
     await import('../src/results/main');
@@ -164,7 +164,7 @@ describe('progressive results UI', () => {
     vi.resetModules();
     const { data, local } = mockExtensionStorage();
     // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
-    data['tridijump.repositories'] = { printables: false };
+    data['tridijump.repositories'] = { printables: false, sketchfab: false };
     const fetchMock = vi.fn(async (url: string) => /^https?:\/\//u.test(url)
       ? new Response(JSON.stringify(fixture))
       : new Response(null, { status: 404 }));
@@ -214,7 +214,7 @@ describe('progressive results UI', () => {
     vi.resetModules();
     const { data, local } = mockExtensionStorage();
     // Isolate this authenticated-provider scenario; anonymous Printables is tested separately.
-    data['tridijump.repositories'] = { printables: false };
+    data['tridijump.repositories'] = { printables: false, sketchfab: false };
     await saveCredentials('cults3d', cultsCredentialFields, { nickname: 'test-user', apiKey: 'FAKE-PRODUCTION-PATH' });
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture)));
     vi.stubGlobal('fetch', fetchMock);
@@ -320,8 +320,9 @@ describe('safe, minimal model cards', () => {
     document.body.append(card);
     expect(card.querySelector('h3')!.textContent).toBe(title);
     expect(card.querySelector('.model-source')!.textContent).toBe(source);
+    expect(card.querySelector('.model-creator')!.textContent).toBe('by Hidden creator');
     expect(card.querySelectorAll('script,img,svg')).toHaveLength(0);
-    expect(card.textContent).not.toContain('Hidden creator');
+    expect(card.textContent).toContain('Hidden creator');
     expect(card.querySelector('.price-badge')).toBeNull();
     const link = card.querySelector('a')!;
     expect(link.href).toBe(model(title).url);

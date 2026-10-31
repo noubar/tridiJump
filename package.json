@@ -25,6 +25,7 @@
     "screenshots:firefox": "node scripts/screenshots.mjs firefox",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:live:sketchfab": "vitest run tests/sketchfab-live.test.ts --mode live",
     "test:watch": "vitest"
   },
   "devDependencies": {

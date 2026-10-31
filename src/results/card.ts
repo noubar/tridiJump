@@ -56,6 +56,12 @@ export function createModelCard(result: ModelResult, providerName: string): HTML
   source.className = 'model-source';
   source.textContent = providerName;
   content.append(preview, title, source);
+  if (result.creator?.trim()) {
+    const creator = document.createElement('p');
+    creator.className = 'model-creator';
+    creator.textContent = `by ${result.creator.trim()}`;
+    content.append(creator);
+  }
   const label = priceLabel(result);
   if (label) {
     const badge = document.createElement('span');

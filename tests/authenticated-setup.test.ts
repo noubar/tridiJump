@@ -46,7 +46,7 @@ async function start(expanded = false) {
 function status(id: string) {
   return [...document.querySelectorAll('#provider-status li')].find((item) => item.textContent?.startsWith(`${sources.find((source) => source.id === id)!.name}:`))!.getAttribute('data-status');
 }
-beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { printables: false }; });
+beforeEach(() => { vi.resetModules(); vi.useFakeTimers(); localStorage.clear(); storage = mockExtensionStorage(); storage.data['tridijump.repositories'] = { printables: false, sketchfab: false }; });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); vi.clearAllTimers(); vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); document.body.replaceChildren(); });
 
 describe.each(sources)('$name complete credential/setup flow', (source) => {

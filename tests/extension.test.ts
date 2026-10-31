@@ -14,9 +14,9 @@ describe('extension foundation', () => {
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('grants only extension storage and the four implemented API origins', () => {
+  it('grants only extension storage and the five implemented API origins', () => {
     expect(manifest.permissions ?? []).toEqual(['storage']);
-    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*']);
+    expect(manifest.host_permissions ?? []).toEqual(['https://cults3d.com/*', 'https://www.myminifactory.com/*', 'https://api.thingiverse.com/*', 'https://api.printables.com/*', 'https://api.sketchfab.com/*']);
     expect(manifest.optional_permissions ?? []).toEqual([]);
     expect(manifest.optional_host_permissions ?? []).toEqual([]);
     expect(manifest.background).toEqual({ service_worker: 'background.js', type: 'module' });

@@ -17,6 +17,7 @@ const APPROVED_PERMISSIONS = ['storage'];
 const APPROVED_HOST_PERMISSIONS = [
   'https://cults3d.com/*', 'https://www.myminifactory.com/*',
   'https://api.thingiverse.com/*', 'https://api.printables.com/*',
+  'https://api.sketchfab.com/*',
 ];
 const FIREFOX_ID = 'tridijump@noubar.extensions';
 const FIREFOX_MIN_VERSION = '142.0';

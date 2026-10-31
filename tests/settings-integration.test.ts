@@ -24,7 +24,7 @@ function change(selector: string, value: boolean | string) {
   if (typeof value === 'boolean') input.checked = value; else input.value = value;
   input.dispatchEvent(new Event('change', { bubbles: true }));
 }
-beforeEach(() => { vi.resetModules(); localStorage.clear(); mockExtensionStorage().data['tridijump.repositories'] = { printables: false }; });
+beforeEach(() => { vi.resetModules(); localStorage.clear(); mockExtensionStorage().data['tridijump.repositories'] = { printables: false, sketchfab: false }; });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); document.body.replaceChildren(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe('credential-independent repository enablement', () => {
@@ -59,7 +59,7 @@ describe('credential-independent repository enablement', () => {
   });
   it('retains independent selections when several repository switches change quickly', async () => {
     await Promise.all([setRepositoryEnabled('cults3d', false), setRepositoryEnabled('thingiverse', false)]);
-    expect(await readRepositories()).toEqual({ printables: false, cults3d: false, thingiverse: false });
+    expect(await readRepositories()).toEqual({ printables: false, sketchfab: false, cults3d: false, thingiverse: false });
   });
 });
 
@@ -95,13 +95,16 @@ describe('production Settings and entry pages', () => {
     page(settingsHtml);
     await import('../src/settings/main');
     await vi.waitFor(() => expect(element<HTMLInputElement>('#repository-cults3d').disabled).toBe(false));
+    expect(element<HTMLInputElement>('#repository-sketchfab').checked).toBe(false);
+    expect(document.querySelector('[id^="credential-sketchfab"]')).toBeNull();
+    change('#repository-sketchfab', true);
     change('#repository-cults3d', false);
     change('#repository-thingiverse', false);
     change('#expanded-default', true);
     change('#history-enabled', true);
     change('#theme', 'dark');
     await vi.waitFor(async () => {
-      expect(await readRepositories()).toMatchObject({ cults3d: false, thingiverse: false });
+      expect(await readRepositories()).toMatchObject({ sketchfab: true, cults3d: false, thingiverse: false });
       expect(await readPreferences()).toEqual({ theme: 'dark', expandedDefault: true, historyEnabled: true });
       expect(document.documentElement.dataset.theme).toBe('dark');
     });

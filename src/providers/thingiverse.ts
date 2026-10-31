@@ -100,7 +100,7 @@ export function createThingiverseProvider(): Provider {
     return { results, nextCursor: nextPage(page, (envelope.hits as unknown[]).length, envelope.total) };
   }
   return {
-    id: 'thingiverse', credentialFields: thingiverseCredentialFields,
+    id: 'thingiverse', mode: 'remote-api', credentialFields: thingiverseCredentialFields,
     search: async (query, signal) => (await searchPage(query, undefined, signal)).results,
     searchPage,
   };
