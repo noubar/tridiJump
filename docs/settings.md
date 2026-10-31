@@ -77,7 +77,7 @@ and reject redirects. Native-search URLs contain only the search query, never
 stored credentials. Printables works immediately with no credential form; its
 basic anonymous search and a tested model link were user-live-verified in Chromium
 on 2026-10-28. Cover images remain pending; see
-[Printables notes](provider-printables.md). MakerWorld, Thangs and CGTrader
+[Printables notes](provider-printables.md). MakerWorld, Thangs, CGTrader and Creality Cloud
 remain native-search-only.
 
 ## Manual regression checks

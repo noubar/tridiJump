@@ -10,7 +10,7 @@ import { mockExtensionStorage } from './helpers/extension-storage';
 beforeEach(() => { vi.resetModules(); localStorage.clear(); });
 afterEach(() => { window.dispatchEvent(new Event('pagehide')); document.body.replaceChildren(); vi.unstubAllGlobals(); });
 
-it('does not split a Unicode character at the query bound and keeps all six native URLs encodable', () => {
+it('does not split a Unicode character at the query bound and keeps every native URL encodable', () => {
   const input = 'a'.repeat(199) + '🧢';
   const query = normalizeQuery(input);
   expect(query).toBe('a'.repeat(199));

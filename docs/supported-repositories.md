@@ -15,11 +15,17 @@ Native **Search directly** links remain available for every enabled repository.
 | MakerWorld | **Direct-search fallback** | Opens native search; no aggregation interface has been verified for this implementation. |
 | Thangs | **Direct-search fallback** | Opens native search; no appropriate public catalog interface has been established and the investigation records scraping restrictions. |
 | CGTrader | **Direct-search fallback** | Opens CGTrader's native search with the original query. Official API aggregation remains blocked pending approved public-client access. |
+| Creality Cloud | **Direct-search fallback** | Opens the normal Creality Cloud Models search with the original query. Aggregation remains blocked pending an appropriate official API. |
 
 CGTrader's direct-search link is included in the production provider list, but
 it does not produce aggregated cards. Its official API requires authenticated access, describes API
 keys as privileged secrets, and does not document a secretless public-client or
 PKCE flow for browser extensions. See the [CGTrader feasibility report](providers/cgtrader.md).
+
+Creality Cloud direct search likewise opens the provider's public Models search
+page and does not produce aggregated cards. No documented public model-search API
+has been established for the extension. See the [Creality Cloud feasibility report](providers/creality-cloud.md)
+and the preserved [official API-access request draft](providers/creality-cloud-api-request.md).
 
 “Requires free provider setup” means tridiJump supports your own free API access;
 it does not supply keys or guarantee that every new account can obtain one today.

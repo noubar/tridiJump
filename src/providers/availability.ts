@@ -62,6 +62,15 @@ export const providerAvailability = [
   { id: 'cgtrader', name: 'CGTrader', classification: 'D', mode: 'direct-search', tier: 'general',
     reason: 'Aggregation unavailable pending approved API access suitable for a public browser extension.',
     searchUrl: (query: string) => `https://www.cgtrader.com/search?keywords=${encodeURIComponent(normalizeQuery(query))}` },
+  { id: 'crealitycloud', name: 'Creality Cloud', classification: 'D', mode: 'direct-search', tier: 'general',
+    reason: 'Aggregation unavailable pending an official API suitable for a public browser extension.',
+    searchUrl: (query: string) => {
+      const target = new URL('https://www.crealitycloud.com/search/models');
+      target.searchParams.set('q', normalizeQuery(query));
+      target.searchParams.set('search_type', '2');
+      target.searchParams.set('search_source', '1');
+      return target.href;
+    } },
   { id: 'myminifactory', name: 'MyMiniFactory', classification: 'B', mode: 'remote-api', tier: 'general',
     reason: 'Official API search with your API key.',
     createProvider: createMyMiniFactoryProvider,
