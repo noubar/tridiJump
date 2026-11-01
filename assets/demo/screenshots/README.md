@@ -1,13 +1,11 @@
 # Store screenshot artwork
 
-The six PNGs in this directory are generated demonstration artwork. They are not
-screenshots from provider websites and do not depict real listings. All titles,
-creator text, and result metadata in `demo-results.json` are fictional.
+The PNGs in this directory are generated, copyright-safe Benchy demonstration
+artwork supplied for tridiJump store screenshots. They are not screenshots from
+provider websites and do not depict real listings.
 
-Each supported V1 repository is represented exactly once. Printables,
-Thingiverse, MyMiniFactory, and Cults3D use aggregated-result styling.
-MakerWorld and Thangs are visibly marked as direct-search-only sources.
-
-These local assets are intended solely for deterministic, copyright-safe browser
-store screenshots. The screenshot build blocks remote images and external
-connections and never reads provider credentials.
+Capture mode discovers repositories from the rendered production page. For each
+repository it selects `Demo-<repository>.png` after punctuation-insensitive name
+matching; repositories without matching artwork use `Demo-Neutral-Benchys.png`.
+The screenshot server blocks remote traffic. These assets are capture inputs
+only: Vite does not copy them into the extension build or release package.

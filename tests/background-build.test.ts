@@ -69,17 +69,3 @@ it('Firefox production build emits its event-page manifest and the shared backgr
   expect(manifest.background.service_worker).toBeUndefined();
 });
 
-it('dedicated screenshot build contains local fixtures without production provider entries', async () => {
-  const result = await build({
-    configFile: fileURLToPath(new URL('../vite.config.ts', import.meta.url)),
-    mode: 'screenshots-chrome', logLevel: 'silent', build: { write: false, minify: false },
-  });
-  const outputs = bundleOutputs(result);
-  expect(outputs.some((output) => output.fileName === 'background.js')).toBe(false);
-  expect(outputs.some((output) => output.fileName === 'manifest.json')).toBe(false);
-  expect(outputs.filter((output) => /assets\/Demo-[^-]+-[A-Za-z0-9_-]+\.png/.test(output.fileName))).toHaveLength(6);
-  const text = outputs.map((output) => output.type === 'chunk' ? output.code : typeof output.source === 'string' ? output.source : '').join('\n');
-  expect(text).toContain('Benchy Calibration Collection');
-  expect(text).toContain('Direct search');
-  expect(text).not.toMatch(/api\.printables\.com|api\.thingiverse\.com|cults3d\.com\/api|myminifactory\.com\/api/);
-});

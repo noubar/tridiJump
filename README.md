@@ -241,29 +241,36 @@ remain manual.
 
 ## Creating store screenshots
 
-Store screenshots are release tooling, not an extension feature. Vite rewrites
-the three page entry modules only during the dedicated screenshot build, which
-uses six generated local demonstration images and fictional metadata. These
-entries have no provider or extension-background entry. They never search
-providers, read credentials, or load third-party thumbnails. Chrome and Firefox
-capture the isolated build through a temporary local server with a restrictive
-screenshot-only content security policy.
+Store screenshots are release tooling, not an extension feature. The capture
+script builds and serves the ordinary Chrome and Firefox production extensions,
+then runs their real popup, results, and Settings entry modules. A temporary
+local bootstrap supplies in-memory extension storage and blocks remote traffic;
+it is injected by the local capture server and is never written to `dist`,
+`dist-firefox`, or a release package. Results use local, generated Benchy
+demonstration artwork, so screenshots neither search live providers nor read
+credentials.
+
+Provider names, enabled states, and retrieval modes are read from the rendered
+production pages. The results screenshot creates one fictional demo card for
+each discovered repository. It automatically uses matching
+`assets/demo/screenshots/Demo-<repository>.png` artwork when available and the
+neutral Benchy artwork otherwise. Adding or removing a provider therefore does
+not require maintaining a second screenshot UI or a fixed provider fixture.
 
 ```sh
 npm run screenshots          # Chrome and Firefox screenshots
 npm run screenshots:chrome   # Chrome only
 npm run screenshots:firefox  # Firefox only
-npm run build:screenshots    # Build both isolated screenshot targets only
+npm run build:screenshots    # Build and validate both ordinary production targets
 ```
 
-Each browser receives a 1280×800 results screenshot with all six repositories,
-plus 1280×800 popup and Settings screenshots under `release/screenshots/`.
+Each browser receives 1280×800 results, popup, and Settings screenshots under
+`release/screenshots/`.
 Set `TRIDIJUMP_CHROME_PATH` or `TRIDIJUMP_FIREFOX_PATH` when the browser
-executable is not discoverable. Normal production and release commands never
-enable fixture mode or package the demonstration artwork. The production entry
-modules contain no runtime screenshot switch, URL trigger, or storage setting.
-Release package inspection rejects demo artwork, fixture paths, and screenshot
-bootstrap modules in both the built directory and the extracted ZIP.
+executable is not discoverable. Normal production and release commands contain
+no runtime screenshot switch, URL trigger, storage setting, or capture bootstrap.
+The screenshot script validates that none of its tooling entered the production
+build before launching a browser.
 
 ## Structure
 
@@ -274,7 +281,7 @@ bootstrap modules in both the built directory and the extracted ZIP.
 - `src/providers/`: small provider contract, local credentials, official API adapters, and anonymous Printables/Sketchfab search
 - `src/synonyms/`: lazy offline lexical lookup, ranking, phrases and compounds
 - `scripts/lexicon/`: deterministic OEWN/Ding source converters
-- `src/screenshots/`: build-time-only store screenshot entries and local fixture rendering
+- `scripts/screenshots.mjs`: production-page store screenshot capture tooling
 - `lexical-source/`: pinned preferred-source archives, excluded from extension output
 - `public/lexical-data/`: generated packaged lookup chunks and provenance
 - `providers/`: reserved for provider definitions
