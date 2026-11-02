@@ -55,7 +55,7 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 
 ### Unified results
 
-![tridiJump Firefox results page showing six supported repositories](release/screenshots/firefox/01-supported-repositories-1280x800.png)
+![tridiJump Firefox results page showing unified-grid demo results and separate native-search repositories](release/screenshots/firefox/01-supported-repositories-1280x800.png)
 
 | Search popup | Settings |
 | --- | --- |
@@ -256,8 +256,10 @@ demonstration artwork, so screenshots neither search live providers nor read
 credentials.
 
 Provider names, enabled states, and retrieval modes are read from the rendered
-production pages. The results screenshot creates one fictional demo card for
-each discovered repository. It automatically uses matching
+production pages. The results screenshot creates fictional demo cards only for
+repositories that can feed the unified results grid. Direct-search-only
+repositories appear separately as native-search links and never receive result
+cards. Aggregated/local cards automatically use matching
 `assets/demo/screenshots/Demo-<repository>.png` artwork when available and the
 neutral Benchy artwork otherwise. Adding or removing a provider therefore does
 not require maintaining a second screenshot UI or a fixed provider fixture.

@@ -34,6 +34,11 @@ describe('production screenshot automation', () => {
     expect(bootstrap).toContain('new Map(capturedProviders.map');
     expect(bootstrap).toContain("querySelectorAll('#repository-options label, #disabled-repository-options label')");
     expect(bootstrap).toContain("querySelectorAll('#native-searches a[data-provider-id]')");
+    expect(bootstrap).toContain("providers.filter((provider) => provider.mode !== 'direct-search')");
+    expect(bootstrap).toContain("provider.mode === 'direct-search' && provider.url");
+    expect(bootstrap).toContain('direct-search repositories listed separately');
+    expect(bootstrap).toContain('directSection.open = directProviders.length > 0');
+    expect(bootstrap).not.toContain("badge.textContent = provider.mode === 'direct-search'");
     expect(bootstrap).toContain('artworkByKey[normalizedKey(provider.id)]');
     expect(demoArtworkFor({ id: 'printables', name: 'Printables' })).toBe('Demo-Printables.png');
     expect(demoArtworkFor({ id: 'sketchfab', name: 'Sketchfab' })).toBe('Demo-Sketchfab.png');

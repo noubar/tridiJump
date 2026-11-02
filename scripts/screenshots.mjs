@@ -188,11 +188,10 @@ export function screenshotBootstrap(page, token, capturedProviders = []) {
     const asset = artworkByKey[normalizedKey(provider.id)] || artworkByKey[normalizedKey(provider.name)] || neutralArtwork;
     image.src = location.origin + '/__tridijump_screenshot_asset/' + asset; preview.append(image);
     const title = document.createElement('h3');
-    title.textContent = provider.mode === 'direct-search' ? 'Search for “benchy”' : (index % 2 ? 'Classic 3D print test boat' : 'Benchy calibration demo');
+    title.textContent = index % 2 ? 'Classic 3D print test boat' : 'Benchy calibration demo';
     const source = document.createElement('p'); source.className = 'model-source'; source.textContent = provider.name;
     const badge = document.createElement('span'); badge.className = 'price-badge';
-    badge.textContent = provider.mode === 'direct-search' ? 'Direct search' : 'Demo result';
-    badge.dataset.mode = provider.mode;
+    badge.textContent = 'Demo result';
     content.append(preview, title, source, badge); card.append(content); return card;
   };
   let injectedDemoProviders;
@@ -200,20 +199,27 @@ export function screenshotBootstrap(page, token, capturedProviders = []) {
   const injectDynamicDemoCards = () => {
     if (injectedDemoProviders) return injectedDemoProviders;
     const providers = discoverRepositories();
+    const cardProviders = providers.filter((provider) => provider.mode !== 'direct-search');
+    const directProviders = providers.filter((provider) => provider.mode === 'direct-search' && provider.url);
     const originalGrid = document.querySelector('#results-grid');
-    if (!providers.length || !originalGrid) return;
+    if (!cardProviders.length || !originalGrid) return;
     const grid = originalGrid.cloneNode(false); originalGrid.replaceWith(grid);
-    grid.replaceChildren(...providers.map(demoCard));
-    const aggregated = providers.filter((provider) => provider.mode === 'aggregated').length;
-    const direct = providers.length - aggregated;
+    grid.replaceChildren(...cardProviders.map(demoCard));
     const originalCount = document.querySelector('#result-count'); const count = originalCount.cloneNode(false);
-    originalCount.replaceWith(count); count.textContent = providers.length + ' repositories · ' + aggregated + ' aggregated · ' + direct + ' direct search';
+    originalCount.replaceWith(count); count.textContent = cardProviders.length + ' demo results · ' + directProviders.length + ' direct-search repositories listed separately';
     const originalEmpty = document.querySelector('#empty-state'); const empty = originalEmpty.cloneNode(false);
     originalEmpty.replaceWith(empty); empty.hidden = true;
     const originalHelp = document.querySelector('#pagination-help'); const help = originalHelp.cloneNode(false);
-    originalHelp.replaceWith(help); help.textContent = 'Generated demonstration results for store screenshots.';
+    originalHelp.replaceWith(help); help.textContent = 'Generated demonstration results from repositories that support the unified grid.';
+    const originalNativeSearches = document.querySelector('#native-searches');
+    const nativeSearches = originalNativeSearches.cloneNode(false);
+    const directIds = new Set(directProviders.map((provider) => provider.id));
+    nativeSearches.replaceChildren(...[...originalNativeSearches.children].filter((item) => directIds.has(item.querySelector('a')?.dataset.providerId || '')).map((item) => item.cloneNode(true)));
+    originalNativeSearches.replaceWith(nativeSearches); nativeSearches.hidden = directProviders.length === 0;
+    const directSection = document.querySelector('#direct-search-section');
+    directSection.hidden = directProviders.length === 0; directSection.open = directProviders.length > 0;
     document.querySelector('#provider-status-details').hidden = true;
-    injectedDemoProviders = providers;
+    injectedDemoProviders = { providers, cardProviders, directProviders };
     return injectedDemoProviders;
   };
   const state = () => {
@@ -245,15 +251,16 @@ export function screenshotBootstrap(page, token, capturedProviders = []) {
     const productionSummary = document.querySelector('#search-summary')?.textContent ?? '';
     const productionRepositories = document.querySelectorAll('#repository-options label, #disabled-repository-options label').length;
     if (!productionRepositories || !/benchy/i.test(productionSummary)) return;
-    const providers = injectDynamicDemoCards();
-    if (!providers) return;
+    const injected = injectDynamicDemoCards();
+    if (!injected) return;
+    const { providers, cardProviders, directProviders } = injected;
     const cards = document.querySelectorAll('#results-grid .model-card').length;
     const images = [...document.querySelectorAll('#results-grid .model-card img')];
     for (const image of images) image.loading = 'eager';
-    const imagesReady = images.length === providers.length && images.every((image) => image.complete && image.naturalWidth > 0);
+    const imagesReady = images.length === cardProviders.length && images.every((image) => image.complete && image.naturalWidth > 0);
     const repositories = document.querySelectorAll('#repository-options label, #disabled-repository-options label').length;
     const directSearches = document.querySelectorAll('#native-searches a').length;
-    return cards === providers.length && imagesReady && repositories
+    return cards === cardProviders.length && directSearches === directProviders.length && imagesReady && repositories
       ? { cards, repositories, directSearches, demoProviders: providers } : undefined;
   };
   const started = Date.now();
@@ -295,7 +302,7 @@ export function screenshotBootstrap(page, token, capturedProviders = []) {
 function screenshotCss(page) {
   if (page === 'popup') return 'body.popup{width:auto;min-height:100vh;display:grid;place-items:center;padding:2rem}body.popup main{width:380px;padding:1.25rem;border:1px solid var(--border);border-radius:.8rem;background:var(--surface);box-shadow:0 1rem 3rem #0003}';
   if (page === 'settings') return 'body.settings{padding:.65rem 1rem;font-size:12px}body.settings main{max-width:74rem}body.settings .panel{margin-block:.45rem;padding:.65rem}body.settings #repository-availability{gap:.55rem 1rem}body.settings #provider-cults3d,body.settings #provider-myminifactory,body.settings #provider-thingiverse,body.settings #provider-smithsonian{display:none}body.settings #settings-form{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:.55rem}body.settings #settings-form fieldset{margin:0;padding:.65rem}body.settings #settings-form .panel{display:none}body.settings #settings-status{grid-column:1/-1}';
-  return 'body.results{padding:.85rem;font-size:13px}body.results main{max-width:76rem}body.results .results-layout{grid-template-columns:13rem minmax(0,1fr);gap:.8rem;margin-top:.7rem}body.results .results-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:.55rem}body.results .model-card-content{padding-bottom:.55rem}body.results .model-card h3{font-size:.74rem;margin:.45rem .55rem .2rem}body.results .model-source{font-size:.7rem;margin:0 .55rem .4rem}body.results .price-badge{font-size:.68rem;margin-inline:.55rem;padding:.12rem .35rem}body.results .price-badge[data-mode="direct-search"]{background:#eee8ff;color:#55358a}';
+  return 'body.results{padding:.85rem;font-size:13px}body.results main{max-width:76rem}body.results .results-layout{grid-template-columns:13rem minmax(0,1fr);gap:.8rem;margin-top:.7rem}body.results .results-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:.55rem}body.results .model-card-content{padding-bottom:.55rem}body.results .model-card h3{font-size:.74rem;margin:.45rem .55rem .2rem}body.results .model-source{font-size:.7rem;margin:0 .55rem .4rem}body.results .price-badge{font-size:.68rem;margin-inline:.55rem;padding:.12rem .35rem}body.results #native-searches{font-size:.75rem;gap:.2rem .7rem;margin-bottom:.35rem}';
 }
 
 async function requestBody(request) {
