@@ -49,9 +49,9 @@ describe('provider classification and native fallbacks', () => {
     }
   });
 
-  it('connects two anonymous APIs, one local catalog and four user-key APIs, retaining four fallbacks', () => {
+  it('connects two anonymous APIs, one local catalog and four user-key APIs, retaining five fallbacks', () => {
     expect(providerAvailability.map((source) => source.id).sort()).toEqual([
-      'cgtrader', 'crealitycloud', 'cults3d', 'makerworld', 'myminifactory', 'nasa', 'printables', 'sketchfab', 'smithsonian', 'thangs', 'thingiverse',
+      'cgtrader', 'crealitycloud', 'cults3d', 'makerworld', 'myminifactory', 'nasa', 'printables', 'sketchfab', 'smithsonian', 'thangs', 'thingiverse', 'youmagine',
     ]);
     for (const source of providerAvailability) {
       expect(source.classification).toBe(['printables', 'sketchfab', 'nasa'].includes(source.id) ? 'A' : ['cults3d', 'myminifactory', 'thingiverse', 'smithsonian'].includes(source.id) ? 'B' : 'D');
@@ -79,7 +79,7 @@ describe('provider classification and native fallbacks', () => {
       expect(url.searchParams.get('scope')).toBe('thangs');
     } else {
       const parameter = source.id === 'myminifactory' ? 'query' : source.id === 'makerworld' ? 'keyword'
-        : source.id === 'smithsonian' ? 'edan_q' : source.id === 'cgtrader' ? 'keywords' : 'q';
+        : source.id === 'smithsonian' ? 'edan_q' : source.id === 'cgtrader' ? 'keywords' : source.id === 'youmagine' ? 'query' : 'q';
       expect(url.searchParams.get(parameter)).toBe(query);
     }
     for (const parameter of ['apiKey', 'key', 'token', 'access_token', 'password']) expect(url.searchParams.has(parameter)).toBe(false);
@@ -106,6 +106,22 @@ describe('provider classification and native fallbacks', () => {
     expect(url.searchParams.get('search_type')).toBe('2');
     expect(url.searchParams.get('search_source')).toBe('1');
     expect([...url.searchParams.keys()].sort()).toEqual(['q', 'search_source', 'search_type']);
+  });
+
+  it.each([
+    ['', ''],
+    ['car door', 'car door'],
+    ['café & gear/axle?', 'café & gear/axle?'],
+  ])('keeps YouMagine direct-only and safely builds its native URL for %j', (query, normalized) => {
+    const source = providerAvailability.find((value) => value.id === 'youmagine')!;
+    expect(source).toMatchObject({
+      id: 'youmagine', name: 'YouMagine', classification: 'D', mode: 'direct-search', tier: 'general',
+    });
+    expect('createProvider' in source).toBe(false);
+    const url = new URL(source.searchUrl(query));
+    expect(url.origin + url.pathname).toBe('https://youmagine.com/explore');
+    expect(url.searchParams.get('query')).toBe(normalized);
+    expect([...url.searchParams.keys()]).toEqual(['query']);
   });
 
   it('does not change the existing MakerWorld, Thangs and CGTrader direct-search URLs', () => {

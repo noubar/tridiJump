@@ -105,18 +105,22 @@ it('ON progressively inserts bounded variants, deduplicates cards, retains origi
   }
   expect(document.querySelectorAll('[data-status="setup-required"]')).toHaveLength(4);
   const links = [...document.querySelectorAll<HTMLAnchorElement>('#native-searches a')];
-  expect(links).toHaveLength(9);
+  expect(links).toHaveLength(10);
   expect(links.every((link) => decodeURIComponent(link.href).includes('gear'))).toBe(true);
   expect(document.querySelector('#fallback-status')!.textContent).toContain('MakerWorld: direct search only');
   expect(document.querySelector('#fallback-status')!.textContent).toContain('Thangs: direct search only');
   expect(document.querySelector('#fallback-status')!.textContent).toContain('CGTrader: direct search only');
   expect(document.querySelector('#fallback-status')!.textContent).toContain('Creality Cloud: direct search only');
+  expect(document.querySelector('#fallback-status')!.textContent).toContain('YouMagine: direct search only');
   expect(document.querySelector<HTMLAnchorElement>('[data-provider-id="cgtrader"]')!.href)
     .toBe('https://www.cgtrader.com/search?keywords=gear');
   const creality = new URL(document.querySelector<HTMLAnchorElement>('[data-provider-id="crealitycloud"]')!.href);
   expect(creality.searchParams.get('q')).toBe('gear');
   expect(creality.searchParams.get('search_type')).toBe('2');
   expect(creality.searchParams.get('search_source')).toBe('1');
+  const youmagine = new URL(document.querySelector<HTMLAnchorElement>('[data-provider-id="youmagine"]')!.href);
+  expect(youmagine.origin + youmagine.pathname).toBe('https://youmagine.com/explore');
+  expect(youmagine.searchParams.get('query')).toBe('gear');
   await more();
   expect(requests).toHaveLength(5); // Exactly one continuation, not four.
   for (const id of ['cults3d', 'thingiverse', 'myminifactory', 'smithsonian']) {

@@ -71,6 +71,9 @@ export const providerAvailability = [
       target.searchParams.set('search_source', '1');
       return target.href;
     } },
+  { id: 'youmagine', name: 'YouMagine', classification: 'D', mode: 'direct-search', tier: 'general',
+    reason: 'Aggregation unavailable: the historical official API requires confidential application authentication and current third-party API support is unclear.',
+    searchUrl: (query: string) => queryUrl('https://youmagine.com/explore', 'query', query) },
   { id: 'myminifactory', name: 'MyMiniFactory', classification: 'B', mode: 'remote-api', tier: 'general',
     reason: 'Official API search with your API key.',
     createProvider: createMyMiniFactoryProvider,

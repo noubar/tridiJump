@@ -103,9 +103,11 @@ describe('production Settings and entry pages', () => {
     expect(element<HTMLInputElement>('#repository-smithsonian').disabled).toBe(false);
     expect(element<HTMLInputElement>('#repository-cgtrader').checked).toBe(true);
     expect(element<HTMLInputElement>('#repository-crealitycloud').checked).toBe(true);
+    expect(element<HTMLInputElement>('#repository-youmagine').checked).toBe(true);
     expect(document.querySelector('[id^="credential-sketchfab"]')).toBeNull();
     expect(document.querySelector('[id^="credential-cgtrader"]')).toBeNull();
     expect(document.querySelector('[id^="credential-crealitycloud"]')).toBeNull();
+    expect(document.querySelector('[id^="credential-youmagine"]')).toBeNull();
     change('#repository-sketchfab', true);
     change('#repository-cults3d', false);
     change('#repository-thingiverse', false);

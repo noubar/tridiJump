@@ -140,8 +140,10 @@ describe('progressive results UI', () => {
     expect(query('#fallback-status').textContent).toContain('Thangs: direct search only');
     expect(query('#fallback-status').textContent).toContain('CGTrader: direct search only');
     expect(query('#fallback-status').textContent).toContain('Creality Cloud: direct search only');
+    expect(query('#fallback-status').textContent).toContain('YouMagine: direct search only');
     expect(query('#empty-state').textContent).toContain('Configure repositories in Settings');
-    expect(document.querySelectorAll('#native-searches a')).toHaveLength(7);
+    expect(document.querySelectorAll('#native-searches a')).toHaveLength(8);
+    expect(new URL(query<HTMLAnchorElement>('[data-provider-id="youmagine"]').href).searchParams.get('query')).toBe('gear');
     expect(new URL(query<HTMLAnchorElement>('[data-provider-id="cults3d"]').href).searchParams.get('q')).toBe('gear');
     expect(document.querySelector('#api-key')).toBeNull();
     query<HTMLInputElement>('#query').value = '  bolt & <tag>  ';

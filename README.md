@@ -67,7 +67,7 @@ exception. See the [release decision and historical audit](docs/release-audit.md
 | --- | --- | --- |
 | **Works immediately** | Printables, Sketchfab, NASA 3D | Enable and search; no credentials. NASA is a bundled local specialist catalog and starts disabled by default; Sketchfab uses its official public Data API v3. |
 | **Requires free provider setup** | Cults3D, MyMiniFactory, Thingiverse, Smithsonian 3D | Obtain your own free provider credentials and save them in Settings. Smithsonian is a specialist museum/cultural-heritage source. |
-| **Direct-search fallback** | MakerWorld, Thangs, CGTrader, Creality Cloud | Use the native Search directly link; models from these sources are not aggregated. Official API access for CGTrader and Creality Cloud is investigated separately. |
+| **Direct-search fallback** | MakerWorld, Thangs, CGTrader, Creality Cloud, YouMagine | Use the native Search directly link; models from these sources are not aggregated. Official API feasibility is documented separately where investigated. |
 
 See [supported repositories and credential setup](docs/supported-repositories.md)
 for official onboarding links, fields and verification limits. Use only free API
@@ -81,6 +81,11 @@ the original query. It does not call the CGTrader API or aggregate CGTrader card
 search page with the original query. It does not call a Creality Cloud API, fetch
 the page, or aggregate Creality Cloud cards. Official API access remains under
 investigation separately.
+
+**YouMagine — Direct Search:** tridiJump opens YouMagine's normal Explore search
+with the original query. Its historical official API required confidential
+application authentication, and current third-party API support remains unclear.
+tridiJump does not call or scrape YouMagine, fetch thumbnails, or aggregate cards.
 
 Authenticated APIs require their own account/application credentials even when
 native website search is public. tridiJump does not provide or proxy credentials
