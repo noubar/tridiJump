@@ -40,6 +40,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   const statusItems = new Map<string, HTMLLIElement>();
   const repositoryLabels = new Map<string, HTMLLabelElement>();
   const repositoryCheckboxes = new Map<string, HTMLInputElement>();
+  const repositoryNotes = new Map<string, HTMLElement>();
   let disabledIds = new Set<string>();
   const renderedStates = new Map<string, ProviderSearchState>();
   const nativeSearches = new Map(sources.map((source) => [source.provider.id, source.searchUrl]));
@@ -60,9 +61,13 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       render();
     });
     label.append(checkbox, document.createTextNode(source.name));
+    const note = document.createElement('span');
+    note.className = 'repository-setup hint';
+    label.append(note);
     repositories.append(label);
     repositoryLabels.set(source.provider.id, label);
     repositoryCheckboxes.set(source.provider.id, checkbox);
+    repositoryNotes.set(source.provider.id, note);
     const item = document.createElement('li');
     item.dataset.status = 'idle';
     item.textContent = `${source.name}: idle`;
@@ -71,7 +76,8 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   }
   for (const [value, label] of SORTS) sort.add(option(label, value));
 
-  function syncRepositoryGroups(disabledProviderIds: ReadonlySet<string> = new Set(), preserveLoadedSelection = false) {
+  function syncRepositoryGroups(disabledProviderIds: ReadonlySet<string> = new Set(), preserveLoadedSelection = false,
+    setupRequiredProviderIds: ReadonlySet<string> = new Set()) {
     const previouslyDisabled = disabledIds;
     disabledIds = new Set(disabledProviderIds);
     let count = 0;
@@ -79,6 +85,8 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       const id = source.provider.id;
       const label = repositoryLabels.get(id)!;
       const checkbox = repositoryCheckboxes.get(id)!;
+      const note = repositoryNotes.get(id)!;
+      note.replaceChildren();
       if (disabledIds.has(id)) {
         count++;
         if (!preserveLoadedSelection) {
@@ -86,6 +94,12 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
           checkbox.checked = false;
         }
         checkbox.disabled = true;
+        if (setupRequiredProviderIds.has(id)) {
+          const link = document.createElement('a');
+          link.href = `../settings/index.html#provider-${encodeURIComponent(id)}`;
+          link.textContent = 'Configure';
+          note.append('Setup required · ', link);
+        } else note.textContent = 'Disabled in Settings';
         disabledRepositories.append(label);
       } else {
         if (previouslyDisabled.has(id)) {
@@ -97,7 +111,7 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       }
     }
     disabledRepositorySection.hidden = count === 0;
-    disabledRepositorySection.querySelector('summary')!.textContent = `Disabled repositories (${count})`;
+    disabledRepositorySection.querySelector('summary')!.textContent = `Unavailable or disabled repositories (${count})`;
   }
 
   function render() {
@@ -167,7 +181,9 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
       if (item && renderedStates.get(state.providerId) !== state) {
         renderedStates.set(state.providerId, state);
         item.dataset.status = state.status;
-        item.textContent = `${names.get(state.providerId) ?? state.providerId}: ${state.status === 'setup-required' ? 'Setup required' : state.status}`
+        const statusLabel = state.status === 'setup-required' ? 'Setup required'
+          : state.status === 'failed' && state.failureKind === 'authentication' ? 'authentication failed' : state.status;
+        item.textContent = `${names.get(state.providerId) ?? state.providerId}: ${statusLabel}`
         + (state.status === 'success' ? ` (${state.results.length} models)` : '')
         + (state.status === 'failed' ? ` — ${state.error}` : '');
         if (state.status === 'setup-required') {
@@ -209,11 +225,12 @@ export function createResultsView(root: HTMLElement, sources: readonly ResultSou
   });
   render();
   return {
-    search(query: string, disabledProviderIds?: ReadonlySet<string>, expandedQueries?: readonly string[]) {
+    search(query: string, disabledProviderIds?: ReadonlySet<string>, expandedQueries?: readonly string[],
+      setupRequiredProviderIds: ReadonlySet<string> = new Set()) {
       version++;
       cards.clear();
-      syncRepositoryGroups(disabledProviderIds);
-      runner.start(query, sources.map((source) => source.provider), { disabledProviderIds, expandedQueries });
+      syncRepositoryGroups(disabledProviderIds, false, setupRequiredProviderIds);
+      runner.start(query, sources.map((source) => source.provider), { disabledProviderIds, expandedQueries, setupRequiredProviderIds });
     },
     loadMore(disabledProviderIds?: ReadonlySet<string>) { if (disabledProviderIds) syncRepositoryGroups(disabledProviderIds, true); runner.loadMore(disabledProviderIds); },
     cancel() { version++; runner.cancel(); },

@@ -2,7 +2,7 @@
 import type { Provider, ResultPage } from './provider';
 import { nextPage, pageNumber, PAGE_SIZE } from './pagination';
 import type { ModelResult } from '../shared/model-result';
-import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
+import { AuthenticationRejected, credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
 import { normalizeQuery } from '../search/query';
 
@@ -89,7 +89,7 @@ export function createThingiverseProvider(): Provider {
       blockedUntil = Number.isFinite(reset) && reset >= now ? reset : now + 60_000;
       throw new Error('Thingiverse rate limit reached. Please wait before searching again.');
     }
-    if (response.status === 401 || response.status === 403) throw new Error('Thingiverse denied access. Check your App Token in Settings or open the source directly.');
+    if (response.status === 401 || response.status === 403) throw new AuthenticationRejected('Thingiverse denied access. Check your App Token in Settings or open the source directly.');
     if (!response.ok) throw new Error(`Thingiverse search failed (HTTP ${response.status}). Open the source directly.`);
     let payload: unknown;
     try { payload = await response.json(); }

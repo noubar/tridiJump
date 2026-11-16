@@ -97,10 +97,11 @@ describe('production Settings and entry pages', () => {
   it('autosaves repositories, defaults and theme, retains history, and never redisplays saved secrets', async () => {
     page(settingsHtml);
     await import('../src/settings/main');
-    await vi.waitFor(() => expect(element<HTMLInputElement>('#repository-cults3d').disabled).toBe(false));
+    await vi.waitFor(() => expect(element<HTMLInputElement>('#repository-cgtrader').disabled).toBe(false));
+    expect(element<HTMLInputElement>('#repository-cults3d').disabled).toBe(true);
     expect(element<HTMLInputElement>('#repository-sketchfab').checked).toBe(false);
     expect(element<HTMLInputElement>('#repository-smithsonian').checked).toBe(false);
-    expect(element<HTMLInputElement>('#repository-smithsonian').disabled).toBe(false);
+    expect(element<HTMLInputElement>('#repository-smithsonian').disabled).toBe(true);
     expect(element<HTMLInputElement>('#repository-cgtrader').checked).toBe(true);
     expect(element<HTMLInputElement>('#repository-crealitycloud').checked).toBe(true);
     expect(element<HTMLInputElement>('#repository-youmagine').checked).toBe(true);
@@ -109,8 +110,11 @@ describe('production Settings and entry pages', () => {
     expect(document.querySelector('[id^="credential-crealitycloud"]')).toBeNull();
     expect(document.querySelector('[id^="credential-youmagine"]')).toBeNull();
     change('#repository-sketchfab', true);
-    change('#repository-cults3d', false);
-    change('#repository-thingiverse', false);
+    await vi.waitFor(async () => expect((await readRepositories()).sketchfab).toBe(true));
+    expect(element<HTMLInputElement>('#repository-cults3d').checked).toBe(false);
+    expect(element<HTMLInputElement>('#repository-cults3d').closest('li')!.textContent).toContain('Setup required');
+    await setRepositoryEnabled('cults3d', false);
+    await setRepositoryEnabled('thingiverse', false);
     change('#expanded-default', true);
     change('#history-enabled', true);
     change('#theme', 'dark');
@@ -128,7 +132,8 @@ describe('production Settings and entry pages', () => {
     expect(element('#provider-cults3d').textContent).toContain('\u2022'.repeat(8));
     expect(document.body.innerHTML).not.toContain(fakeValues.apiKey);
     expect(document.querySelector('#provider-cults3d')!.textContent).toContain(fakeValues.nickname);
-    await vi.waitFor(() => expect(element('#repository-cults3d').closest('li')!.textContent).toContain('Disabled / Configured'));
+    await vi.waitFor(() => expect(element<HTMLInputElement>('#repository-cults3d').disabled).toBe(false));
+    await vi.waitFor(() => expect(element('#repository-cults3d').closest('li')!.textContent).toContain('Disabled / Credentials configured'));
     element<HTMLButtonElement>('#provider-cults3d [data-action="replace"]').click();
     expect(element<HTMLInputElement>('#credential-cults3d-apiKey').value).toBe('');
     element<HTMLInputElement>('#credential-cults3d-apiKey').value = 'FAKE-CANCELLED';

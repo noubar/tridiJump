@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import '../shared/styles.css';
 import { initializeSearchForm } from '../search/form';
-import { readPreferences, readRepositories, repositoryEnabled } from '../shared/preferences';
+import { readPreferences, readRepositories } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
 import { providerAvailability } from '../providers/availability';
-import { credentialsConfigured } from '../providers/credentials';
+import { resolveRepositoryStates } from '../providers/repository-state';
+import { observeLocal } from '../shared/extension-storage';
 
 void initializeTheme();
 initializeSearchForm(document.querySelector<HTMLFormElement>('#search-form')!, (await readPreferences().catch(() => ({ expandedDefault: false }))).expandedDefault);
@@ -12,14 +13,21 @@ async function renderRepositoryCount() {
   const count = document.querySelector('#repository-count')!;
   try {
     const choices = await readRepositories();
-    const enabled = providerAvailability.filter((source) => repositoryEnabled(source, choices));
-    const sources = enabled.flatMap((source) => 'createProvider' in source ? [source.createProvider()] : []);
-    const authenticated = sources.filter((provider) => provider.credentialFields?.length);
-    const anonymous = sources.length - authenticated.length;
-    const states = await Promise.allSettled(authenticated.map((provider) => credentialsConfigured(provider.id, provider.credentialFields!)));
-    const configured = states.filter((state) => state.status === 'fulfilled' && state.value).length;
-    count.textContent = `${anonymous} ready without setup / ${configured} of ${authenticated.length} API repositories configured / ${enabled.length} repositories enabled`
-      + (states.some((state) => state.status === 'rejected') ? ' / some configuration could not be read' : '');
+    const states = await resolveRepositoryStates(providerAvailability, choices);
+    const values = [...states.values()];
+    const aggregatingIds = new Set<string>(providerAvailability.filter((source) => 'createProvider' in source).map((source) => source.id));
+    const readyWithoutSetup = [...states].filter(([id, state]) =>
+      aggregatingIds.has(id) && state.searchEnabled && !state.requiresCredentials).length;
+    const authenticated = values.filter((state) => state.requiresCredentials);
+    const configured = authenticated.filter((state) => state.credentialsConfigured).length;
+    const active = values.filter((state) => state.searchEnabled).length;
+    count.textContent = `${readyWithoutSetup} ready without setup / ${configured} of ${authenticated.length} API repositories configured / ${active} repositories active`;
   } catch { count.textContent = 'Repository settings could not be read. Open Settings to try again.'; }
 }
 void renderRepositoryCount();
+const stop = observeLocal((changes) => {
+  if (Object.keys(changes).some((key) => key === 'tridijump.repositories' || key.startsWith('tridijump.credentials.'))) {
+    void renderRepositoryCount();
+  }
+});
+window.addEventListener('pagehide', stop, { once: true });

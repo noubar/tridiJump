@@ -42,3 +42,7 @@ work. This user-approved policy applies to all subsequent tridiJump tasks.
 
 Keep the existing TypeScript/plain HTML/CSS, Manifest V3, Chromium-first
 architecture. No UI framework, backend, telemetry, or remote executable code.
+
+For every code change, update `CHANGELOG.md` with an accurate entry under the
+current unreleased/release version. Do not omit changelog maintenance from code
+tasks.

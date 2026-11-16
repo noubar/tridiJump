@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.1 — 2026-11-16
+
+- Made repository selection credential-aware: APIs with missing user credentials
+  are now unchecked, unavailable, clearly marked for setup, and excluded before
+  search execution.
+- Preserved existing repository preferences across credential setup and removal,
+  while immediately cancelling active searches when credentials are removed.
+- Distinguished authentication rejection from general provider failures and
+  improved active-repository counts and setup navigation.
+
 ## 1.1.0 — 2026-11-02
 
 - Added immediate aggregated search for Sketchfab through its official public

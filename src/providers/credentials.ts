@@ -10,6 +10,11 @@ export class SetupRequired extends Error {
   constructor() { super('Provider configuration required.'); this.name = 'SetupRequired'; }
 }
 
+/** Credentials exist but the provider rejected them. Secret values must never be included. */
+export class AuthenticationRejected extends Error {
+  constructor(message: string) { super(message); this.name = 'AuthenticationRejected'; }
+}
+
 function key(providerId: string): string { return `tridijump.credentials.${providerId}`; }
 
 /** Only declared fields are accepted. Never copy arbitrary settings or registry data. */

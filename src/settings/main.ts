@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import '../shared/styles.css';
 import { clearHistory, readHistory, readPreferences, savePreferences, PREFERENCES_KEY, HISTORY_KEY,
-  readRepositories, repositoryEnabled, setRepositoryEnabled, REPOSITORIES_KEY } from '../shared/preferences';
+  readRepositories, setRepositoryEnabled, REPOSITORIES_KEY } from '../shared/preferences';
 import type { Theme } from '../shared/preferences';
 import { initializeTheme } from '../shared/theme';
 import { observeLocal } from '../shared/extension-storage';
 import { initializeCredentialSettings } from './provider-credentials';
-import { credentialsConfigured } from '../providers/credentials';
 import { providerAvailability } from '../providers/availability';
+import { resolveRepositoryStates } from '../providers/repository-state';
 void initializeTheme();
 for (const source of providerAvailability) {
   if ('createProvider' in source) {
@@ -46,7 +46,7 @@ for (const source of providerAvailability) {
     void setRepositoryEnabled(source.id, input.checked).then(() => {
       status.textContent = 'Repository preference saved. Applies to your next search.';
     }, () => { input.checked = !input.checked; status.textContent = 'Repository preference could not be saved.'; })
-      .finally(() => { input.disabled = false; });
+      .finally(() => { void loadRepositories().catch(reportReadError); });
   });
 }
 async function renderHistory() {
@@ -65,15 +65,25 @@ async function loadPreferences() {
 }
 async function loadRepositories() {
   const choices = await readRepositories();
-  await Promise.all(providerAvailability.map(async (source) => {
+  const states = await resolveRepositoryStates(providerAvailability, choices);
+  for (const source of providerAvailability) {
+    const state = states.get(source.id)!;
     const input = repositoryInputs.get(source.id)!;
-    input.checked = repositoryEnabled(source, choices);
-    input.disabled = 'available' in source && source.available === false;
-    const enabled = input.checked;
-    const configured = 'createProvider' in source && source.createProvider().credentialFields?.length
-      ? await credentialsConfigured(source.id, source.createProvider().credentialFields!) : undefined;
-    repositoryNotes.get(source.id)!.textContent = `${enabled ? 'Enabled' : 'Disabled'} / ${source.classification === 'A' ? source.reason : configured === undefined ? 'Direct search only' : configured ? 'Configured' : 'Setup required'}`;
-  }));
+    input.checked = state.searchEnabled;
+    input.disabled = !state.available;
+    const note = repositoryNotes.get(source.id)!;
+    note.replaceChildren();
+    if (state.requiresCredentials && !state.credentialsConfigured) {
+      const link = document.createElement('a');
+      link.href = `#provider-${encodeURIComponent(source.id)}`;
+      link.textContent = 'Configure';
+      note.append('Setup required — API key required. ', link);
+    } else {
+      const availability = source.classification === 'D' ? 'Direct search only'
+        : state.requiresCredentials ? 'Credentials configured' : source.reason;
+      note.textContent = `${state.userEnabled ? 'Enabled' : 'Disabled'} / ${availability}`;
+    }
+  }
 }
 function reportReadError() { status.textContent = 'Some local settings could not be read. Try reopening Settings.'; }
 for (const control of [expanded, historyEnabled, theme]) control.disabled = true;

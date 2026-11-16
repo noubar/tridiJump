@@ -3,7 +3,7 @@ import type { Provider, ResultPage } from '../providers/provider';
 import type { ModelResult } from '../shared/model-result';
 import type { ProviderSearchState } from './provider-state';
 import { normalizeQuery } from './query';
-import { SetupRequired } from '../providers/credentials';
+import { AuthenticationRejected, SetupRequired } from '../providers/credentials';
 
 export interface SearchSnapshot {
   query: string;
@@ -17,6 +17,8 @@ export interface SearchSnapshot {
 export interface SearchOptions {
   signal?: AbortSignal;
   disabledProviderIds?: ReadonlySet<string>;
+  /** Providers known to require local setup. They are represented without calling their adapters. */
+  setupRequiredProviderIds?: ReadonlySet<string>;
   /** Already-expanded local terms, bounded/deduplicated here. No external expansion service. */
   expandedQueries?: readonly string[];
   /** Timeout per provider in milliseconds. Defaults to 10 seconds. */
@@ -81,7 +83,8 @@ export class SearchOrchestrator {
       }])),
       seen: new Set(), disabled: new Set(options.disabledProviderIds), timeoutMs,
       controller: new AbortController(),
-      states: new Map(unique.map((provider) => [provider.id, options.disabledProviderIds?.has(provider.id)
+      states: new Map(unique.map((provider) => [provider.id, options.setupRequiredProviderIds?.has(provider.id)
+        ? { providerId: provider.id, status: 'setup-required' } : options.disabledProviderIds?.has(provider.id)
         ? { providerId: provider.id, status: 'disabled' } : normalized
         ? { providerId: provider.id, status: 'searching', query: normalized }
         : { providerId: provider.id, status: 'idle' }])),
@@ -102,7 +105,7 @@ export class SearchOrchestrator {
     if (![...run.states.values()].some((state) => state.status === 'searching')) run.detachSignal();
     for (const provider of unique) {
       if (!normalized || this.current !== run || run.controller.signal.aborted) break;
-      if (options.disabledProviderIds?.has(provider.id)) continue;
+      if (options.disabledProviderIds?.has(provider.id) || options.setupRequiredProviderIds?.has(provider.id)) continue;
       this.searchProvider(run, run.progress.get(provider.id)!, 0);
     }
   }
@@ -246,6 +249,7 @@ export class SearchOrchestrator {
       finish({
         providerId: provider.id, query: run.query, status: 'failed',
         error: error instanceof Error ? error.message : String(error),
+        failureKind: error instanceof AuthenticationRejected ? 'authentication' : 'provider',
       });
     });
   }

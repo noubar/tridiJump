@@ -183,7 +183,7 @@ describe('progressive results UI', () => {
     query<HTMLFormElement>('#search-form').dispatchEvent(new Event('submit', { cancelable: true }));
     await vi.advanceTimersByTimeAsync(0);
     expect(providerFetches(fetchMock)).toHaveLength(1);
-    expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(6);
+    expect(local.get.mock.calls.filter(([key]) => key.startsWith('tridijump.credentials.'))).toHaveLength(7);
     expect(query('#provider-status').textContent).toContain('Cults3D: success');
     expect(document.querySelector('#provider-status [data-status="success"] a')).toBeNull();
     expect(query('#provider-status').textContent).toContain('MyMiniFactory: Setup required');
@@ -264,7 +264,7 @@ describe('progressive results UI', () => {
     const section = query<HTMLDetailsElement>('#disabled-repository-section');
     expect(section.hidden).toBe(false);
     expect(section.open).toBe(false);
-    expect(section.querySelector('summary')!.textContent).toBe('Disabled repositories (1)');
+    expect(section.querySelector('summary')!.textContent).toBe('Unavailable or disabled repositories (1)');
     const disabled = query<HTMLInputElement>('#disabled-repository-options input[value="b"]');
     expect(disabled.disabled).toBe(true);
     expect(disabled.checked).toBe(false);
@@ -278,6 +278,21 @@ describe('progressive results UI', () => {
     expect(restored.checked).toBe(true);
     await vi.advanceTimersByTimeAsync(10);
     expect(titles()).toEqual(['A', 'B']);
+  });
+
+  it('shows a preflight setup-required provider as unavailable with a Settings action and never executes it', () => {
+    const search = vi.fn();
+    const view = createResultsView(query('main'), [{ name: 'Needs API key', provider: { id: 'setup', search } }]);
+    view.search('gear', new Set(['setup']), [], new Set(['setup']));
+    const section = query<HTMLDetailsElement>('#disabled-repository-section');
+    expect(section.hidden).toBe(false);
+    const checkbox = query<HTMLInputElement>('#disabled-repository-options input[value="setup"]');
+    expect(checkbox.checked).toBe(false);
+    expect(checkbox.disabled).toBe(true);
+    expect(checkbox.closest('label')!.textContent).toContain('Setup required');
+    expect(checkbox.closest('label')!.querySelector<HTMLAnchorElement>('a')!.href).toContain('#provider-setup');
+    expect(query('#provider-status').textContent).toContain('Needs API key: Setup required');
+    expect(search).not.toHaveBeenCalled();
   });
 
   it('filters free/paid and available formats, excluding unknown values only when filtered', async () => {

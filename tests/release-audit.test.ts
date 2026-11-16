@@ -31,7 +31,7 @@ it('first-run popup counts anonymous and local providers as ready without readin
   document.body.innerHTML = popup.match(/<body[^>]*>([\s\S]*)<\/body>/)![1]!;
   await import('../src/popup/main');
   await vi.waitFor(() => expect(document.querySelector('#repository-count')!.textContent).toContain('2 ready without setup'));
-  expect(document.querySelector('#repository-count')!.textContent).toContain('0 of 3 API repositories configured');
+  expect(document.querySelector('#repository-count')!.textContent).toContain('0 of 4 API repositories configured');
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.printables')).toBe(false);
   expect(storage.local.get.mock.calls.some(([key]) => key === 'tridijump.credentials.sketchfab')).toBe(false);
 });

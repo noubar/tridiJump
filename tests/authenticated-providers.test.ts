@@ -72,7 +72,7 @@ describe.each(cases)('$id documented user-key API', (source) => {
     const { runner, latest, updates } = setup();
     runner.start('cap', [source.make(), { id: 'companion', async search() { return [{ title: 'Other', providerId: 'companion', url: 'https://example.test/model' }]; } }]);
     await vi.advanceTimersByTimeAsync(0);
-    expect(latest().states[0]).toMatchObject({ status: 'failed', error: expect.stringContaining('Check your') });
+    expect(latest().states[0]).toMatchObject({ status: 'failed', failureKind: 'authentication', error: expect.stringContaining('Check your') });
     expect(latest().states[1]?.status).toBe('success');
     expect(latest().results).toHaveLength(1);
     expect(JSON.stringify(updates)).not.toContain(source.secret);

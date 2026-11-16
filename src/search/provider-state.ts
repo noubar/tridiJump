@@ -9,7 +9,7 @@ export type ProviderSearchState = { providerId: string } & (
   | { status: 'searching'; query: string }
   | { status: 'success'; query: string; results: ModelResult[] }
   | { status: 'no-results'; query: string }
-  | { status: 'failed'; query: string; error: string }
+  | { status: 'failed'; query: string; error: string; failureKind: 'authentication' | 'provider' }
   | { status: 'timed-out'; query: string }
 );
 

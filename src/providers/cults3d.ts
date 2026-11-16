@@ -3,7 +3,7 @@ import type { Provider, ResultPage } from './provider';
 import { nextOffset, offsetNumber } from './pagination';
 import type { ModelResult } from '../shared/model-result';
 import { normalizeQuery } from '../search/query';
-import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
+import { AuthenticationRejected, credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
 
 export interface CultsCredentials { nickname: string; apiKey: string }
@@ -157,7 +157,7 @@ export function createCultsProvider(
       blockedUntil = retryTime(response.headers);
     }
     if (!response.ok) {
-      if (response.status === 401 || response.status === 403) throw new Error('Cults3D denied access. Check your API key or open Cults3D directly.');
+      if (response.status === 401 || response.status === 403) throw new AuthenticationRejected('Cults3D denied access. Check your API key or open Cults3D directly.');
       if (response.status === 429) throw new Error('Cults3D rate limit reached. Please wait before searching again.');
       throw new Error(`Cults3D search failed (HTTP ${response.status}). Try opening Cults3D directly.`);
     }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import type { ModelResult } from '../shared/model-result';
 import { normalizeQuery } from '../search/query';
-import { credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
+import { AuthenticationRejected, credentialFreeResults, loadCredentials, SetupRequired } from './credentials';
 import type { CredentialField } from './credentials';
 import { nextOffset, offsetNumber, PAGE_SIZE } from './pagination';
 import type { Provider, ResultPage } from './provider';
@@ -141,7 +141,7 @@ export function createSmithsonianProvider(): Provider {
     } catch { checkAbort(signal); throw new Error('Could not reach Smithsonian. Open Smithsonian 3D directly.'); }
     checkAbort(signal);
     if (response.status === 429) { blockedUntil = retryTime(response.headers); throw new Error('Smithsonian rate limit reached. Please wait before searching again.'); }
-    if (response.status === 401 || response.status === 403) throw new Error('Smithsonian denied access. Check your API key in Settings or open Smithsonian 3D directly.');
+    if (response.status === 401 || response.status === 403) throw new AuthenticationRejected('Smithsonian denied access. Check your API key in Settings or open Smithsonian 3D directly.');
     if (response.status === 400) throw new Error('Smithsonian rejected the search query.');
     if (!response.ok) throw new Error(`Smithsonian search failed (HTTP ${response.status}). Open Smithsonian 3D directly.`);
     let payload: unknown;
